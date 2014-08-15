@@ -16,7 +16,6 @@ function onPin (event) {
 
   scoreBox = $('#score'+turn)
   frameBox = $('#frame'+turn+frame)
-  console.log('#frame'+turn+frame)
 
   if (value === 0) {
     frameBox.html('X')

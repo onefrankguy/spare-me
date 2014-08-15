@@ -1,8 +1,15 @@
 /* BASICS */
 * {
+cursor: default;
 margin: 0;
 padding: 0;
 font-weight: normal;
+-moz-user-select: none;
+-webkit-user-select: none;
+}
+*::selection {
+background: transparent;
+color: transparent;
 }
 html {
 font-size: 62.5%;
