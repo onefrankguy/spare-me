@@ -43,6 +43,10 @@ Fn.prototype.html = function (value) {
   return this
 }
 
+Fn.prototype.int = function (value) {
+  return parseInt(this.html(), 10)
+}
+
 Fn.prototype.on = function (message, callback) {
   if (this.element) {
     this.element.addEventListener(message, callback, false)
