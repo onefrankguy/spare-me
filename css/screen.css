@@ -33,7 +33,6 @@ width: 32rem;
 height: 48rem;
 margin: 0 auto;
 padding: 0;
-border: 0.1rem solid #ccc;
 }
 /* SCORE CARD */
 #scores {
@@ -77,4 +76,17 @@ font-size: 2.4rem;
 text-align: center;
 line-height: 4.8rem;
 border: 0.1rem solid #000;
+}
+#marker {
+position: absolute;
+top: 0.6rem;
+right: 0.3rem;
+display: block;
+width: 0;
+height: 0;
+border-bottom: 0.74rem solid transparent;
+border-top: 0.74rem solid transparent;
+border-right: 1.2rem solid #000;
+font-size: 0;
+line-height: 0;
 }
