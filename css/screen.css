@@ -3,17 +3,47 @@ html {
 font-size: 62.5%;
 }
 body {
+margin: 0;
+padding: 0;
 font-size: 1.6rem;
 }
 h1 {
+position: absolute;
+top: 0;
+left: 0;
+margin: 0;
+padding: 0;
 font-size: 2.4rem;
+line-height: 2.4rem;
 }
 #credits {
+position: absolute;
+bottom: 0;
+left: 0;
+margin: 0;
+padding: 0;
 font-size: 1.0rem;
+line-height: 1.0rem;
+}
+/* BOWLING ALLEY */
+#alley {
+position: relative;
+display: block;
+width: 32rem;
+height: 48rem;
+margin: 0 auto;
+padding: 0;
+border: 0.1rem solid #ccc;
 }
 /* SCORE CARD */
 #scores {
+position: absolute;
+top: 0;
+right: 2.4rem;
 display: block;
+list-style: none;
+padding: 0;
+margin: 0;
 }
 #scores li {
 position: relative;
