@@ -8,11 +8,26 @@ var $ = window.jQuery
   , turn = 0
   , frame = 0
 
+function reset () {
+  turn = 0
+  score = 0
+
+  for (i = 0; i < 10; i += 1) {
+    $('#score'+i).html('')
+    $('#frame'+i+'0').html('')
+    $('#frame'+i+'1').html('')
+  }
+}
+
 function onPin (event) {
   var target = $(event.srcElement || event.target)
     , value = target.int()
     , scoreBox = null
     , frameBox = null
+
+  if (turn >= 10) {
+    reset()
+  }
 
   scoreBox = $('#score'+turn)
   frameBox = $('#frame'+turn+frame)
@@ -24,16 +39,12 @@ function onPin (event) {
     frameBox.html(value)
     score += value
   }
-
-  frame += 1
-  if (frame > 1) {
+  if (frame >= 1) {
     scoreBox.html(score)
     frame = 0
     turn += 1
-  }
-  if (turn > 10) {
-    turn = 0
-    score = 0
+  } else {
+    frame = 1
   }
 }
 
@@ -41,6 +52,7 @@ Spare.play = function () {
   for (i = 0; i <= 9; i += 1) {
     $('#pin'+i).touch(onPin, null)
   }
+  reset()
 }
 
 })(window.Spare = window.Spare || {})
