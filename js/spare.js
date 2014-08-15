@@ -1,8 +1,10 @@
 ;(function (Spare) {
 'use strict';
 
+var $ = window.jQuery
+  , doc = $(document)
+
 Spare.play = function () {
-  console.log('Well, bowl me over.')
 }
 
 })(window.Spare = window.Spare || {})

@@ -1,3 +1,4 @@
 index.html
 css/screen.css
+js/jquery.js
 js/spare.js
