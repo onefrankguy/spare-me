@@ -34,6 +34,67 @@ height: 48rem;
 margin: 0 auto;
 padding: 0;
 }
+/* PINS */
+#pins {
+position: absolute;
+top: 3.2rem;
+left: 0;
+display: block;
+width: 17.75rem;
+height: 19.5rem;
+list-style: none;
+}
+#pins .pin {
+position: absolute;
+display: block;
+width: 4.8rem;
+height: 4.8rem;
+border: 0.2rem solid #000;
+border-radius: 50%;
+font-size: 2.4rem;
+text-align: center;
+line-height: 4.8rem;
+}
+#pin0 {
+top: 0;
+left: 0;
+}
+#pin1 {
+top: 0;
+left: 5.5rem;
+}
+#pin2 {
+top: 0;
+left: 11rem;
+}
+#pin3 {
+top: 0;
+left: 16.5rem;
+}
+#pin4 {
+top: 4.8rem;
+left: 2.75rem;
+}
+#pin5 {
+top: 4.8rem;
+left: 8.25rem;
+}
+#pin6 {
+top: 4.8rem;
+left: 13.75rem;
+}
+#pin7 {
+top: 9.6rem;
+left: 5.5rem;
+}
+#pin8 {
+top: 9.6rem;
+left: 11rem;
+}
+#pin9 {
+top: 14.4rem;
+left: 8.25rem;
+}
 /* SCORE CARD */
 #scores {
 position: absolute;
