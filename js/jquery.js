@@ -76,6 +76,16 @@ Fn.prototype.toggle = function (klass) {
   return this
 }
 
+Fn.prototype.data = function (value) {
+  if (this.element) {
+    if (value === undefined) {
+      return parseInt(this.element.getAttribute('data-value'), 10)
+    }
+    this.element.setAttribute('data-value', value)
+  }
+  return ''
+}
+
 Fn.prototype.on = function (message, callback) {
   if (this.element) {
     this.element.addEventListener(message, callback, false)

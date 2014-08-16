@@ -4,6 +4,7 @@
 var $ = window.jQuery
   , doc = $(document)
   , balls = []
+  , pins = []
   , chute0 = []
   , chute1 = []
   , chute2 = []
@@ -60,7 +61,7 @@ function resetAlley () {
   shuffle(values)
 
   for (i = 0; i < 10; i += 1) {
-    $('#pin'+i).html(values[i])
+    $('#pin'+i).html(values[i]).data(i)
   }
 
   chute0 = values.slice(10, 15)
@@ -76,6 +77,7 @@ function reset () {
   var i = 0
 
   balls = []
+  pins = []
   frame = 1
 
   for (i = 1; i <= 10; i += 1) {
@@ -144,7 +146,20 @@ function bowl (value) {
 
 function onPin (event) {
   var target = $(event.srcElement || event.target)
-  target.toggle('picked')
+    , index = 0
+
+  if (target.has('picked')) {
+    index = pins.indexOf(target.data())
+    if (index > -1) {
+      pins.splice(index, 1)
+      target.toggle('picked')
+    }
+  } else {
+    if (pins.length < 3) {
+      target.toggle('picked')
+      pins.push(target.data())
+    }
+  }
 }
 
 function onBall (event) {
