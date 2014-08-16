@@ -3,54 +3,87 @@
 
 var $ = window.jQuery
   , doc = $(document)
-  , i = 0
-  , score = 0
-  , turn = 0
-  , frame = 0
+  , balls = []
+  , frame = 1
 
 function reset () {
-  turn = 0
-  score = 0
+  var i = 0
 
-  for (i = 0; i < 10; i += 1) {
+  for (i = 1; i <= 10; i += 1) {
     $('#score'+i).html('')
-    $('#frame'+i+'0').html('')
-    $('#frame'+i+'1').html('')
   }
+  for (i = 1; i <= 21; i += 1) {
+    $('#frame'+i).html('')
+  }
+  balls = []
+  frame = 1
+}
+
+function score (turn) {
+  var sum = 0
+    , t = 0
+    , i = 0
+
+  for (t = 1; t <= turn; t += 1) {
+    if (balls[i] === 10) {
+      if (balls.length > i+2) {
+        sum += 10 + balls[i+1] + balls[i+2]
+        $('#score'+t).html(sum)
+      }
+      i += 1
+    } else if (balls[i] + balls[i+1] === 10) {
+      if (balls.length > i+2) {
+        sum += 10 + balls[i+2]
+        $('#score'+t).html(sum)
+      }
+      i += 2
+    } else {
+      if (balls.length > i+1) {
+        sum += balls[i] + balls[i+1]
+        $('#score'+t).html(sum)
+      }
+      i += 2
+    }
+  }
+}
+
+function bowl (value) {
+  console.log(frame)
+  if (frame > 21) {
+    reset()
+    return
+  }
+  if (frame > 20 && $('#score10').html() !== '') {
+    reset()
+    return
+  }
+
+  $('#frame'+frame).html(value)
+  balls.push(value)
+  score(Math.ceil(frame / 2))
+
+  if (value === 10 && frame % 2 === 1 && frame < 19) {
+    frame += 1
+  }
+  frame += 1
 }
 
 function onPin (event) {
-  var target = $(event.srcElement || event.target)
-    , value = target.int()
-    , scoreBox = null
-    , frameBox = null
+  bowl($(event.srcElement || event.target).int())
+}
 
-  if (turn >= 10) {
-    reset()
-  }
-
-  scoreBox = $('#score'+turn)
-  frameBox = $('#frame'+turn+frame)
-
-  if (value === 0) {
-    frameBox.html('X')
-    score += 10
-  } else {
-    frameBox.html(value)
-    score += value
-  }
-  if (frame >= 1) {
-    scoreBox.html(score)
-    frame = 0
-    turn += 1
-  } else {
-    frame = 1
-  }
+function onBall (event) {
+  bowl(10)
 }
 
 Spare.play = function () {
-  for (i = 0; i <= 9; i += 1) {
+  var i = 0
+
+  for (i = 0; i < 10; i += 1) {
     $('#pin'+i).touch(onPin, null)
+  }
+  for (i = 0; i < 3; i += 1) {
+    $('#ball'+i).touch(onBall, null)
   }
   reset()
 }
