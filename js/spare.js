@@ -143,7 +143,8 @@ function bowl (value) {
 }
 
 function onPin (event) {
-  bowl($(event.srcElement || event.target).int())
+  var target = $(event.srcElement || event.target)
+  target.toggle('picked')
 }
 
 function onBall (event) {

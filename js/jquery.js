@@ -67,6 +67,15 @@ Fn.prototype.remove = function (klass) {
   return this
 }
 
+Fn.prototype.toggle = function (klass) {
+  if (this.has(klass)) {
+    this.remove(klass)
+  } else {
+    this.add(klass)
+  }
+  return this
+}
+
 Fn.prototype.on = function (message, callback) {
   if (this.element) {
     this.element.addEventListener(message, callback, false)

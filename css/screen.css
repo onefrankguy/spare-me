@@ -87,12 +87,16 @@ position: absolute;
 display: block;
 width: 4.8rem;
 height: 4.8rem;
-border: 0.2rem solid #6f0c15;
+border: 0.2rem solid #000;
 border-radius: 50%;
 font-size: 2.4rem;
 text-align: center;
 line-height: 4.8rem;
 background: #fff;
+}
+#pins > .picked {
+background: #eee;
+border: 0.2rem solid #6f0c15;
 }
 #pin0 {
 top: 0;
