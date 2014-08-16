@@ -95,6 +95,10 @@ Fn.prototype.touch = function (start, end) {
   }
 }
 
+Fn.prototype.unwrap = function () {
+  return this.element
+}
+
 function root (selector) {
   return new Fn(selector)
 }

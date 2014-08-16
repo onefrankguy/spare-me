@@ -35,6 +35,9 @@ line-height: 1.2rem;
 a {
 text-decoration: none;
 }
+ul {
+list-style: none;
+}
 abbr[title="and"] {
 font-family: "Adobe Caslon Pro","Baskerville","Goudy Old Style","Palatino",
 "Palatino Linotype","Book Antiqua","Georgia","Times New Roman","Times", serif;
@@ -72,7 +75,6 @@ left: 0.3rem;
 display: block;
 width: 17.75rem;
 height: 19.5rem;
-list-style: none;
 }
 #pins .pin {
 position: absolute;
@@ -128,13 +130,13 @@ left: 8.25rem;
 /* BALLS */
 #balls {
 position: absolute;
-bottom: 3.6rem;
+bottom: 5.5rem;
 left: 0;
 display: block;
-list-style: none;
 }
-#balls .ball {
+#balls li {
 position: absolute;
+bottom: 0;
 display: block;
 width: 4.8rem;
 height: 4.8rem;
@@ -145,16 +147,39 @@ text-align: center;
 line-height: 4.8rem;
 }
 #ball0 {
-bottom: 0;
 left: 1.0rem;
 }
 #ball1 {
-bottom: 0;
 left: 8.25rem;
 }
 #ball2 {
-bottom: 0;
 left: 15.5rem;
+}
+/* CHUTES */
+#chutes {
+position: absolute;
+bottom: 3.6rem;
+left: 0;
+display: block;
+}
+#chutes li {
+position: absolute;
+bottom: 0;
+display: block;
+width: 6.2rem;
+height: 1.0rem;
+font-size: 1.0rem;
+line-height: 1.0rem;
+text-align: center;
+}
+#chute0 {
+left: 0.5rem;
+}
+#chute1 {
+left: 7.75rem;
+}
+#chute2 {
+left: 15rem;
 }
 /* SCORE CARD */
 #scores {
@@ -162,7 +187,6 @@ position: absolute;
 top: 0;
 right: 2.4rem;
 display: block;
-list-style: none;
 }
 #scores li {
 position: relative;

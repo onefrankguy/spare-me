@@ -4,7 +4,23 @@
 var $ = window.jQuery
   , doc = $(document)
   , balls = []
+  , ball0 = 5
+  , ball1 = 3
+  , ball2 = 2
   , frame = 1
+
+function drawChute (selector, count) {
+  var i = 0
+    , html = ''
+
+  for (i = 0; i < count; i += 1) {
+    html += '&#9673; '
+  }
+  for (i = i; i < 5; i += 1) {
+    html += '&#9678; '
+  }
+  $(selector).html(html)
+}
 
 function reset () {
   var i = 0
@@ -16,7 +32,14 @@ function reset () {
     $('#frame'+i).html('')
   }
   balls = []
+  ball0 = 5
+  ball1 = 3
+  ball2 = 2
   frame = 1
+
+  drawChute('#chute0', ball0)
+  drawChute('#chute1', ball1)
+  drawChute('#chute2', ball2)
 }
 
 function score (turn) {
@@ -74,6 +97,25 @@ function onPin (event) {
 }
 
 function onBall (event) {
+  var target = $(event.srcElement || event.target)
+    , html = ''
+    , i = 0
+
+  if (target.unwrap().id === 'ball0') {
+    ball0 -= 1
+    drawChute('#chute0', ball0)
+  }
+
+  if (target.unwrap().id === 'ball1') {
+    ball1 -= 1
+    drawChute('#chute1', ball1)
+  }
+
+  if (target.unwrap().id === 'ball2') {
+    ball2 -= 1
+    drawChute('#chute2', ball2)
+  }
+
   bowl(10)
 }
 
