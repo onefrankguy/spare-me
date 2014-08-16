@@ -4,10 +4,23 @@
 var $ = window.jQuery
   , doc = $(document)
   , balls = []
-  , ball0 = 5
-  , ball1 = 3
-  , ball2 = 2
+  , chute0 = []
+  , chute1 = []
+  , chute2 = []
   , frame = 1
+
+function shuffle (array) {
+  var i = 0
+    , j = 0
+    , temp = null
+
+  for (i = array.length - 1; i > 0; i -= 1) {
+    j = Math.floor(Math.random() * (i + 1))
+    temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+  }
+}
 
 function drawChute (selector, count) {
   var i = 0
@@ -22,8 +35,43 @@ function drawChute (selector, count) {
   $(selector).html(html)
 }
 
+function drawBall (index, values) {
+  if (values.length > 0) {
+    $('#ball'+index).html(values[values.length - 1])
+  } else {
+    $('#ball'+index).html('')
+  }
+  drawChute('#chute'+index, values.length)
+}
+
+function resetAlley () {
+  var i = 0
+    , values = []
+
+  for (i = 0; i < 10; i += 1) {
+    values.push(i)
+    values.push(i)
+  }
+  shuffle(values)
+
+  for (i = 0; i < 10; i += 1) {
+    $('#pin'+i).html(values[i])
+  }
+
+  chute0 = values.slice(10, 15)
+  chute1 = values.slice(15, 18)
+  chute2 = values.slice(18, 20)
+
+  drawBall(0, chute0)
+  drawBall(1, chute1)
+  drawBall(2, chute2)
+}
+
 function reset () {
   var i = 0
+
+  balls = []
+  frame = 1
 
   for (i = 1; i <= 10; i += 1) {
     $('#score'+i).html('')
@@ -31,15 +79,8 @@ function reset () {
   for (i = 1; i <= 21; i += 1) {
     $('#frame'+i).html('')
   }
-  balls = []
-  ball0 = 5
-  ball1 = 3
-  ball2 = 2
-  frame = 1
 
-  drawChute('#chute0', ball0)
-  drawChute('#chute1', ball1)
-  drawChute('#chute2', ball2)
+  resetAlley()
 }
 
 function score (turn) {
@@ -71,6 +112,10 @@ function score (turn) {
 }
 
 function bowl (value) {
+  if (value === undefined) {
+    return
+  }
+
   if ($('#score10').html() !== '') {
     reset()
     return
@@ -98,25 +143,22 @@ function onPin (event) {
 
 function onBall (event) {
   var target = $(event.srcElement || event.target)
-    , html = ''
-    , i = 0
+    , value = null
 
   if (target.unwrap().id === 'ball0') {
-    ball0 -= 1
-    drawChute('#chute0', ball0)
+    bowl(chute0.pop())
+    drawBall(0, chute0)
   }
 
   if (target.unwrap().id === 'ball1') {
-    ball1 -= 1
-    drawChute('#chute1', ball1)
+    bowl(chute1.pop())
+    drawBall(1, chute1)
   }
 
   if (target.unwrap().id === 'ball2') {
-    ball2 -= 1
-    drawChute('#chute2', ball2)
+    bowl(chute2.pop())
+    drawBall(2, chute2)
   }
-
-  bowl(10)
 }
 
 Spare.play = function () {
