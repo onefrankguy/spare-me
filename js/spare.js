@@ -48,11 +48,7 @@ function score (turn) {
 }
 
 function bowl (value) {
-  if (frame > 21) {
-    reset()
-    return
-  }
-  if (frame > 20 && $('#score10').html() !== '') {
+  if ($('#score10').html() !== '') {
     reset()
     return
   }
@@ -61,7 +57,7 @@ function bowl (value) {
   if (value === 10) {
     $('#frame'+frame).html('X')
   }
-  if (value + balls[balls.length - 1] === 10) {
+  if (frame % 2 === 0 && value + balls[balls.length - 1] === 10) {
     $('#frame'+frame).html('/')
   }
   balls.push(value)
