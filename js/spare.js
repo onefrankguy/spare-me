@@ -5,6 +5,7 @@ var $ = window.jQuery
   , doc = $(document)
   , balls = []
   , pins = []
+  , last = []
   , chute0 = []
   , chute1 = []
   , chute2 = []
@@ -78,6 +79,7 @@ function reset () {
 
   balls = []
   pins = []
+  last = []
   frame = 1
 
   for (i = 1; i <= 10; i += 1) {
@@ -195,7 +197,16 @@ Array.prototype.equals = function (array) {
   return true
 }
 
+Array.prototype.peek = function () {
+  if (this.length < 1) {
+    return undefined
+  }
+  return this[this.length - 1]
+}
+
 function canPickPin (value) {
+  var i = 0
+
   if (allPinsVisible()) {
     if (pins.equals([])) { return [9,8,7,6,4].indexOf(value) > -1 }
     if (pins.equals([9])) { return [8,7].indexOf(value) > -1 }
@@ -208,8 +219,24 @@ function canPickPin (value) {
     if (pins.sort().equals([7,8])) { return [9,6,4].indexOf(value) > -1 }
     if (pins.sort().equals([6,8])) { return [9,7].indexOf(value) > -1 }
     if (pins.sort().equals([4,7])) { return [9,8].indexOf(value) > -1 }
+    return false
   }
-  return pins.length < 3
+
+  if (pins.length === 0) {
+    for (i = 0; i < last.length; i += 1) {
+      if (isAdjacentPin(value, last[i])) {
+        return true
+      }
+    }
+    return false
+  }
+
+  for (i = 0; i < pins.length; i += 1) {
+    if (isAdjacentPin(value, pins[i])) {
+      return true
+    }
+  }
+  return false
 }
 
 function canUnpickPin (value) {
@@ -224,7 +251,6 @@ function canUnpickPin (value) {
 
 function onPin (event) {
   var target = $(event.srcElement || event.target)
-  console.log(pins)
 
   if (target.has('picked')) {
     if (canUnpickPin(target.data())) {
@@ -237,27 +263,50 @@ function onPin (event) {
       target.toggle('picked')
     }
   }
+}
 
-  console.log(pins)
+function rollBall () {
+  var i = 0
+
+  for (i = 0; i < pins.length; i += 1) {
+    $('#pin'+pins[i]).add('hidden')
+  }
+  bowl(pins.length)
+  last = pins
+  pins = []
 }
 
 function onBall (event) {
   var target = $(event.srcElement || event.target)
     , value = null
+    , total = 0
+    , i = 0
+
+  for (i = 0; i < pins.length; i += 1) {
+    total += $('#pin'+pins[i]).int()
+  }
+  total = parseInt(('' + total).split('').peek(), 10)
 
   if (target.unwrap().id === 'ball0') {
-    bowl(chute0.pop())
-    drawBall(0, chute0)
+    if (total === chute0.peek()) {
+      chute0.pop()
+      drawBall(0, chute0)
+      rollBall()
+    }
   }
-
   if (target.unwrap().id === 'ball1') {
-    bowl(chute1.pop())
-    drawBall(1, chute1)
+    if (total === chute1.peek()) {
+      chute1.pop()
+      drawBall(1, chute1)
+      rollBall()
+    }
   }
-
   if (target.unwrap().id === 'ball2') {
-    bowl(chute2.pop())
-    drawBall(2, chute2)
+    if (total === chute2.peek()) {
+      chute2.pop()
+      drawBall(2, chute2)
+      rollBall()
+    }
   }
 }
 
