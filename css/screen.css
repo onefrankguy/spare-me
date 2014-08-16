@@ -32,12 +32,27 @@ left: 0.3rem;
 font-size: 1.2rem;
 line-height: 1.2rem;
 }
+a {
+text-decoration: none;
+}
+abbr[title="and"] {
+font-family: "Adobe Caslon Pro","Baskerville","Goudy Old Style","Palatino",
+"Palatino Linotype","Book Antiqua","Georgia","Times New Roman","Times", serif;
+font-style: italic;
+font-size: 110%;
+cursor: auto;
+/* Prevents `abbr` affecting `line-height`. */
+line-height: 0;
+position: relative;
+vertical-align: baseline;
+}
 #credits {
 position: absolute;
 bottom: 0.3rem;
-left: 0.3rem;
+right: 0.3rem;
 font-size: 1.0rem;
 line-height: 1.0rem;
+text-align: right;
 }
 /* BOWLING ALLEY */
 #alley {
@@ -113,7 +128,7 @@ left: 8.25rem;
 /* BALLS */
 #balls {
 position: absolute;
-bottom: 2.4rem;
+bottom: 3.6rem;
 left: 0;
 display: block;
 list-style: none;
@@ -153,7 +168,7 @@ list-style: none;
 position: relative;
 display: block;
 width: 7.2rem;
-height: 4.8rem;
+height: 4.4rem;
 }
 #scores .frame {
 position: absolute;
@@ -170,6 +185,9 @@ border: 0.1rem solid #000;
 #scores .frame ~ .frame {
 top: 50%;
 }
+#scores .bonus {
+display: none;
+}
 #scores .score {
 position: absolute;
 top: 0;
@@ -179,7 +197,7 @@ width: 66%;
 height: 100%;
 font-size: 2.4rem;
 text-align: center;
-line-height: 4.8rem;
+line-height: 4.4rem;
 border: 0.1rem solid #000;
 }
 #marker {
