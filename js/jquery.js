@@ -47,6 +47,26 @@ Fn.prototype.int = function (value) {
   return parseInt(this.html(), 10)
 }
 
+Fn.prototype.has = function (klass) {
+  return this.element && this.element.className.indexOf(klass) >= 0
+}
+
+Fn.prototype.add = function (klass) {
+  klass = ' ' + klass
+  if (!this.has(klass)) {
+    this.element.className += klass
+  }
+  return this
+}
+
+Fn.prototype.remove = function (klass) {
+  if (this.element) {
+    var regex = new RegExp('(\\s+)?' + klass, 'g')
+    this.element.className = this.element.className.replace(regex, '')
+  }
+  return this
+}
+
 Fn.prototype.on = function (message, callback) {
   if (this.element) {
     this.element.addEventListener(message, callback, false)

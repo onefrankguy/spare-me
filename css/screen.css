@@ -141,7 +141,7 @@ bottom: 5.5rem;
 left: 0;
 display: block;
 }
-#balls li {
+#balls > * {
 position: absolute;
 bottom: 0;
 display: block;
@@ -249,4 +249,8 @@ border-top: 0.74rem solid transparent;
 border-right: 1.2rem solid #000;
 font-size: 0;
 line-height: 0;
+}
+/* TOGGLES */
+.hidden {
+display: none !important;
 }

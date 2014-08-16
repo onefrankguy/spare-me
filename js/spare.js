@@ -39,9 +39,14 @@ function drawBall (index, values) {
   if (values.length > 0) {
     $('#ball'+index).html(values[values.length - 1])
   } else {
-    $('#ball'+index).html('')
+    $('#ball'+index).add('hidden')
   }
   drawChute('#chute'+index, values.length)
+}
+
+function resetBall (index, values) {
+  $('#ball'+index).remove('hidden')
+  drawBall(index, values)
 }
 
 function resetAlley () {
@@ -62,9 +67,9 @@ function resetAlley () {
   chute1 = values.slice(15, 18)
   chute2 = values.slice(18, 20)
 
-  drawBall(0, chute0)
-  drawBall(1, chute1)
-  drawBall(2, chute2)
+  resetBall(0, chute0)
+  resetBall(1, chute1)
+  resetBall(2, chute2)
 }
 
 function reset () {
