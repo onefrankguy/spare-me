@@ -48,7 +48,6 @@ function score (turn) {
 }
 
 function bowl (value) {
-  console.log(frame)
   if (frame > 21) {
     reset()
     return
@@ -59,6 +58,12 @@ function bowl (value) {
   }
 
   $('#frame'+frame).html(value)
+  if (value === 10) {
+    $('#frame'+frame).html('X')
+  }
+  if (value + balls[balls.length - 1] === 10) {
+    $('#frame'+frame).html('/')
+  }
   balls.push(value)
   score(Math.ceil(frame / 2))
 
