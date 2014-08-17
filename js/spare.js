@@ -25,12 +25,46 @@ function countVisible() {
   return count
 }
 
+function getAdjacent (value) {
+  switch (value) {
+    case 0: return [1, 4]
+    case 1: return [0, 2, 4, 5]
+    case 2: return [1, 3, 5, 6]
+    case 3: return [2, 6]
+    case 4: return [0, 1, 5, 7]
+    case 5: return [1, 2, 4, 6, 7, 8]
+    case 6: return [2, 3, 5, 8]
+    case 7: return [4, 5, 8, 9]
+    case 8: return [5, 6, 7, 9]
+    case 9: return [7, 8]
+    default: return []
+  }
+}
+
+function isAdjacent (a, b) {
+  return getAdjacent(a).indexOf(b) > -1
+}
+
+function anyAdjacent (a, b) {
+  var i = 0
+    , j = 0
+  for (i = 0; i < a.length; i += 1) {
+    for (j = 0; j < b.length; j += 1) {
+      if (isAdjacent(a[i], b[j])) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
 function isAllowed (values, allowed) {
   var value = parseInt(values.sort().join(''), 10)
   return allowed.indexOf(value) > -1
 }
 
 function isValid (values) {
+  var i = 0
   if (countVisible() >= 10) {
     switch (values.length) {
       case 0: return true
@@ -39,14 +73,20 @@ function isValid (values) {
       case 3: return isAllowed(values, [478,479,678,689,789])
       default: return false
     }
-  } else {
-    switch (values.length) {
-      case 0: return true
-      case 1: return isAllowed(values, [0,1,2,3,4,5,6,7,8,9])
-      case 2: return isAllowed(values, [1,4,12,14,15,23,25,26,36,45,47,56,57,58,68,78,79,89])
-      case 3: return isAllowed(values, [12,14,15,45,47,123,124,125,126,145,147,156,157,158,235,236,245,256,257,258,268,356,368,456,457,458,478,479,567,568,578,579,589,678,689,789])
-      default: return false
+  }
+
+  if (last.length > 0 && values.length > 0) {
+    if (!anyAdjacent(values, last)) {
+      return false
     }
+  }
+
+  switch (values.length) {
+    case 0: return true
+    case 1: return isAllowed(values, [0,1,2,3,4,5,6,7,8,9])
+    case 2: return isAllowed(values, [1,4,12,14,15,23,25,26,36,45,47,56,57,58,68,78,79,89])
+    case 3: return isAllowed(values, [12,14,15,45,47,123,124,125,126,145,147,156,157,158,235,236,245,256,257,258,268,356,368,456,457,458,478,479,567,568,578,579,589,678,689,789])
+    default: return false
   }
 }
 
@@ -269,26 +309,6 @@ function bowl (value) {
     frame += 1
   }
   frame += 1
-}
-
-function adjacentPins (value) {
-  switch (value) {
-    case 0: return [1, 4]
-    case 1: return [0, 2, 4, 5]
-    case 2: return [1, 3, 5, 6]
-    case 3: return [2, 6]
-    case 4: return [0, 1, 5, 7]
-    case 5: return [1, 2, 4, 6, 7, 8]
-    case 6: return [2, 3, 5, 8]
-    case 7: return [4, 5, 8, 9]
-    case 8: return [5, 6, 7, 9]
-    case 9: return [7, 8]
-    default: return []
-  }
-}
-
-function isAdjacentPin (a, b) {
-  return adjacentPins(a).indexOf(b) > -1
 }
 
 function onPin (event) {
