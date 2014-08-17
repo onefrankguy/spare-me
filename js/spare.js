@@ -1,3 +1,79 @@
+var Pins = (function () {
+'use strict';
+
+var $ = window.jQuery
+  , my = {}
+  , pins = []
+
+function countVisible() {
+  var count = 0
+    , i = 0
+  for (i = 0; i < 10; i += 1) {
+    if (!$('#pin'+i).has('hidden')) {
+      count += 1
+    }
+  }
+  return count
+}
+
+function isAllowed (values, allowed) {
+  var value = parseInt(values.sort().join(''), 10)
+  return allowed.indexOf(value) > -1
+}
+
+function isValid (values) {
+  if (countVisible() === 10) {
+    switch (values.length) {
+      case 0: return true
+      case 1: return isAllowed(values, [4,6,7,8,9])
+      case 2: return isAllowed(values, [47,68,78,79,89])
+      case 3: return isAllowed(values, [478,479,678,689,789])
+      default: return false
+    }
+  } else {
+    switch (values.length) {
+      case 0: return true
+      case 1: return isAllowed(values, [0,1,2,3,4,5,6,7,8,9])
+      case 2: return isAllowed(values, [1,4,12,14,15,23,25,26,36,45,47,56,57,58,68,78,79,89])
+      case 3: return isAllowed(values, [12,14,15,45,47,123,125,126,145,147,156,157,158,236,245,256,257,258,268,356,368,456,457,458,478,479,568,578,579,589,678,689,789])
+      default: return false
+    }
+  }
+}
+
+function canSelect (value) {
+  var values = pins.slice()
+  values.push(value)
+  return isValid(values)
+}
+
+function canUnselect (value) {
+  var values = pins.slice()
+    , index = values.indexOf(value)
+  if (index > -1) {
+    values.splice(index, 1)
+    return isValid(values)
+  }
+  return false
+}
+
+my.select = function (value) {
+  if (canSelect(value)) {
+    pins.push(value)
+    $('#pin'+value).toggle('picked')
+  }
+}
+
+my.unselect = function (value) {
+  if (canUnselect(value)) {
+    pins.splice(pins.indexOf(value), 1)
+    $('#pin'+value).toggle('picked')
+  }
+}
+
+return my
+}())
+
 ;(function (Spare) {
 'use strict';
 
@@ -151,55 +227,14 @@ function bowl (value) {
   frame += 1
 }
 
-function allPinsVisible () {
-  var i = 0
-  for (i = 0; i < 9; i += 1) {
-    if ($('#pin'+i).has('hidden')) {
-      return false
-    }
-  }
-  return true
-}
-
 function allPinsHidden () {
   var i = 0
-  for (i = 0; i < 9; i += 1) {
+  for (i = 0; i < 10; i += 1) {
     if (!$('#pin'+i).has('hidden')) {
       return false
     }
   }
   return true
-}
-
-function isAllowed (values, allowed) {
-  var value = parseInt(values.sort().join(''), 10)
-  return allowed.indexOf(value) > -1
-}
-
-function isValid (values) {
-  if (allPinsVisible) {
-    switch (values.length) {
-      case 0: return true
-      case 1: return isAllowed(values, [4,6,7,8,9])
-      case 2: return isAllowed(values, [47,68,78,79,89])
-      case 3: return isAllowed(values, [478,479,678,689,789])
-      default: return false
-    }
-  } else {
-    switch (values.length) {
-      case 0: return true
-      case 1: return isAllowed(values, [0,1,2,3,4,5,6,7,8,9])
-      case 2: return isAllowed(values, [1,4,12,14,15,23,25,26,36,45,47,56,57,58,68,78,79,89])
-      case 3: return isAllowed(values, [12,14,15,45,47,123,125,126,145,147,156,157,158,236,245,256,257,258,268,356,368,456,457,458,478,479,568,578,579,589,678,689,789])
-      default: return false
-    }
-  }
-}
-
-function canAddPin(value) {
-  var values = pins.slice()
-  values.push(value)
-  return isValid(values)
 }
 
 function adjacentPins (value) {
@@ -222,27 +257,6 @@ function isAdjacentPin (a, b) {
   return adjacentPins(a).indexOf(b) > -1
 }
 
-Array.prototype.equals = function (array) {
-  var i = 0
-
-  if (!array) {
-    return false
-  }
-  if (this.length !== array.length) {
-    return false
-  }
-  for (i = 0; i < this.length; i += 1) {
-    if (this[i] instanceof Array && array[i] instanceof Array) {
-      if (!this[i].equals(array[i])) {
-        return false
-      }
-    } else if (this[i] !== array[i]) {
-      return false
-    }
-  }
-  return true
-}
-
 Array.prototype.peek = function () {
   if (this.length < 1) {
     return undefined
@@ -250,68 +264,12 @@ Array.prototype.peek = function () {
   return this[this.length - 1]
 }
 
-function canPickPin (value) {
-  var i = 0
-
-  if (allPinsVisible()) {
-    if (pins.equals([])) { return [9,8,7,6,4].indexOf(value) > -1 }
-    if (pins.equals([9])) { return [8,7].indexOf(value) > -1 }
-    if (pins.equals([8])) { return [9,7,6].indexOf(value) > -1 }
-    if (pins.equals([7])) { return [9,8,4].indexOf(value) > -1 }
-    if (pins.equals([6])) { return value === 8 }
-    if (pins.equals([4])) { return value === 7 }
-    if (pins.sort().equals([8,9])) { return [7,6].indexOf(value) > -1 }
-    if (pins.sort().equals([7,9])) { return [8,4].indexOf(value) > -1 }
-    if (pins.sort().equals([7,8])) { return [9,6,4].indexOf(value) > -1 }
-    if (pins.sort().equals([6,8])) { return [9,7].indexOf(value) > -1 }
-    if (pins.sort().equals([4,7])) { return [9,8].indexOf(value) > -1 }
-    return false
-  }
-
-  if (pins.length === 0 && last.length !== 0) {
-    for (i = 0; i < last.length; i += 1) {
-      if (isAdjacentPin(value, last[i])) {
-        return true
-      }
-    }
-    return false
-  }
-
-  if (pins.length === 0 && last.length === 0) {
-    return true
-  }
-
-  for (i = 0; i < pins.length; i += 1) {
-    if (isAdjacentPin(value, pins[i])) {
-      return true
-    }
-  }
-  return false
-}
-
-function canUnpickPin (value) {
-  if (allPinsVisible()) {
-    if (pins.sort().equals([4,7,8])) { return value !== 7 }
-    if (pins.sort().equals([4,7,9])) { return value !== 7 }
-    if (pins.sort().equals([6,7,8])) { return value !== 8 }
-    if (pins.sort().equals([6,8,9])) { return value !== 8 }
-  }
-  return pins.indexOf(value) > -1
-}
-
 function onPin (event) {
   var target = $(event.srcElement || event.target)
-
   if (target.has('picked')) {
-    if (canUnpickPin(target.data())) {
-      pins.splice(pins.indexOf(target.data()), 1)
-      target.toggle('picked')
-    }
+    Pins.unselect(target.data())
   } else {
-    if (canAddPin(target.data())) {
-      pins.push(target.data())
-      target.toggle('picked')
-    }
+    Pins.select(target.data())
   }
 }
 
