@@ -52,7 +52,7 @@ function resetBall (index, values) {
   drawBall(index, values)
 }
 
-function resetAlley () {
+function resetLane() {
   var i = 0
     , values = []
 
@@ -75,7 +75,7 @@ function resetAlley () {
   resetBall(2, chute2)
 }
 
-function reset () {
+function resetGame () {
   var i = 0
 
   balls = []
@@ -90,8 +90,11 @@ function reset () {
   for (i = 1; i <= 21; i += 1) {
     $('#frame'+i).html('')
   }
+}
 
-  resetAlley()
+function reset () {
+  resetGame()
+  resetLane()
 }
 
 function score (turn) {
@@ -293,7 +296,7 @@ function rollBall () {
 
   if (allPinsHidden()) {
     bowl(rolled)
-    resetAlley()
+    resetLane()
   }
 }
 
