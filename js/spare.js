@@ -4,6 +4,8 @@ var Pins = (function () {
 var $ = window.jQuery
   , my = {}
   , pins = []
+  , last = []
+  , rolled = 0
 
 function countVisible() {
   var count = 0
@@ -22,7 +24,7 @@ function isAllowed (values, allowed) {
 }
 
 function isValid (values) {
-  if (countVisible() === 10) {
+  if (countVisible() >= 10) {
     switch (values.length) {
       case 0: return true
       case 1: return isAllowed(values, [4,6,7,8,9])
@@ -69,6 +71,21 @@ my.unselect = function (value) {
     pins.splice(pins.indexOf(value), 1)
     $('#pin'+value).toggle('picked')
   }
+}
+
+my.empty = function () {
+  return countVisible() <= 0
+}
+
+my.bowl = function () {
+  var i = 0
+  for (i = 0; i < pins.length; i += 1) {
+    $('#pin'+i).add('hidden')
+  }
+  rolled += pins.length
+  last = pins
+  pins = []
+  return rolled
 }
 
 return my
@@ -227,16 +244,6 @@ function bowl (value) {
   frame += 1
 }
 
-function allPinsHidden () {
-  var i = 0
-  for (i = 0; i < 10; i += 1) {
-    if (!$('#pin'+i).has('hidden')) {
-      return false
-    }
-  }
-  return true
-}
-
 function adjacentPins (value) {
   switch (value) {
     case 0: return [1, 4]
@@ -274,16 +281,8 @@ function onPin (event) {
 }
 
 function rollBall () {
-  var i = 0
-
-  for (i = 0; i < pins.length; i += 1) {
-    $('#pin'+pins[i]).add('hidden')
-  }
-  rolled += pins.length
-  last = pins
-  pins = []
-
-  if (allPinsHidden()) {
+  var rolled = Pins.bowl()
+  if (Pins.empty()) {
     bowl(rolled)
     resetLane()
   }
