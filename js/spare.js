@@ -1,3 +1,10 @@
+Array.prototype.peek = function () {
+  if (this.length < 1) {
+    return undefined
+  }
+  return this[this.length - 1]
+}
+
 var Pins = (function () {
 'use strict';
 
@@ -5,7 +12,7 @@ var $ = window.jQuery
   , my = {}
   , pins = []
   , last = []
-  , rolled = 0
+  , bowled = 0
 
 function countVisible() {
   var count = 0
@@ -59,6 +66,16 @@ function canUnselect (value) {
   return false
 }
 
+my.reset = function () {
+  var i = 0
+  for (i = 0; i < pins.length; i += 1) {
+    $('#pin'+pins[i]).remove('picked')
+  }
+  pins = []
+  last = []
+  bowled = 0
+}
+
 my.select = function (value) {
   if (canSelect(value)) {
     pins.push(value)
@@ -80,12 +97,25 @@ my.empty = function () {
 my.bowl = function () {
   var i = 0
   for (i = 0; i < pins.length; i += 1) {
-    $('#pin'+i).add('hidden')
+    $('#pin'+pins[i]).add('hidden')
   }
-  rolled += pins.length
+  bowled += pins.length
   last = pins
   pins = []
-  return rolled
+}
+
+my.down = function () {
+  return bowled
+}
+
+my.total = function () {
+  var score = 0
+    , i = 0
+  for (i = 0; i < pins.length; i += 1) {
+    score += $('#pin'+pins[i]).int()
+  }
+  score = parseInt(('' + score).split('').peek(), 10)
+  return score
 }
 
 return my
@@ -103,7 +133,6 @@ var $ = window.jQuery
   , chute1 = []
   , chute2 = []
   , frame = 1
-  , rolled = 0
 
 function shuffle (array) {
   var i = 0
@@ -172,10 +201,7 @@ function resetGame () {
   var i = 0
 
   balls = []
-  pins = []
-  last = []
   frame = 1
-  rolled = 0
 
   for (i = 1; i <= 10; i += 1) {
     $('#score'+i).html('')
@@ -186,6 +212,7 @@ function resetGame () {
 }
 
 function reset () {
+  Pins.reset()
   resetGame()
   resetLane()
 }
@@ -264,13 +291,6 @@ function isAdjacentPin (a, b) {
   return adjacentPins(a).indexOf(b) > -1
 }
 
-Array.prototype.peek = function () {
-  if (this.length < 1) {
-    return undefined
-  }
-  return this[this.length - 1]
-}
-
 function onPin (event) {
   var target = $(event.srcElement || event.target)
   if (target.has('picked')) {
@@ -281,23 +301,16 @@ function onPin (event) {
 }
 
 function rollBall () {
-  var rolled = Pins.bowl()
+  Pins.bowl()
   if (Pins.empty()) {
-    bowl(rolled)
+    bowl(Pins.down())
     resetLane()
   }
 }
 
 function onBall (event) {
   var target = $(event.srcElement || event.target)
-    , value = null
-    , total = 0
-    , i = 0
-
-  for (i = 0; i < pins.length; i += 1) {
-    total += $('#pin'+pins[i]).int()
-  }
-  total = parseInt(('' + total).split('').peek(), 10)
+    , total = Pins.total()
 
   if (total !== chute0.peek() && total !== chute1.peek() && total !== chute2.peek()) {
     chute0.pop()
@@ -306,13 +319,8 @@ function onBall (event) {
     drawBall(0, chute0)
     drawBall(1, chute1)
     drawBall(2, chute2)
-    bowl(rolled)
-    for (i = 0; i < pins.length; i += 1) {
-      $('#pin'+pins[i]).remove('picked')
-    }
-    pins = []
-    last = []
-    rolled = 0
+    bowl(Pins.down())
+    Pins.reset()
     return
   }
 
