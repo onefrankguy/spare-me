@@ -83,7 +83,7 @@ Fn.prototype.data = function (value) {
     }
     this.element.setAttribute('data-value', value)
   }
-  return ''
+  return this
 }
 
 Fn.prototype.on = function (message, callback) {

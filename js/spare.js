@@ -10,6 +10,7 @@ var $ = window.jQuery
   , chute1 = []
   , chute2 = []
   , frame = 1
+  , rolled = 0
 
 function shuffle (array) {
   var i = 0
@@ -62,7 +63,7 @@ function resetAlley () {
   shuffle(values)
 
   for (i = 0; i < 10; i += 1) {
-    $('#pin'+i).html(values[i]).data(i)
+    $('#pin'+i).html(values[i]).data(i).remove('hidden')
   }
 
   chute0 = values.slice(10, 15)
@@ -81,6 +82,7 @@ function reset () {
   pins = []
   last = []
   frame = 1
+  rolled = 0
 
   for (i = 1; i <= 10; i += 1) {
     $('#score'+i).html('')
@@ -156,6 +158,16 @@ function allPinsVisible () {
   return true
 }
 
+function allPinsHidden () {
+  var i = 0
+  for (i = 0; i < 9; i += 1) {
+    if (!$('#pin'+i).has('hidden')) {
+      return false
+    }
+  }
+  return true
+}
+
 function adjacentPins (value) {
   switch (value) {
     case 0: return [1, 4]
@@ -222,13 +234,17 @@ function canPickPin (value) {
     return false
   }
 
-  if (pins.length === 0) {
+  if (pins.length === 0 && last.length !== 0) {
     for (i = 0; i < last.length; i += 1) {
       if (isAdjacentPin(value, last[i])) {
         return true
       }
     }
     return false
+  }
+
+  if (pins.length === 0 && last.length === 0) {
+    return true
   }
 
   for (i = 0; i < pins.length; i += 1) {
@@ -271,9 +287,14 @@ function rollBall () {
   for (i = 0; i < pins.length; i += 1) {
     $('#pin'+pins[i]).add('hidden')
   }
-  bowl(pins.length)
+  rolled += pins.length
   last = pins
   pins = []
+
+  if (allPinsHidden()) {
+    bowl(rolled)
+    resetAlley()
+  }
 }
 
 function onBall (event) {
@@ -286,6 +307,23 @@ function onBall (event) {
     total += $('#pin'+pins[i]).int()
   }
   total = parseInt(('' + total).split('').peek(), 10)
+
+  if (total !== chute0.peek() && total !== chute1.peek() && total !== chute2.peek()) {
+    chute0.pop()
+    chute1.pop()
+    chute2.pop()
+    drawBall(0, chute0)
+    drawBall(1, chute1)
+    drawBall(2, chute2)
+    bowl(rolled)
+    for (i = 0; i < pins.length; i += 1) {
+      $('#pin'+pins[i]).remove('picked')
+    }
+    pins = []
+    last = []
+    rolled = 0
+    return
+  }
 
   if (target.unwrap().id === 'ball0') {
     if (total === chute0.peek()) {
