@@ -65,6 +65,13 @@ function isAllowed (values, allowed) {
 
 function isValid (values) {
   var i = 0
+
+  for (i = 0; i < values.length; i += 1) {
+    if ($('#pin'+values[i]).has('hidden')) {
+      return false
+    }
+  }
+
   if (countVisible() >= 10) {
     switch (values.length) {
       case 0: return true
@@ -90,6 +97,20 @@ function isValid (values) {
   }
 }
 
+function getScore (values) {
+  var score = 0
+    , pin = null
+    , i = 0
+  for (i = 0; i < values.length; i += 1) {
+    pin = $('#pin'+values[i])
+    if (!pin.has('hidden')) {
+      score += pin.int()
+    }
+  }
+  score = parseInt(('' + score).split('').peek(), 10)
+  return score
+}
+
 function canSelect (value) {
   var values = pins.slice()
   values.push(value)
@@ -106,10 +127,44 @@ function canUnselect (value) {
   return false
 }
 
-my.reset = function () {
+function canScore (ball) {
   var i = 0
-  for (i = 0; i < pins.length; i += 1) {
-    $('#pin'+pins[i]).remove('picked')
+    , j = 0
+    , k = 0
+  if (ball === undefined) {
+    return false
+  }
+  for (i = 0; i < 10; i += 1) {
+    if (isValid([i]) && getScore([i]) === ball) {
+      console.log('score with: '+[i]+' ball: '+ball)
+      return true
+    }
+    for (j = 0; j < 10; j += 1) {
+      if (isValid([i,j]) && getScore([i,j]) === ball) {
+        console.log('score with: '+[i,j]+' ball: '+ball)
+        return true
+      }
+      for (k = 0; k < 10; k += 1) {
+        if (isValid([i,j,k]) && getScore([i,j,k]) === ball) {
+          console.log('score with: '+[i,j,k]+' ball: '+ball)
+          return true
+        }
+      }
+    }
+  }
+  return false
+}
+
+my.reset = function (all) {
+  var i = 0
+  if (all !== true) {
+    for (i = 0; i < pins.length; i += 1) {
+      $('#pin'+pins[i]).remove('picked').remove('hidden')
+    }
+  } else {
+    for (i = 0; i < 10; i += 1) {
+      $('#pin'+i).remove('picked').remove('hidden')
+    }
   }
   pins = []
   last = []
@@ -130,8 +185,12 @@ my.unselect = function (value) {
   }
 }
 
-my.empty = function () {
-  return countVisible() <= 0
+my.scorable = function (ball1, ball2, ball3) {
+  if (countVisible() <= 0) {
+    console.log('score with: nothing')
+    return true
+  }
+  return !canScore(ball1) && !canScore(ball2) && !canScore(ball3)
 }
 
 my.bowl = function () {
@@ -149,13 +208,7 @@ my.down = function () {
 }
 
 my.total = function () {
-  var score = 0
-    , i = 0
-  for (i = 0; i < pins.length; i += 1) {
-    score += $('#pin'+pins[i]).int()
-  }
-  score = parseInt(('' + score).split('').peek(), 10)
-  return score
+  return getScore(pins)
 }
 
 return my
@@ -167,8 +220,6 @@ return my
 var $ = window.jQuery
   , doc = $(document)
   , balls = []
-  , pins = []
-  , last = []
   , chute0 = []
   , chute1 = []
   , chute2 = []
@@ -225,7 +276,7 @@ function resetLane() {
   shuffle(values)
 
   for (i = 0; i < 10; i += 1) {
-    $('#pin'+i).html(values[i]).data(i).remove('hidden')
+    $('#pin'+i).html(values[i]).data(i)
   }
 
   chute0 = values.slice(10, 15)
@@ -235,6 +286,8 @@ function resetLane() {
   resetBall(0, chute0)
   resetBall(1, chute1)
   resetBall(2, chute2)
+
+  console.log('lane reset')
 }
 
 function resetGame () {
@@ -252,7 +305,7 @@ function resetGame () {
 }
 
 function reset () {
-  Pins.reset()
+  Pins.reset(true)
   resetGame()
   resetLane()
 }
@@ -322,17 +375,7 @@ function onPin (event) {
 
 function rollBall () {
   Pins.bowl()
-  if (Pins.empty()) {
-    bowl(Pins.down())
-    resetLane()
-  }
-}
-
-function onBall (event) {
-  var target = $(event.srcElement || event.target)
-    , total = Pins.total()
-
-  if (total !== chute0.peek() && total !== chute1.peek() && total !== chute2.peek()) {
+  while (Pins.scorable(chute0.peek(), chute1.peek(), chute2.peek())) {
     chute0.pop()
     chute1.pop()
     chute2.pop()
@@ -341,8 +384,17 @@ function onBall (event) {
     drawBall(2, chute2)
     bowl(Pins.down())
     Pins.reset()
-    return
+    if (chute0.length <= 0 && chute1.length <= 0 && chute2.length <= 0) {
+      Pins.reset(true)
+      resetLane()
+      break
+    }
   }
+}
+
+function onBall (event) {
+  var target = $(event.srcElement || event.target)
+    , total = Pins.total()
 
   if (target.unwrap().id === 'ball0') {
     if (total === chute0.peek()) {
