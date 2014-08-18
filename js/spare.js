@@ -288,6 +288,10 @@ function resetLane() {
   resetBall(2, chute2)
 
   console.log('lane reset')
+
+  if (Pins.scorable(chute0.peek(), chute1.peek(), chute2.peek())) {
+    resetLane()
+  }
 }
 
 function resetGame () {
