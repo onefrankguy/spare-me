@@ -194,6 +194,19 @@ left: 7.75rem;
 #chute2 {
 left: 15rem;
 }
+#skip {
+position: absolute;
+bottom: 13.6rem;
+left: 7.75rem;
+display: block;
+width: 6.2rem;
+height: 6.2rem;
+font-size: 2.4rem;
+line-height: 6.2rem;
+text-align: center;
+text-transform: uppercase;
+border: 0.1rem solid #000;
+}
 /* SCORE CARD */
 #scores {
 position: absolute;
