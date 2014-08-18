@@ -316,6 +316,7 @@ function reset () {
   Pins.reset(true)
   resetGame()
   resetLane()
+  moveMarker()
 }
 
 function score (turn) {
@@ -346,6 +347,11 @@ function score (turn) {
   }
 }
 
+function moveMarker () {
+  var offset = $('#frame'+frame).center().y - 0.6
+  $('#marker').top(offset)
+}
+
 function bowl (value) {
   if (value === undefined) {
     return
@@ -370,6 +376,7 @@ function bowl (value) {
     frame += 1
   }
   frame += 1
+  moveMarker()
 }
 
 function onPin (event) {
@@ -392,15 +399,13 @@ function nextFrame () {
 }
 
 function onSkip () {
-  if (Pins.scorable(chute0.peek(), chute1.peek(), chute2.peek())) {
-    if (frame % 2 === 1) {
-      nextFrame()
-      Pins.reset()
-    } else {
-      nextFrame()
-      Pins.reset(true)
-      resetLane()
-    }
+  if (frame % 2 === 1 && frame < 21) {
+    nextFrame()
+    Pins.reset()
+  } else {
+    nextFrame()
+    Pins.reset(true)
+    resetLane()
   }
 }
 

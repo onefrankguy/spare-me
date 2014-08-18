@@ -47,6 +47,35 @@ Fn.prototype.int = function (value) {
   return parseInt(this.html(), 10)
 }
 
+Fn.prototype.top = function (value) {
+  if (this.element) {
+    if (value === undefined) {
+      return parseInt(this.element.style.top, 10)
+    }
+    this.element.style.top = value + 'rem'
+  }
+  return this
+}
+
+Fn.prototype.center = function () {
+  var e = this.element
+    , x = 0
+    , y = 0
+
+  if (e) {
+    x = e.offsetWidth / 2
+    y = e.offsetHeight / 2
+  }
+
+  while (e && !isNaN(e.offsetLeft) && !isNaN(e.offsetTop)) {
+    x += e.offsetLeft - e.scrollLeft
+    y += e.offsetTop - e.scrollTop
+    e = e.offsetParent
+  }
+
+  return { x: x / 10, y: y / 10 }
+}
+
 Fn.prototype.has = function (klass) {
   return this.element && this.element.className.indexOf(klass) >= 0
 }
