@@ -52,10 +52,14 @@ vertical-align: baseline;
 #credits {
 position: absolute;
 bottom: 0.3rem;
-right: 0.3rem;
+left: 0.3rem;
 font-size: 1.0rem;
 line-height: 1.0rem;
-text-align: right;
+color: #000;
+opacity: 0.3;
+}
+#credits > a {
+color: inherit;
 }
 /* BOWLING ALLEY */
 #alley {
@@ -141,7 +145,7 @@ left: 8.25rem;
 /* BALLS */
 #balls {
 position: absolute;
-bottom: 5.5rem;
+bottom: 5.7rem;
 left: 0;
 display: block;
 }
@@ -171,7 +175,7 @@ left: 15.5rem;
 /* CHUTES */
 #chutes {
 position: absolute;
-bottom: 3.6rem;
+bottom: 3.8rem;
 left: 0;
 display: block;
 }
@@ -196,14 +200,15 @@ left: 15rem;
 }
 #skip {
 position: absolute;
-bottom: 0.3rem;
-left: 0.5rem;
+bottom: 0.5rem;
+right: 2.2rem;
 display: block;
-padding: 0.3rem;
-font-size: 1.2rem;
-line-height: 1.2rem;
+width: 7.2rem;
+height: 2.2rem;
+font-size: 1.4rem;
+line-height: 2.2rem;
+font-variant: small-caps;
 text-align: center;
-text-transform: uppercase;
 border: 0.1rem solid #000;
 }
 /* SCORE CARD */
