@@ -242,6 +242,14 @@ function shuffle (array) {
   }
 }
 
+function drawSkip () {
+  if ($('#score10').html() !== '') {
+    $('#skip').html('New Game')
+  } else {
+    $('#skip').html('Next Ball')
+  }
+}
+
 function drawChute (selector, count) {
   var i = 0
     , html = ''
@@ -310,6 +318,7 @@ function resetGame () {
   for (i = 1; i <= 21; i += 1) {
     $('#frame'+i).html('')
   }
+  drawSkip()
 }
 
 function reset () {
@@ -407,6 +416,7 @@ function onSkip () {
     Pins.reset(true)
     resetLane()
   }
+  drawSkip()
 }
 
 function onBall (event) {
@@ -439,6 +449,7 @@ function onBall (event) {
     Pins.reset(true)
     resetLane()
   }
+  drawSkip()
 }
 
 Spare.play = function () {
