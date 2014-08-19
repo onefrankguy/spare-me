@@ -101,6 +101,9 @@ function getScore (values) {
   var score = 0
     , pin = null
     , i = 0
+  if (values.length <= 0) {
+    return undefined
+  }
   for (i = 0; i < values.length; i += 1) {
     pin = $('#pin'+values[i])
     if (!pin.has('hidden')) {
