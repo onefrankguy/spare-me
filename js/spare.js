@@ -221,16 +221,108 @@ my.empty = function () {
 return my
 }())
 
+var Scoreboard = (function () {
+'use strict';
+
+var $ = window.jQuery
+  , s = {}
+  , balls = []
+  , frame = 1
+
+function drawMarker () {
+  var offset = $('#frame'+frame).center().y - 0.6
+  $('#marker').top(offset)
+}
+
+function score (turn) {
+  var sum = 0
+    , t = 0
+    , i = 0
+
+  for (t = 1; t <= turn; t += 1) {
+    if (balls[i] === 10) {
+      if (balls.length > i+2) {
+        sum += 10 + balls[i+1] + balls[i+2]
+        $('#score'+t).html(sum)
+      }
+      i += 1
+    } else if (balls[i] + balls[i+1] === 10) {
+      if (balls.length > i+2) {
+        sum += 10 + balls[i+2]
+        $('#score'+t).html(sum)
+      }
+      i += 2
+    } else {
+      if (balls.length > i+1) {
+        sum += balls[i] + balls[i+1]
+        $('#score'+t).html(sum)
+      }
+      i += 2
+    }
+  }
+}
+
+s.reset = function () {
+  var i = 0
+
+  balls = []
+  frame = 1
+
+  for (i = 1; i <= 10; i += 1) {
+    $('#score'+i).html('')
+  }
+  for (i = 1; i <= 21; i += 1) {
+    $('#frame'+i).html('')
+  }
+
+  drawMarker()
+}
+
+s.over = function () {
+  return $('#score10').html() !== ''
+}
+
+s.skippable = function () {
+  return frame % 2 === 1 && frame < 21
+}
+
+s.record = function (value) {
+  if (value === undefined) {
+    return
+  }
+
+  if (this.over()) {
+    return
+  }
+
+  $('#frame'+frame).html(value)
+  if (value === 10) {
+    $('#frame'+frame).html('X')
+  }
+  if (frame % 2 === 0 && value + balls[balls.length - 1] === 10) {
+    $('#frame'+frame).html('/')
+  }
+  balls.push(value)
+  score(Math.ceil(frame / 2))
+
+  if (value === 10 && frame % 2 === 1 && frame < 19) {
+    frame += 1
+  }
+  frame += 1
+  drawMarker()
+}
+
+return s
+}())
+
 ;(function (Spare) {
 'use strict';
 
 var $ = window.jQuery
   , doc = $(document)
-  , balls = []
   , chute0 = []
   , chute1 = []
   , chute2 = []
-  , frame = 1
 
 function shuffle (array) {
   var i = 0
@@ -246,7 +338,7 @@ function shuffle (array) {
 }
 
 function drawSkip () {
-  if ($('#score10').html() !== '') {
+  if (Scoreboard.over()) {
     $('#skip').html('New Game')
   } else {
     $('#skip').html('Next Ball')
@@ -309,86 +401,11 @@ function resetLane() {
   }
 }
 
-function resetGame () {
-  var i = 0
-
-  balls = []
-  frame = 1
-
-  for (i = 1; i <= 10; i += 1) {
-    $('#score'+i).html('')
-  }
-  for (i = 1; i <= 21; i += 1) {
-    $('#frame'+i).html('')
-  }
-  drawSkip()
-}
-
 function reset () {
   Pins.reset(true)
-  resetGame()
+  Scoreboard.reset()
+  drawSkip()
   resetLane()
-  moveMarker()
-}
-
-function score (turn) {
-  var sum = 0
-    , t = 0
-    , i = 0
-
-  for (t = 1; t <= turn; t += 1) {
-    if (balls[i] === 10) {
-      if (balls.length > i+2) {
-        sum += 10 + balls[i+1] + balls[i+2]
-        $('#score'+t).html(sum)
-      }
-      i += 1
-    } else if (balls[i] + balls[i+1] === 10) {
-      if (balls.length > i+2) {
-        sum += 10 + balls[i+2]
-        $('#score'+t).html(sum)
-      }
-      i += 2
-    } else {
-      if (balls.length > i+1) {
-        sum += balls[i] + balls[i+1]
-        $('#score'+t).html(sum)
-      }
-      i += 2
-    }
-  }
-}
-
-function moveMarker () {
-  var offset = $('#frame'+frame).center().y - 0.6
-  $('#marker').top(offset)
-}
-
-function bowl (value) {
-  if (value === undefined) {
-    return
-  }
-
-  if ($('#score10').html() !== '') {
-    reset()
-    return
-  }
-
-  $('#frame'+frame).html(value)
-  if (value === 10) {
-    $('#frame'+frame).html('X')
-  }
-  if (frame % 2 === 0 && value + balls[balls.length - 1] === 10) {
-    $('#frame'+frame).html('/')
-  }
-  balls.push(value)
-  score(Math.ceil(frame / 2))
-
-  if (value === 10 && frame % 2 === 1 && frame < 19) {
-    frame += 1
-  }
-  frame += 1
-  moveMarker()
 }
 
 function onPin (event) {
@@ -401,17 +418,21 @@ function onPin (event) {
 }
 
 function nextFrame () {
-  bowl(Pins.down())
-  chute0.pop()
-  chute1.pop()
-  chute2.pop()
-  drawBall(0, chute0)
-  drawBall(1, chute1)
-  drawBall(2, chute2)
+  if (!Scoreboard.over()) {
+    Scoreboard.record(Pins.down())
+    chute0.pop()
+    chute1.pop()
+    chute2.pop()
+    drawBall(0, chute0)
+    drawBall(1, chute1)
+    drawBall(2, chute2)
+  } else {
+    reset()
+  }
 }
 
 function onSkip () {
-  if (frame % 2 === 1 && frame < 21) {
+  if (Scoreboard.skippable()) {
     nextFrame()
     Pins.reset()
   } else {
