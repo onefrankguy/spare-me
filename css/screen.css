@@ -149,7 +149,7 @@ bottom: 5.7rem;
 left: 0;
 display: block;
 }
-#balls > * {
+#balls > *, .ball {
 position: absolute;
 bottom: 0;
 display: block;
@@ -274,4 +274,7 @@ line-height: 0;
 /* TOGGLES */
 .hidden {
 display: none !important;
+}
+.overlay {
+pointer-events: none !important;
 }

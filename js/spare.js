@@ -158,6 +158,25 @@ function canScore (ball) {
   return false
 }
 
+function pinCenter () {
+  var x = 0
+    , y = 0
+    , i = 0
+    , c = null
+
+  if (pins.length > 0) {
+    for (i = 0; i < pins.length; i += 1) {
+      c = $('#pin'+pins[i]).center()
+      x += c.x
+      y += c.y
+    }
+    x = (x / pins.length) - 2.6
+    y = (y / pins.length) - 2.6
+    return { x: x, y: y }
+  }
+  return undefined
+}
+
 my.reset = function (all) {
   var i = 0
   if (all !== true) {
@@ -169,6 +188,7 @@ my.reset = function (all) {
       $('#pin'+i).remove('picked').remove('hidden')
     }
   }
+  $('#balll').add('hidden')
   pins = []
   last = []
   bowled = 0
@@ -197,9 +217,17 @@ my.playable = function (ball1, ball2, ball3) {
 
 my.bowl = function () {
   var i = 0
+    , c = pinCenter()
+
+  $('#balll').add('hidden')
+  if (c !== undefined) {
+    $('#balll').html(this.total()).remove('hidden').left(c.x).top(c.y)
+  }
+
   for (i = 0; i < pins.length; i += 1) {
     $('#pin'+pins[i]).add('hidden')
   }
+
   bowled += pins.length
   last = pins
   pins = []

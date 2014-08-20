@@ -57,6 +57,16 @@ Fn.prototype.top = function (value) {
   return this
 }
 
+Fn.prototype.left = function (value) {
+  if (this.element) {
+    if (value === undefined) {
+      return parseInt(this.element.style.left, 10)
+    }
+    this.element.style.left = value + 'rem'
+  }
+  return this
+}
+
 Fn.prototype.center = function () {
   var e = this.element
     , x = 0
