@@ -417,7 +417,7 @@ function onPin (event) {
   }
 }
 
-function nextFrame () {
+function nextBall () {
   if (!Scoreboard.over()) {
     Scoreboard.record(Pins.down())
     chute0.pop()
@@ -433,10 +433,10 @@ function nextFrame () {
 
 function onSkip () {
   if (Scoreboard.skippable()) {
-    nextFrame()
+    nextBall()
     Pins.reset()
   } else {
-    nextFrame()
+    nextBall()
     Pins.reset(true)
     resetLane()
   }
@@ -469,7 +469,7 @@ function onBall (event) {
     }
   }
   if (Pins.empty()) {
-    nextFrame()
+    nextBall()
     Pins.reset(true)
     resetLane()
   }
