@@ -188,12 +188,11 @@ my.unselect = function (value) {
   }
 }
 
-my.scorable = function (ball1, ball2, ball3) {
+my.playable = function (ball1, ball2, ball3) {
   if (countVisible() <= 0) {
-    console.log('score with: nothing')
-    return true
+    return false
   }
-  return !canScore(ball1) && !canScore(ball2) && !canScore(ball3)
+  return canScore(ball1) || canScore(ball2) || canScore(ball3)
 }
 
 my.bowl = function () {
@@ -373,32 +372,33 @@ function resetBall (index, values) {
 }
 
 function resetLane() {
-  var i = 0
-    , values = []
+  var values = [0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]
+    , i = 0
 
-  for (i = 0; i < 10; i += 1) {
-    values.push(i)
-    values.push(i)
+  if (!Scoreboard.over()) {
+    do {
+      shuffle(values)
+      for (i = 0; i < 10; i += 1) {
+        $('#pin'+i).html(values[i]).data(i)
+      }
+      chute0 = values.slice(10, 15)
+      chute1 = values.slice(15, 18)
+      chute2 = values.slice(18, 20)
+    } while (!Pins.playable(chute0.peek(), chute1.peek(), chute2.peek()))
+  } else {
+    for (i = 0; i < 10; i += 1) {
+      $('#pin'+i).add('hidden')
+    }
+    chute0 = []
+    chute1 = []
+    chute2 = []
   }
-  shuffle(values)
-
-  for (i = 0; i < 10; i += 1) {
-    $('#pin'+i).html(values[i]).data(i)
-  }
-
-  chute0 = values.slice(10, 15)
-  chute1 = values.slice(15, 18)
-  chute2 = values.slice(18, 20)
 
   resetBall(0, chute0)
   resetBall(1, chute1)
   resetBall(2, chute2)
 
   console.log('lane reset')
-
-  if (Pins.scorable(chute0.peek(), chute1.peek(), chute2.peek())) {
-    resetLane()
-  }
 }
 
 function reset () {
