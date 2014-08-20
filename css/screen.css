@@ -151,7 +151,8 @@ display: block;
 }
 #balls > *, .ball {
 position: absolute;
-bottom: 0;
+top: 0rem;
+left: 0rem;
 display: block;
 width: 4.8rem;
 height: 4.8rem;
@@ -164,12 +165,18 @@ background: #111;
 color: #fff;
 }
 #ball0 {
+bottom: 0rem;
+top: auto;
 left: 1.0rem;
 }
 #ball1 {
+bottom: 0rem;
+top: auto;
 left: 8.25rem;
 }
 #ball2 {
+bottom: 0rem;
+top: auto;
 left: 15.5rem;
 }
 /* CHUTES */
@@ -277,4 +284,9 @@ display: none !important;
 }
 .overlay {
 pointer-events: none !important;
+}
+.rolling {
+-webkit-transition: top 2s, left 2s;
+-moz-transition: top 2s, left 2s;
+-o-transition: top 2s, left 2s;
 }

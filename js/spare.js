@@ -188,7 +188,6 @@ my.reset = function (all) {
       $('#pin'+i).remove('picked').remove('hidden')
     }
   }
-  $('#balll').add('hidden')
   pins = []
   last = []
   bowled = 0
@@ -215,13 +214,20 @@ my.playable = function (ball1, ball2, ball3) {
   return canScore(ball1) || canScore(ball2) || canScore(ball3)
 }
 
-my.bowl = function () {
+my.bowl = function (target) {
   var i = 0
     , c = pinCenter()
+    , b = $('#balll')
 
-  $('#balll').add('hidden')
   if (c !== undefined) {
-    $('#balll').html(this.total()).remove('hidden').left(c.x).top(c.y)
+    b.html(this.total())
+    b.left(target.center().x - 2.6)
+    b.top(target.center().y - 2.6)
+    b.animate('rolling', function () {
+      console.log('done rolling')
+    })
+    b.left(c.x)
+    b.top(c.y)
   }
 
   for (i = 0; i < pins.length; i += 1) {
@@ -478,21 +484,21 @@ function onBall (event) {
     if (total === chute0.peek()) {
       chute0.pop()
       drawBall(0, chute0)
-      Pins.bowl()
+      Pins.bowl(target)
     }
   }
   if (target.unwrap().id === 'ball1') {
     if (total === chute1.peek()) {
       chute1.pop()
       drawBall(1, chute1)
-      Pins.bowl()
+      Pins.bowl(target)
     }
   }
   if (target.unwrap().id === 'ball2') {
     if (total === chute2.peek()) {
       chute2.pop()
       drawBall(2, chute2)
-      Pins.bowl()
+      Pins.bowl(target)
     }
   }
   if (Pins.empty()) {

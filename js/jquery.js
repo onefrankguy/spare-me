@@ -1,4 +1,7 @@
 ;(function () {
+'use strict';
+
+var animations = []
 
 function Fn (selector) {
   var i = 0
@@ -136,6 +139,43 @@ Fn.prototype.off = function (message, callback) {
     this.element.removeEventListener(message, callback, false)
   }
 }
+
+Fn.prototype.animate = function (klass, callback) {
+  var self = this
+
+  function onTransitionEnd () {
+    var i = 0
+      , temp = []
+
+    for (i = 0; i < animations.length; i += 1) {
+      if (animations[i].element !== self &&
+          animations[i].callback !== onTransitionEnd &&
+          animations[i].klass !== klass) {
+        temp.push(animations[i])
+      }
+    }
+    animations = temp
+
+    self.off('webkitTransitionEnd', onTransitionEnd)
+    self.off('otransitionend', onTransitionEnd)
+    self.off('transitionend', onTransitionEnd)
+    self.remove(klass)
+    if (callback) {
+      callback()
+    }
+  }
+
+  if (this.element) {
+    animations.push({ element: self, callback: onTransitionEnd, klass: klass })
+    this.on('webkitTransitionEnd', onTransitionEnd)
+    this.on('otransitionend', onTransitionEnd)
+    this.on('transitionend', onTransitionEnd)
+    this.add(klass)
+  }
+
+  return this
+}
+
 
 Fn.prototype.touch = function (start, end) {
   if (this.element) {
