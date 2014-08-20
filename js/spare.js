@@ -318,7 +318,6 @@ return s
 'use strict';
 
 var $ = window.jQuery
-  , doc = $(document)
   , chute0 = []
   , chute1 = []
   , chute2 = []
@@ -375,6 +374,8 @@ function resetLane() {
   var values = [0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]
     , i = 0
 
+  Pins.reset(true)
+
   if (!Scoreboard.over()) {
     do {
       shuffle(values)
@@ -402,7 +403,6 @@ function resetLane() {
 }
 
 function reset () {
-  Pins.reset(true)
   Scoreboard.reset()
   drawSkip()
   resetLane()
@@ -437,7 +437,6 @@ function onSkip () {
     Pins.reset()
   } else {
     nextBall()
-    Pins.reset(true)
     resetLane()
   }
   drawSkip()
@@ -470,7 +469,6 @@ function onBall (event) {
   }
   if (Pins.empty()) {
     nextBall()
-    Pins.reset(true)
     resetLane()
   }
   drawSkip()
