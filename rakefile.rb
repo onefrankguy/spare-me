@@ -22,6 +22,11 @@ task :demo, :port do |t, args|
   ruby "-rwebrick -e #{src}"
 end
 
+desc 'Publish to the website'
+task :publish do
+  sh 'rsync -avz --delete --files-from=manifest.txt ./ frankmitchell.org:/home/public/spare-me/'
+end
+
 def percent size
   max = 13 * 1024
   (size.to_f / max.to_f * 100).to_i
