@@ -214,29 +214,40 @@ my.playable = function (ball1, ball2, ball3) {
   return canScore(ball1) || canScore(ball2) || canScore(ball3)
 }
 
-my.bowl = function (target) {
+my.bowl = function (target, callback) {
   var i = 0
     , c = pinCenter()
     , b = $('#balll')
 
+  function finish () {
+    for (i = 0; i < pins.length; i += 1) {
+      $('#pin'+pins[i]).add('hidden')
+    }
+
+    bowled += pins.length
+    last = pins
+    pins = []
+
+    b.add('hidden')
+  }
+
   if (c !== undefined) {
+    b.remove('hidden')
     b.html(this.total())
     b.left(target.center().x - 2.6)
     b.top(target.center().y - 2.6)
-    b.animate('rolling', function () {
-      console.log('done rolling')
+    console.log(target.center())
+    b.animate('rolling', function() {
+      finish()
+      if (callback) {
+        callback()
+      }
     })
     b.left(c.x)
     b.top(c.y)
+  } else {
+    finish()
   }
-
-  for (i = 0; i < pins.length; i += 1) {
-    $('#pin'+pins[i]).add('hidden')
-  }
-
-  bowled += pins.length
-  last = pins
-  pins = []
 }
 
 my.down = function () {
