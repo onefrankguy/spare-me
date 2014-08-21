@@ -214,7 +214,7 @@ my.playable = function (ball1, ball2, ball3) {
   return canScore(ball1) || canScore(ball2) || canScore(ball3)
 }
 
-my.bowl = function (target, callback) {
+my.bowl = function (target) {
   var i = 0
     , c = pinCenter()
     , b = $('#balll')
@@ -232,17 +232,11 @@ my.bowl = function (target, callback) {
   }
 
   if (c !== undefined) {
-    b.remove('hidden')
-    b.html(this.total())
     b.left(target.center().x - 2.6)
     b.top(target.center().y - 2.6)
-    console.log(target.center())
-    b.animate('rolling', function() {
-      finish()
-      if (callback) {
-        callback()
-      }
-    })
+    b.html(this.total())
+    b.remove('hidden')
+    b.animate('rolling', finish)
     b.left(c.x)
     b.top(c.y)
   } else {
