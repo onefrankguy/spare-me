@@ -1,4 +1,5 @@
 index.html
 css/screen.css
 js/jquery.js
+js/polyfill.js
 js/spare.js
