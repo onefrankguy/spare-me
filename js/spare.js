@@ -358,7 +358,7 @@ s.record = function (value) {
     frames[frame] = 'X'
   }
   if (frame % 2 === 0 && value + balls[balls.length - 1] === 10) {
-    frames[fram] = '/'
+    frames[frame] = '/'
   }
   balls.push(value)
   score(Math.ceil(frame / 2))
