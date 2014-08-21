@@ -12,16 +12,20 @@ var $ = window.jQuery
   , my = {}
   , pins = []
   , last = []
+  , hidden = []
+  , picked = []
   , bowled = 0
 
 function countVisible() {
   var count = 0
     , i = 0
+
   for (i = 0; i < 10; i += 1) {
-    if (!$('#pin'+i).has('hidden')) {
+    if (!hidden[i]) {
       count += 1
     }
   }
+
   return count
 }
 
@@ -67,7 +71,7 @@ function isValid (values) {
   var i = 0
 
   for (i = 0; i < values.length; i += 1) {
-    if ($('#pin'+values[i]).has('hidden')) {
+    if (hidden[values[i]]) {
       return false
     }
   }
@@ -105,9 +109,8 @@ function getScore (values) {
     return undefined
   }
   for (i = 0; i < values.length; i += 1) {
-    pin = $('#pin'+values[i])
-    if (!pin.has('hidden')) {
-      score += pin.int()
+    if (!hidden[values[i]]) {
+      score += $('#pin'+values[i]).int()
     }
   }
   score = parseInt(('' + score).split('').peek(), 10)
@@ -181,11 +184,13 @@ my.reset = function (all) {
   var i = 0
   if (all !== true) {
     for (i = 0; i < pins.length; i += 1) {
-      $('#pin'+pins[i]).remove('picked').remove('hidden')
+      picked[pins[i]] = false
+      hidden[pins[i]] = false
     }
   } else {
     for (i = 0; i < 10; i += 1) {
-      $('#pin'+i).remove('picked').remove('hidden')
+      picked[i] = false
+      hidden[i] = false
     }
   }
   pins = []
@@ -193,17 +198,36 @@ my.reset = function (all) {
   bowled = 0
 }
 
+my.render = function () {
+  var pin = null
+    , i = 0
+
+  for (i = 0; i < 10; i += 1) {
+    pin = $('#pin'+i)
+    if (hidden[i]) {
+      pin.add('hidden')
+    } else {
+      pin.remove('hidden')
+    }
+    if (picked[i]) {
+      pin.add('picked')
+    } else {
+      pin.remove('picked')
+    }
+  }
+}
+
 my.select = function (value) {
   if (canSelect(value)) {
     pins.push(value)
-    $('#pin'+value).toggle('picked')
+    picked[value] = true
   }
 }
 
 my.unselect = function (value) {
   if (canUnselect(value)) {
     pins.splice(pins.indexOf(value), 1)
-    $('#pin'+value).toggle('picked')
+    picked[value] = false
   }
 }
 
@@ -218,7 +242,7 @@ my.bowl = function () {
   var i = 0
 
   for (i = 0; i < pins.length; i += 1) {
-    $('#pin'+pins[i]).add('hidden')
+    hidden[pins[i]] = true
   }
 
   bowled += pins.length
@@ -502,6 +526,7 @@ function onBall (event) {
 
 function render (time) {
   requestAnimationFrame(render)
+  Pins.render()
   Scoreboard.render()
 }
 
