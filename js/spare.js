@@ -198,6 +198,13 @@ my.reset = function (all) {
   bowled = 0
 }
 
+my.hide = function () {
+  var i = 0
+  for (i = 0; i < 10; i += 1) {
+    hidden[i] = true
+  }
+}
+
 my.render = function () {
   var pin = null
     , i = 0
@@ -445,9 +452,7 @@ function resetLane() {
       chute2 = values.slice(18, 20)
     } while (!Pins.playable(chute0.peek(), chute1.peek(), chute2.peek()))
   } else {
-    for (i = 0; i < 10; i += 1) {
-      $('#pin'+i).add('hidden')
-    }
+    Pins.hide()
     chute0 = []
     chute1 = []
     chute2 = []
