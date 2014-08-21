@@ -231,6 +231,14 @@ my.unselect = function (value) {
   }
 }
 
+my.toggle = function (value) {
+  if (picked[value]) {
+    this.unselect(value)
+  } else {
+    this.select(value)
+  }
+}
+
 my.playable = function (ball1, ball2, ball3) {
   if (countVisible() <= 0) {
     return false
@@ -460,11 +468,7 @@ function reset () {
 
 function onPin (event) {
   var target = $(event.srcElement || event.target)
-  if (target.has('picked')) {
-    Pins.unselect(target.data())
-  } else {
-    Pins.select(target.data())
-  }
+  Pins.toggle(target.data())
 }
 
 function nextBall () {
