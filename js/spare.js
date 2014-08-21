@@ -14,6 +14,7 @@ var $ = window.jQuery
   , last = []
   , hidden = []
   , picked = []
+  , numbers = []
   , bowled = 0
 
 function countVisible() {
@@ -110,7 +111,7 @@ function getScore (values) {
   }
   for (i = 0; i < values.length; i += 1) {
     if (!hidden[values[i]]) {
-      score += $('#pin'+values[i]).int()
+      score += numbers[values[i]]
     }
   }
   score = parseInt(('' + score).split('').peek(), 10)
@@ -198,6 +199,10 @@ my.reset = function (all) {
   bowled = 0
 }
 
+my.set = function (values) {
+  numbers = values
+}
+
 my.hide = function () {
   var i = 0
   for (i = 0; i < 10; i += 1) {
@@ -214,6 +219,7 @@ my.render = function () {
     if (hidden[i]) {
       pin.add('hidden')
     } else {
+      pin.html(numbers[i])
       pin.remove('hidden')
     }
     if (picked[i]) {
@@ -444,9 +450,7 @@ function resetLane() {
   if (!Scoreboard.over()) {
     do {
       shuffle(values)
-      for (i = 0; i < 10; i += 1) {
-        $('#pin'+i).html(values[i]).data(i)
-      }
+      Pins.set(values.slice(0, 10))
       chute0 = values.slice(10, 15)
       chute1 = values.slice(15, 18)
       chute2 = values.slice(18, 20)
