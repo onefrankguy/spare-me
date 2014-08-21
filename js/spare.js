@@ -247,12 +247,9 @@ var Scoreboard = (function () {
 var $ = window.jQuery
   , s = {}
   , balls = []
+  , scores = []
+  , frames = []
   , frame = 1
-
-function drawMarker () {
-  var offset = $('#frame'+frame).center().y - 0.6
-  $('#marker').top(offset)
-}
 
 function score (turn) {
   var sum = 0
@@ -263,19 +260,19 @@ function score (turn) {
     if (balls[i] === 10) {
       if (balls.length > i+2) {
         sum += 10 + balls[i+1] + balls[i+2]
-        $('#score'+t).html(sum)
+        scores[t] = sum
       }
       i += 1
     } else if (balls[i] + balls[i+1] === 10) {
       if (balls.length > i+2) {
         sum += 10 + balls[i+2]
-        $('#score'+t).html(sum)
+        scores[t] = sum
       }
       i += 2
     } else {
       if (balls.length > i+1) {
         sum += balls[i] + balls[i+1]
-        $('#score'+t).html(sum)
+        scores[t] = sum
       }
       i += 2
     }
@@ -283,23 +280,32 @@ function score (turn) {
 }
 
 s.reset = function () {
-  var i = 0
-
   balls = []
+  scores = []
+  frames = []
   frame = 1
+}
 
-  for (i = 1; i <= 10; i += 1) {
-    $('#score'+i).html('')
-  }
-  for (i = 1; i <= 21; i += 1) {
-    $('#frame'+i).html('')
+s.render = function () {
+  var i = 0
+    , html = ''
+    , offset = $('#frame'+frame).center().y - 0.6
+
+  for (i = 1; i < 11; i += 1) {
+    html = scores[i] !== undefined ? scores[i] : ''
+    $('#score'+i).html(html)
   }
 
-  drawMarker()
+  for (i = 1; i < 22; i += 1) {
+    html = frames[i] !== undefined ? frames[i] : ''
+    $('#frame'+i).html(html)
+  }
+
+  $('#marker').top(offset)
 }
 
 s.over = function () {
-  return $('#score10').html() !== ''
+  return scores[10] !== undefined
 }
 
 s.skippable = function () {
@@ -315,12 +321,12 @@ s.record = function (value) {
     return
   }
 
-  $('#frame'+frame).html(value)
+  frames[frame] = value
   if (value === 10) {
-    $('#frame'+frame).html('X')
+    frames[frame] = 'X'
   }
   if (frame % 2 === 0 && value + balls[balls.length - 1] === 10) {
-    $('#frame'+frame).html('/')
+    frames[fram] = '/'
   }
   balls.push(value)
   score(Math.ceil(frame / 2))
@@ -329,7 +335,6 @@ s.record = function (value) {
     frame += 1
   }
   frame += 1
-  drawMarker()
 }
 
 return s
@@ -495,6 +500,11 @@ function onBall (event) {
   drawSkip()
 }
 
+function render (time) {
+  requestAnimationFrame(render)
+  Scoreboard.render()
+}
+
 Spare.play = function () {
   var i = 0
 
@@ -506,6 +516,7 @@ Spare.play = function () {
   }
   $('#skip').touch(onSkip, null)
   reset()
+  requestAnimationFrame(render)
 }
 
 })(window.Spare = window.Spare || {})
