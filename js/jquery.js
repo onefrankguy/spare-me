@@ -90,30 +90,26 @@ Fn.prototype.center = function () {
 }
 
 Fn.prototype.has = function (klass) {
-  return this.element && this.element.className.indexOf(klass) >= 0
+  return this.element && this.element.classList.contains(klass)
 }
 
 Fn.prototype.add = function (klass) {
-  klass = ' ' + klass
-  if (!this.has(klass)) {
-    this.element.className += klass
+  if (this.element) {
+    this.element.classList.add(klass)
   }
   return this
 }
 
 Fn.prototype.remove = function (klass) {
   if (this.element) {
-    var regex = new RegExp('(\\s+)?' + klass, 'g')
-    this.element.className = this.element.className.replace(regex, '')
+    this.element.classList.remove(klass)
   }
   return this
 }
 
 Fn.prototype.toggle = function (klass) {
-  if (this.has(klass)) {
-    this.remove(klass)
-  } else {
-    this.add(klass)
+  if (this.element) {
+    this.element.classList.toggle(klass)
   }
   return this
 }
