@@ -215,9 +215,14 @@ my.playable = function (ball1, ball2, ball3) {
 }
 
 my.bowl = function (target) {
-  var i = 0
-    , c = pinCenter()
-    , b = $('#balll')
+  var b = $('#balll')
+    , c = null
+    , i = 0
+
+  b.left(target.center().x - 2.6)
+  b.top(target.center().y - 2.6)
+  b.html(this.total())
+  c = pinCenter()
 
   function finish () {
     for (i = 0; i < pins.length; i += 1) {
@@ -232,9 +237,6 @@ my.bowl = function (target) {
   }
 
   if (c !== undefined) {
-    b.left(target.center().x - 2.6)
-    b.top(target.center().y - 2.6)
-    b.html(this.total())
     b.remove('hidden')
     b.animate('rolling', finish)
     b.left(c.x)
