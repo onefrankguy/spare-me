@@ -1,10 +1,3 @@
-Array.prototype.peek = function () {
-  if (this.length < 1) {
-    return undefined
-  }
-  return this[this.length - 1]
-}
-
 var Ball = (function () {
 'use strict';
 
@@ -62,7 +55,7 @@ b.html = function (value) {
 }
 
 return b
-})()
+}())
 
 var Pins = (function () {
 'use strict';
@@ -173,7 +166,8 @@ function getScore (values) {
       score += numbers[values[i]]
     }
   }
-  score = parseInt(('' + score).split('').peek(), 10)
+  score = ('' + score).split('')
+  score = parseInt(score[score.length - 1], 10)
   return score
 }
 
@@ -452,6 +446,84 @@ s.record = function (value) {
 return s
 }())
 
+var Chutes = (function () {
+'use strict';
+
+var $ = window.jQuery
+  , c = {}
+  , chute0 = []
+  , chute1 = []
+  , chute2 = []
+
+function peekAt (values) {
+  if (values.length < 1) {
+    return undefined
+  }
+  return values[values.length - 1]
+}
+
+function drawChute (index, count) {
+  var html = ''
+    , i = 0
+
+  for (i = 0; i < count; i += 1) {
+    html += '&#9673; '
+  }
+  for (i = i; i < 5; i += 1) {
+    html += '&#9678; '
+  }
+  $('#chute'+index).html(html)
+}
+
+function drawBall (index, values) {
+  if (values.length > 0) {
+    $('#ball'+index).html(values[values.length - 1])
+    $('#ball'+index).remove('hidden')
+  } else {
+    $('#ball'+index).add('hidden')
+  }
+  drawChute(index, values.length)
+}
+
+c.render = function () {
+  drawBall(0, chute0)
+  drawBall(1, chute1)
+  drawBall(2, chute2)
+}
+
+c.reset = function () {
+  chute0 = []
+  chute1 = []
+  chute2 = []
+}
+
+c.set = function (values) {
+  chute0 = values.slice(0, 5)
+  chute1 = values.slice(5, 8)
+  chute2 = values.slice(8, 10)
+}
+
+c.peek = function (chute) {
+  switch (chute) {
+    case 0: return peekAt(chute0)
+    case 1: return peekAt(chute1)
+    case 2: return peekAt(chute2)
+    default: return undefined
+  }
+}
+
+c.pop = function (value) {
+  switch (value) {
+    case 0: chute0.pop(); break
+    case 1: chute1.pop(); break
+    case 2: chute2.pop(); break
+    default: chute0.pop(); chute1.pop(); chute2.pop()
+  }
+}
+
+return c
+}())
+
 var Timer = {}
 Timer.tick = function (now) {
   Timer.delta = (now - (Timer.then || now)) / 1000
@@ -466,9 +538,6 @@ Timer.reset = function () {
 'use strict';
 
 var $ = window.jQuery
-  , chute0 = []
-  , chute1 = []
-  , chute2 = []
 
 function shuffle (array) {
   var i = 0
@@ -491,36 +560,8 @@ function drawSkip () {
   }
 }
 
-function drawChute (selector, count) {
-  var i = 0
-    , html = ''
-
-  for (i = 0; i < count; i += 1) {
-    html += '&#9673; '
-  }
-  for (i = i; i < 5; i += 1) {
-    html += '&#9678; '
-  }
-  $(selector).html(html)
-}
-
-function drawBall (index, values) {
-  if (values.length > 0) {
-    $('#ball'+index).html(values[values.length - 1])
-  } else {
-    $('#ball'+index).add('hidden')
-  }
-  drawChute('#chute'+index, values.length)
-}
-
-function resetBall (index, values) {
-  $('#ball'+index).remove('hidden')
-  drawBall(index, values)
-}
-
 function resetLane() {
   var values = [0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]
-    , i = 0
 
   Pins.reset(true)
 
@@ -528,20 +569,12 @@ function resetLane() {
     do {
       shuffle(values)
       Pins.set(values.slice(0, 10))
-      chute0 = values.slice(10, 15)
-      chute1 = values.slice(15, 18)
-      chute2 = values.slice(18, 20)
-    } while (!Pins.playable(chute0.peek(), chute1.peek(), chute2.peek()))
+      Chutes.set(values.slice(10, 20))
+    } while (!Pins.playable(Chutes.peek(0), Chutes.peek(1), Chutes.peek(2)))
   } else {
     Pins.hide()
-    chute0 = []
-    chute1 = []
-    chute2 = []
+    Chutes.reset()
   }
-
-  resetBall(0, chute0)
-  resetBall(1, chute1)
-  resetBall(2, chute2)
 
   console.log('lane reset')
 }
@@ -563,12 +596,7 @@ function onPin (event) {
 function nextBall () {
   if (!Scoreboard.over()) {
     Scoreboard.record(Pins.down())
-    chute0.pop()
-    chute1.pop()
-    chute2.pop()
-    drawBall(0, chute0)
-    drawBall(1, chute1)
-    drawBall(2, chute2)
+    Chutes.pop()
   } else {
     reset()
   }
@@ -597,24 +625,21 @@ function onBall (event) {
     , total = Pins.total()
 
   if (target.unwrap().id === 'ball0') {
-    if (total === chute0.peek()) {
-      chute0.pop()
+    if (total === Chutes.peek(0)) {
+      Chutes.pop(0)
       Pins.bowl(target)
-      drawBall(0, chute0)
     }
   }
   if (target.unwrap().id === 'ball1') {
-    if (total === chute1.peek()) {
-      chute1.pop()
+    if (total === Chutes.peek(1)) {
+      Chutes.pop(1)
       Pins.bowl(target)
-      drawBall(1, chute1)
     }
   }
   if (target.unwrap().id === 'ball2') {
-    if (total === chute2.peek()) {
-      chute2.pop()
+    if (total === Chutes.peek(2)) {
+      Chutes.pop(2)
       Pins.bowl(target)
-      drawBall(2, chute2)
     }
   }
   if (Pins.empty()) {
@@ -628,6 +653,7 @@ function render (time) {
   requestAnimationFrame(render)
   Timer.tick(time)
   Pins.render(Timer.delta)
+  Chutes.render()
   Scoreboard.render()
 }
 
