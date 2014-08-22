@@ -297,10 +297,6 @@ my.render = function (delta) {
   var pin = null
     , i = 0
 
-  if (Ball.render(delta).moving()) {
-    return
-  }
-
   if (dirty) {
     for (i = 0; i < 10; i += 1) {
       pin = $('#pin'+i)
@@ -700,9 +696,12 @@ function onBall (event) {
 function render (time) {
   requestAnimationFrame(render)
   Timer.tick(time)
-  Pins.render(Timer.delta)
-  Chutes.render()
-  Scoreboard.render()
+  Ball.render(Timer.delta)
+  if (!Ball.moving()) {
+    Pins.render(Timer.delta)
+    Chutes.render()
+    Scoreboard.render()
+  }
 }
 
 Spare.play = function () {
