@@ -356,6 +356,7 @@ var $ = window.jQuery
   , scores = []
   , frames = []
   , frame = 1
+  , dirty = true
 
 function score (turn) {
   var sum = 0
@@ -390,24 +391,29 @@ s.reset = function () {
   scores = []
   frames = []
   frame = 1
+  dirty = true
 }
 
 s.render = function () {
-  var i = 0
+  var offset = null
     , html = ''
-    , offset = $('#frame'+frame).center().y - 0.6
+    , i = 0
 
-  for (i = 1; i < 11; i += 1) {
-    html = scores[i] !== undefined ? scores[i] : ''
-    $('#score'+i).html(html)
+  if (dirty) {
+    for (i = 1; i < 11; i += 1) {
+      html = scores[i] !== undefined ? scores[i] : ''
+      $('#score'+i).html(html)
+    }
+
+    for (i = 1; i < 22; i += 1) {
+      html = frames[i] !== undefined ? frames[i] : ''
+      $('#frame'+i).html(html)
+    }
+
+    offset = $('#frame'+frame).center().y - 0.6
+    $('#marker').top(offset)
+    dirty = false
   }
-
-  for (i = 1; i < 22; i += 1) {
-    html = frames[i] !== undefined ? frames[i] : ''
-    $('#frame'+i).html(html)
-  }
-
-  $('#marker').top(offset)
 }
 
 s.over = function () {
@@ -441,6 +447,7 @@ s.record = function (value) {
     frame += 1
   }
   frame += 1
+  dirty = true
 }
 
 return s
