@@ -1,5 +1,5 @@
 index.html
-css/screen.css
+css/mobile.css
 js/jquery.js
 js/polyfill.js
 js/spare.js

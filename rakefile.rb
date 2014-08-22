@@ -1,9 +1,12 @@
 require 'rake'
+require 'rubygems'
+gem 'autoprefixer-rails'
+require 'autoprefixer-rails'
 
 task :default => :test
 
 desc "Makes sure the code isn't too big"
-task :test do
+task :test => 'css/mobile.css' do
   sh 'zip -r spare-me.zip . -i@manifest.txt'
   size = ::File.size('spare-me.zip')
   puts "zip size: #{size} bytes (used #{percent size}%)"
@@ -25,6 +28,16 @@ end
 desc 'Publish to the website'
 task :publish do
   sh 'rsync -avz --delete --files-from=manifest.txt ./ frankmitchell.org:/home/public/spare-me/'
+end
+
+desc 'Run Autoprefixer on the CSS'
+task :autoprefix => 'css/mobile.css'
+
+file 'css/mobile.css' => 'css/screen.css' do
+  css = ::File.read('css/screen.css')
+  ::File.open('css/mobile.css', 'w') do |io|
+    io << AutoprefixerRails.process(css)
+  end
 end
 
 def percent size
