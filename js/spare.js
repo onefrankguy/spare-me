@@ -7,23 +7,9 @@ var $ = window.jQuery
   , delta = { x: 0, y: 0 }
   , start = { x: 0, y: 0 }
   , end = { x: 0, y: 0 }
+  , dirty = false
 
-b.render = function (tick) {
-  if (this.moving()) {
-    start.y += delta.y * tick * 100
-    start.x += delta.x * tick * 100
-    element.top(start.y)
-    element.left(start.x)
-    element.remove('hidden')
-  } else {
-    delta = { x: 0, y: 0 }
-    start = end
-    element.add('hidden')
-  }
-  return this
-}
-
-b.moving = function () {
+function keepGoing () {
   if (delta.x < 0 && start.x <= end.x) {
     return false
   }
@@ -39,6 +25,28 @@ b.moving = function () {
   return delta.x != 0 || delta.y != 0
 }
 
+b.render = function (tick) {
+  if (dirty) {
+    if (keepGoing()) {
+      start.y += delta.y * tick * 100
+      start.x += delta.x * tick * 100
+      element.top(start.y)
+      element.left(start.x)
+      element.remove('hidden')
+    } else {
+      delta = { x: 0, y: 0 }
+      start = end
+      element.add('hidden')
+      dirty = false
+    }
+  }
+  return this
+}
+
+b.moving = function () {
+  return dirty
+}
+
 b.move = function (s, e) {
   var v = { x: e.x - s.x, y: e.y - s.y }
     , l = Math.sqrt((v.x * v.x) + (v.y * v.y))
@@ -46,11 +54,13 @@ b.move = function (s, e) {
   delta = { x: v.x / l, y: v.y / l }
   start = s
   end = e
+  dirty = true
   return this
 }
 
 b.html = function (value) {
   element.html(value)
+  dirty = true
   return this
 }
 
