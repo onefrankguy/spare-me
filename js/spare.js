@@ -72,6 +72,7 @@ var Pins = (function () {
 
 var $ = window.jQuery
   , my = {}
+  , allowed = {}
   , pins = []
   , last = []
   , hidden = []
@@ -79,6 +80,20 @@ var $ = window.jQuery
   , numbers = []
   , bowled = 0
   , dirty = true
+
+function initAllowed (index, values) {
+  allowed[index] = {}
+  values.forEach(function (v) {
+    allowed[index][v] = 1
+  })
+}
+
+initAllowed(0, [4,6,7,8,9])
+initAllowed(1, [47,68,78,79,89])
+initAllowed(2, [478,479,678,689,789])
+initAllowed(3, [0,1,2,3,4,5,6,7,8,9])
+initAllowed(4, [1,4,12,14,15,23,25,26,36,45,47,56,57,58,68,78,79,89])
+initAllowed(5, [12,14,15,45,47,123,124,125,126,145,147,156,157,158,235,236,245,256,257,258,268,356,368,456,457,458,478,479,567,568,578,579,589,678,689,789])
 
 function countVisible() {
   var count = 0
@@ -126,9 +141,8 @@ function anyAdjacent (a, b) {
   return false
 }
 
-function isAllowed (values, allowed) {
-  var value = parseInt(values.sort().join(''), 10)
-  return allowed.indexOf(value) > -1
+function isAllowed (values, index) {
+  return allowed[index][parseInt(values.sort().join(''), 10)]
 }
 
 function isValid (values) {
@@ -143,9 +157,9 @@ function isValid (values) {
   if (countVisible() >= 10) {
     switch (values.length) {
       case 0: return true
-      case 1: return isAllowed(values, [4,6,7,8,9])
-      case 2: return isAllowed(values, [47,68,78,79,89])
-      case 3: return isAllowed(values, [478,479,678,689,789])
+      case 1: return isAllowed(values, 0)
+      case 2: return isAllowed(values, 1)
+      case 3: return isAllowed(values, 2)
       default: return false
     }
   }
@@ -158,9 +172,9 @@ function isValid (values) {
 
   switch (values.length) {
     case 0: return true
-    case 1: return isAllowed(values, [0,1,2,3,4,5,6,7,8,9])
-    case 2: return isAllowed(values, [1,4,12,14,15,23,25,26,36,45,47,56,57,58,68,78,79,89])
-    case 3: return isAllowed(values, [12,14,15,45,47,123,124,125,126,145,147,156,157,158,235,236,245,256,257,258,268,356,368,456,457,458,478,479,567,568,578,579,589,678,689,789])
+    case 1: return isAllowed(values, 3)
+    case 2: return isAllowed(values, 4)
+    case 3: return isAllowed(values, 5)
     default: return false
   }
 }
