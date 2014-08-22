@@ -68,6 +68,7 @@ var $ = window.jQuery
   , picked = []
   , numbers = []
   , bowled = 0
+  , dirty = true
 
 function countVisible() {
   var count = 0
@@ -252,10 +253,12 @@ my.reset = function (all) {
   pins = []
   last = []
   bowled = 0
+  dirty = true
 }
 
 my.set = function (values) {
   numbers = values
+  dirty = true
 }
 
 my.hide = function () {
@@ -263,6 +266,7 @@ my.hide = function () {
   for (i = 0; i < 10; i += 1) {
     hidden[i] = true
   }
+  dirty = true
 }
 
 my.render = function (delta) {
@@ -273,19 +277,22 @@ my.render = function (delta) {
     return
   }
 
-  for (i = 0; i < 10; i += 1) {
-    pin = $('#pin'+i)
-    if (hidden[i]) {
-      pin.add('hidden')
-    } else {
-      pin.html(numbers[i])
-      pin.remove('hidden')
+  if (dirty) {
+    for (i = 0; i < 10; i += 1) {
+      pin = $('#pin'+i)
+      if (hidden[i]) {
+        pin.add('hidden')
+      } else {
+        pin.html(numbers[i])
+        pin.remove('hidden')
+      }
+      if (picked[i]) {
+        pin.add('picked')
+      } else {
+        pin.remove('picked')
+      }
     }
-    if (picked[i]) {
-      pin.add('picked')
-    } else {
-      pin.remove('picked')
-    }
+    dirty = false
   }
 }
 
@@ -293,6 +300,7 @@ my.select = function (value) {
   if (canSelect(value)) {
     pins.push(value)
     picked[value] = true
+    dirty = true
   }
 }
 
@@ -300,6 +308,7 @@ my.unselect = function (value) {
   if (canUnselect(value)) {
     pins.splice(pins.indexOf(value), 1)
     picked[value] = false
+    dirty = true
   }
 }
 
@@ -330,6 +339,7 @@ my.bowl = function (target) {
   bowled += pins.length
   last = pins
   pins = []
+  dirty = true
 }
 
 my.down = function () {
