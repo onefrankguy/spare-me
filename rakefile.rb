@@ -1,7 +1,11 @@
 require 'rake'
+require 'rake/clean'
 require 'rubygems'
 gem 'autoprefixer-rails'
 require 'autoprefixer-rails'
+
+CLEAN.include 'css/mobile.css'
+CLEAN.include 'spare-me.zip'
 
 task :default => :test
 
