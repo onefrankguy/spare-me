@@ -159,6 +159,7 @@ text-align: center;
 line-height: 5.2rem;
 background: radial-gradient(circle at 50% 120%, #323232, #0a0a0a 80%, #000000 100%);
 color: #fff;
+box-shadow: 0.2rem 0.2rem 0.5rem #888;
 }
 .ball:before {
 content: "";
