@@ -5,6 +5,65 @@ Array.prototype.peek = function () {
   return this[this.length - 1]
 }
 
+var Ball = (function () {
+'use strict';
+
+var $ = window.jQuery
+  , b = {}
+  , element = $('#balll')
+  , delta = { x: 0, y: 0 }
+  , start = { x: 0, y: 0 }
+  , end = { x: 0, y: 0 }
+
+b.render = function (tick) {
+  if (this.moving()) {
+    start.y += delta.y * tick * 100
+    start.x += delta.x * tick * 100
+    element.top(start.y)
+    element.left(start.x)
+    element.remove('hidden')
+  } else {
+    delta = { x: 0, y: 0 }
+    start = end
+    element.add('hidden')
+  }
+  return this
+}
+
+b.moving = function () {
+  if (delta.x < 0 && start.x <= end.x) {
+    return false
+  }
+  if (delta.y < 0 && start.y <= end.y) {
+    return false
+  }
+  if (delta.x > 0 && start.x >= end.x) {
+    return false
+  }
+  if (delta.y > 0 && start.y >= end.y) {
+    return false
+  }
+  return delta.x != 0 || delta.y != 0
+}
+
+b.move = function (s, e) {
+  var v = { x: e.x - s.x, y: e.y - s.y }
+    , l = Math.sqrt((v.x * v.x) + (v.y * v.y))
+
+  delta = { x: v.x / l, y: v.y / l }
+  start = s
+  end = e
+  return this
+}
+
+b.html = function (value) {
+  element.html(value)
+  return this
+}
+
+return b
+})()
+
 var Pins = (function () {
 'use strict';
 
@@ -162,6 +221,10 @@ function canScore (ball) {
   return false
 }
 
+function ballCenter (point) {
+  return { x: point.x - 2.6, y: point.y - 2.6 }
+}
+
 function pinCenter () {
   var x = 0
     , y = 0
@@ -174,9 +237,7 @@ function pinCenter () {
       x += c.x
       y += c.y
     }
-    x = (x / pins.length) - 2.6
-    y = (y / pins.length) - 2.6
-    return { x: x, y: y }
+    return ballCenter({ x: x / pins.length, y: y / pins.length })
   }
   return undefined
 }
@@ -210,9 +271,13 @@ my.hide = function () {
   }
 }
 
-my.render = function () {
+my.render = function (delta) {
   var pin = null
     , i = 0
+
+  if (Ball.render(delta).moving()) {
+    return
+  }
 
   for (i = 0; i < 10; i += 1) {
     pin = $('#pin'+i)
@@ -259,8 +324,10 @@ my.playable = function (ball1, ball2, ball3) {
   return canScore(ball1) || canScore(ball2) || canScore(ball3)
 }
 
-my.bowl = function () {
+my.bowl = function (target) {
   var i = 0
+
+  Ball.html(target.html()).move(ballCenter(target.center()), pinCenter())
 
   for (i = 0; i < pins.length; i += 1) {
     hidden[pins[i]] = true
@@ -385,6 +452,16 @@ s.record = function (value) {
 return s
 }())
 
+var Timer = {}
+Timer.tick = function (now) {
+  Timer.delta = (now - (Timer.then || now)) / 1000
+  Timer.then = now
+}
+Timer.reset = function () {
+  Timer.then = null
+}
+
+
 ;(function (Spare) {
 'use strict';
 
@@ -476,6 +553,9 @@ function reset () {
 }
 
 function onPin (event) {
+  if (Ball.moving()) {
+    return
+  }
   var target = $(event.srcElement || event.target)
   Pins.toggle(target.data())
 }
@@ -495,6 +575,9 @@ function nextBall () {
 }
 
 function onSkip () {
+  if (Ball.moving()) {
+    return
+  }
   if (Scoreboard.skippable()) {
     nextBall()
     Pins.reset()
@@ -506,28 +589,32 @@ function onSkip () {
 }
 
 function onBall (event) {
+  if (Ball.moving()) {
+    return
+  }
+
   var target = $(event.srcElement || event.target)
     , total = Pins.total()
 
   if (target.unwrap().id === 'ball0') {
     if (total === chute0.peek()) {
       chute0.pop()
+      Pins.bowl(target)
       drawBall(0, chute0)
-      Pins.bowl()
     }
   }
   if (target.unwrap().id === 'ball1') {
     if (total === chute1.peek()) {
       chute1.pop()
+      Pins.bowl(target)
       drawBall(1, chute1)
-      Pins.bowl()
     }
   }
   if (target.unwrap().id === 'ball2') {
     if (total === chute2.peek()) {
       chute2.pop()
+      Pins.bowl(target)
       drawBall(2, chute2)
-      Pins.bowl()
     }
   }
   if (Pins.empty()) {
@@ -539,7 +626,8 @@ function onBall (event) {
 
 function render (time) {
   requestAnimationFrame(render)
-  Pins.render()
+  Timer.tick(time)
+  Pins.render(Timer.delta)
   Scoreboard.render()
 }
 
