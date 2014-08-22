@@ -454,6 +454,7 @@ var $ = window.jQuery
   , chute0 = []
   , chute1 = []
   , chute2 = []
+  , dirty = true
 
 function peekAt (values) {
   if (values.length < 1) {
@@ -486,21 +487,26 @@ function drawBall (index, values) {
 }
 
 c.render = function () {
-  drawBall(0, chute0)
-  drawBall(1, chute1)
-  drawBall(2, chute2)
+  if (dirty) {
+    drawBall(0, chute0)
+    drawBall(1, chute1)
+    drawBall(2, chute2)
+    dirty = false
+  }
 }
 
 c.reset = function () {
   chute0 = []
   chute1 = []
   chute2 = []
+  dirty = true
 }
 
 c.set = function (values) {
   chute0 = values.slice(0, 5)
   chute1 = values.slice(5, 8)
   chute2 = values.slice(8, 10)
+  dirty = true
 }
 
 c.peek = function (chute) {
@@ -519,6 +525,7 @@ c.pop = function (value) {
     case 2: chute2.pop(); break
     default: chute0.pop(); chute1.pop(); chute2.pop()
   }
+  dirty = true
 }
 
 return c
