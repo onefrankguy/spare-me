@@ -2,7 +2,6 @@
 'use strict';
 
 var animations = []
-  , touchable = true
 
 function Fn (selector) {
   var i = 0
@@ -160,7 +159,6 @@ Fn.prototype.animate = function (klass, callback) {
     if (callback) {
       callback()
     }
-    touchable = true
   }
 
   if (this.element) {
@@ -169,7 +167,6 @@ Fn.prototype.animate = function (klass, callback) {
     this.on('otransitionend', onTransitionEnd)
     this.on('transitionend', onTransitionEnd)
     this.add(klass)
-    touchable = false
   }
 
   return this
@@ -179,9 +176,6 @@ Fn.prototype.animate = function (klass, callback) {
 Fn.prototype.touch = function (start, end) {
   if (this.element) {
     this.element.onmousedown = function (event) {
-      if (!touchable) {
-        return
-      }
       if (start) {
         start(event)
       }
@@ -198,9 +192,6 @@ Fn.prototype.touch = function (start, end) {
     }
     this.element.ontouchstart = function (event) {
       this.element.onmousedown = null
-      if (!touchable) {
-        return
-      }
       if (start) {
         start(event)
       }
