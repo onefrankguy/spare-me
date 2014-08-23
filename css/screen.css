@@ -71,7 +71,7 @@ color: #000;
 position: relative;
 display: block;
 width: 32rem;
-height: 48rem;
+height: 75rem;
 margin: 0 auto;
 /* Cicada stripes by Randy Merrill - http://lea.verou.me/css3patterns/#cicada-stripes */
 background-color: #f0dbc9;
@@ -174,7 +174,7 @@ left: 8.25rem;
 /* BALLS */
 #balls {
 position: absolute;
-bottom: 5.7rem;
+top: 42rem;
 left: 0;
 display: block;
 }
@@ -236,7 +236,7 @@ left: 15.5rem;
 /* CHUTES */
 #chutes {
 position: absolute;
-bottom: 3.8rem;
+top: 44rem;
 left: 0;
 display: block;
 }
@@ -357,7 +357,7 @@ line-height: 0;
 /* NOTES */
 #notes {
 position: absolute;
-top: 7rem;
+top: 48rem;
 left: 1rem;
 display: block;
 width: 26rem;

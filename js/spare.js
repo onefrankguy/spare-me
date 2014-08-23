@@ -704,11 +704,6 @@ function render (time) {
   }
 }
 
-function onNotes () {
-  $('#notes').add('hidden')
-  reset()
-}
-
 Spare.play = function () {
   var i = 0
 
@@ -719,11 +714,8 @@ Spare.play = function () {
     $('#ball'+i).touch(onBall, null)
   }
   $('#skip').touch(null, onSkip)
-  $('#notes').touch(null, onNotes)
 
-  Pins.hide()
-  Chutes.reset()
-
+  reset()
   requestAnimationFrame(render)
 }
 
