@@ -697,9 +697,9 @@ function render (time) {
   requestAnimationFrame(render)
   Timer.tick(time)
   Ball.render(Timer.delta)
+  Chutes.render()
   if (!Ball.moving()) {
     Pins.render(Timer.delta)
-    Chutes.render()
     Scoreboard.render()
   }
 }
