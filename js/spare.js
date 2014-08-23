@@ -11,16 +11,16 @@ var $ = window.jQuery
 
 function keepGoing () {
   if (delta.x < 0 && delta.y < 0) {
-    return start.x >= end.x && start.y >= end.y
+    return start.x >= end.x || start.y >= end.y
   }
   if (delta.x < 0 && delta.y > 0) {
-    return start.x >= end.x && start.y <= end.y
+    return start.x >= end.x || start.y <= end.y
   }
   if (delta.x > 0 && delta.y > 0) {
-    return start.x <= end.x && start.y <= end.y
+    return start.x <= end.x || start.y <= end.y
   }
   if (delta.x > 0 && delta.y < 0) {
-    return start.x <= end.x && start.y >= end.y
+    return start.x <= end.x || start.y >= end.y
   }
   return delta.x != 0 || delta.y != 0
 }
@@ -28,7 +28,7 @@ function keepGoing () {
 b.render = function (tick) {
   if (dirty) {
     if (keepGoing()) {
-      start.y += delta.y * tick * 50 * 1.618
+      start.y += delta.y * tick * 50
       start.x += delta.x * tick * 50
       element.top(start.y)
       element.left(start.x)
