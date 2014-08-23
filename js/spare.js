@@ -10,17 +10,17 @@ var $ = window.jQuery
   , dirty = false
 
 function keepGoing () {
-  if (delta.x < 0 && start.x <= end.x) {
-    return false
+  if (delta.x < 0 && delta.y < 0) {
+    return start.x >= end.x && start.y >= end.y
   }
-  if (delta.y < 0 && start.y <= end.y) {
-    return false
+  if (delta.x < 0 && delta.y > 0) {
+    return start.x >= end.x && start.y <= end.y
   }
-  if (delta.x > 0 && start.x >= end.x) {
-    return false
+  if (delta.x > 0 && delta.y > 0) {
+    return start.x <= end.x && start.y <= end.y
   }
-  if (delta.y > 0 && start.y >= end.y) {
-    return false
+  if (delta.x > 0 && delta.y < 0) {
+    return start.x <= end.x && start.y >= end.y
   }
   return delta.x != 0 || delta.y != 0
 }
@@ -28,8 +28,8 @@ function keepGoing () {
 b.render = function (tick) {
   if (dirty) {
     if (keepGoing()) {
-      start.y += delta.y * tick * 100
-      start.x += delta.x * tick * 100
+      start.y += delta.y * tick * 50 * 1.618
+      start.x += delta.x * tick * 50
       element.top(start.y)
       element.left(start.x)
       element.remove('hidden')
