@@ -718,8 +718,8 @@ Spare.play = function () {
   for (i = 0; i < 3; i += 1) {
     $('#ball'+i).touch(onBall, null)
   }
-  $('#skip').touch(onSkip, null)
-  $('#notes').touch(onNotes, null)
+  $('#skip').touch(null, onSkip)
+  $('#notes').touch(null, onNotes)
 
   Pins.hide()
   Chutes.reset()
