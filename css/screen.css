@@ -88,16 +88,44 @@ position: absolute;
 display: block;
 width: 4.8rem;
 height: 4.8rem;
-border: 0.2rem solid #000;
 border-radius: 50%;
 font-size: 2.4rem;
 text-align: center;
 line-height: 4.8rem;
-background: #fff;
+background: radial-gradient(circle at 50% 40%, #fcfcfc, #efeff1 60%, #505050 100%);
+box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
+}
+/* CSS3 spheres - http://learnsome.co/blog/spheres/ */
+#pins > *:before {
+content: "";
+position: absolute;
+background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
+border-radius: 50%;
+bottom: 2.5%;
+left: 5%;
+opacity: 0.6;
+height: 100%;
+width: 90%;
+filter: blur(0.09rem);
+z-index: 2;
+}
+#pins > *:after {
+width: 100%;
+height: 100%;
+content: "";
+position: absolute;
+top: 5%;
+left: 10%;
+border-radius: 50%;
+background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
+transform: translateX(-27%) translateY(-30%) skewX(-20deg);
+filter: blur(0.18rem);
 }
 #pins > .picked {
-background: #eee;
-border: 0.2rem solid #6f0c15;
+box-shadow:
+  0.2rem 0.2rem 0.5rem rgba(0,0,0,.3)
+, 0 0 0.8rem #9b5050
+;
 }
 #pin0 {
 top: 0;
