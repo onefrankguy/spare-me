@@ -598,9 +598,9 @@ function shuffle (array) {
 
 function drawSkip () {
   if (Scoreboard.over()) {
-    $('#skip').html('New Game')
+    $('#skip').html('<span>New Game</span>')
   } else {
-    $('#skip').html('Next Ball')
+    $('#skip').html('<span>Next Ball</span>')
   }
 }
 
