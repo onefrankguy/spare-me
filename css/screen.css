@@ -303,21 +303,21 @@ line-height: 0;
 /* NOTES */
 #notes {
 position: absolute;
-top: 6rem;
-left: 0.3rem;
+top: 7rem;
+left: 1rem;
 display: block;
-width: 20.5rem;
+width: 26rem;
 height: 20.5rem;
 background-color: #fff;
-background-image: linear-gradient(90deg, transparent 0.7rem, #abced4 0.7rem, #abced4 0.9rem, transparent 0.9rem), linear-gradient(#eee 0.1rem, transparent 0.1rem);
-background-size: 100% 1.6rem;
+background-image: linear-gradient(90deg, transparent 0.9rem, #abced4 0.9rem, #abced4 1.1rem, transparent 1.1rem), linear-gradient(#eee 0.1rem, transparent 0.1rem);
+background-size: 100% 1.8rem;
 color: #333;
-padding: 1.0rem 0 1.0rem 1.2rem;
+padding: 1.0rem 0 1.0rem 1.8rem;
 box-shadow: 0 0.7rem 0.7rem 0.2rem rgba(0,0,0,0.3);
 font-family: monospace;
 font-weight: bold;
-font-size: 1.2rem;
-line-height: 1.6rem;
+font-size: 1.6rem;
+line-height: 1.8rem;
 }
 #notes > h3 {
 font-size: 1.8rem;
@@ -326,6 +326,15 @@ margin-bottom: 0.8rem;
 #notes > ol {
 list-style-position: inside;
 white-space: nowrap;
+margin-bottom: 1.8rem;
+}
+.signature {
+font-family: serif;
+font-weight: normal;
+font-style: italic;
+font-size: 1.2rem;
+text-align: right;
+margin: 0.3rem 1.0rem auto auto;
 }
 .tape:before, .tape:after {
 content: "";
