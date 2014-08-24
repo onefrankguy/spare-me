@@ -486,7 +486,7 @@ s.render = function () {
       $('#frame'+i).html(html)
     }
 
-    offset = $('#frame'+frame).center().y - 0.6
+    offset = $('#frame'+frame).center().y - 0.7
     $('#marker').top(offset)
     dirty = false
   }
@@ -691,7 +691,12 @@ function nextBall () {
   }
 }
 
-function onSkip () {
+function onSkip (target) {
+  target.add('pressed')
+}
+
+function offSkip (target) {
+  target.remove('pressed')
   if (Ball.moving()) {
     return
   }
@@ -767,7 +772,7 @@ Spare.play = function () {
     $('#ball'+i).touch(onBall, null)
     $('#level'+i).touch(onLevel, offLevel)
   }
-  $('#skip').touch(null, onSkip)
+  $('#skip').touch(onSkip, offSkip)
 
   reset()
   requestAnimationFrame(render)
