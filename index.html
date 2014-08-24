@@ -25,6 +25,9 @@
     <li id="pin8" data-value="8">8</li>
     <li id="pin9" data-value="9">9</li>
   </ul>
+  <div id="controls">
+    <p id="skip" class="button"><span>Next Ball</span></p>
+  </div>
   <ul id="balls">
     <li id="ball0" class="ball">10</li>
     <li id="ball1" class="ball">10</li>
@@ -35,21 +38,6 @@
     <li id="chute1">&#9673; &#9673; &#9673; &#9678; &#9678;</li>
     <li id="chute2">&#9673; &#9673; &#9678; &#9678; &#9678;</li>
   </ul>
-  <ul id="scores">
-    <li><span id="frame1" class="frame"></span><span id="frame2" class="frame"></span><span id="score1" class="score"></span></li>
-    <li><span id="frame3" class="frame"></span><span id="frame4" class="frame"></span><span id="score2" class="score"></span></li>
-    <li><span id="frame5" class="frame"></span><span id="frame6" class="frame"></span><span id="score3" class="score"></span></li>
-    <li><span id="frame7" class="frame"></span><span id="frame8" class="frame"></span><span id="score4" class="score"></span></li>
-    <li><span id="frame9" class="frame"></span><span id="frame10" class="frame"></span><span id="score5" class="score"></span></li>
-    <li><span id="frame11" class="frame"></span><span id="frame12" class="frame"></span><span id="score6" class="score"></span></li>
-    <li><span id="frame13" class="frame"></span><span id="frame14" class="frame"></span><span id="score7" class="score"></span></li>
-    <li><span id="frame15" class="frame"></span><span id="frame16" class="frame"></span><span id="score8" class="score"></span></li>
-    <li><span id="frame17" class="frame"></span><span id="frame18" class="frame"></span><span id="score9" class="score"></span></li>
-    <li><span id="frame19" class="frame"></span><span id="frame20" class="frame"></span><span id="score10" class="score"></span></li>
-    <li><span id="frame21" class="bonus frame"></span></li>
-  </ul>
-  <p id="marker"></p>
-  <p id="skip" class="button"><span>Next Ball</span></p>
   <div id="notes" class="tape">
     <h3>Rules</h3>
     <ol>
@@ -70,6 +58,20 @@
     <li id="hard" class="button"><span>Hard</span></li>
   </ul>
   <p id="credits">Desgin <abbr title="and">&amp;</abbr> dev by <a href="http://frankmitchell.org/" title="designer, engineer, wizard">Frank Mitchell</a> for <a href="http://js13kgames.com/" title="Andrzej Mazur (Enclave Games): HTML5 and JavaScript game development competition in just 13 kilobytes">Js13kGames</a>.<br />Based on <em>Bowling Solitaire</em> by Sid Sackson.</p>
+  <ul id="scores">
+    <li><span id="frame1" class="frame"></span><span id="frame2" class="frame"></span><span id="score1" class="score"></span></li>
+    <li><span id="frame3" class="frame"></span><span id="frame4" class="frame"></span><span id="score2" class="score"></span></li>
+    <li><span id="frame5" class="frame"></span><span id="frame6" class="frame"></span><span id="score3" class="score"></span></li>
+    <li><span id="frame7" class="frame"></span><span id="frame8" class="frame"></span><span id="score4" class="score"></span></li>
+    <li><span id="frame9" class="frame"></span><span id="frame10" class="frame"></span><span id="score5" class="score"></span></li>
+    <li><span id="frame11" class="frame"></span><span id="frame12" class="frame"></span><span id="score6" class="score"></span></li>
+    <li><span id="frame13" class="frame"></span><span id="frame14" class="frame"></span><span id="score7" class="score"></span></li>
+    <li><span id="frame15" class="frame"></span><span id="frame16" class="frame"></span><span id="score8" class="score"></span></li>
+    <li><span id="frame17" class="frame"></span><span id="frame18" class="frame"></span><span id="score9" class="score"></span></li>
+    <li><span id="frame19" class="frame"></span><span id="frame20" class="frame"></span><span id="score10" class="score"></span></li>
+    <li><span id="frame21" class="bonus frame"></span></li>
+  </ul>
+  <p id="marker"></p>
 </div>
 <p id="balll" class="hidden overlay ball"></p>
 <script type="text/javascript" src="js/polyfill.js"></script>
