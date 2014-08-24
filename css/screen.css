@@ -321,7 +321,7 @@ background-color: #f6eae0;
 box-shadow: 0 .1rem .2rem rgba(0,0,0,.4);
 transition: all .1s ease-in;
 }
-.button > *:active, .pressed > * {
+.button.pressed > * {
 margin-top: .1rem;
 margin-bottom: -.1rem;
 border-bottom: .1rem solid rgba(255,255,255,.5);

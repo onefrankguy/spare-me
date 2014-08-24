@@ -20,6 +20,10 @@ d.render = function () {
   }
 }
 
+d.toggle = function (element) {
+  element.toggle('pressed')
+}
+
 d.set = function (value) {
   level = parseInt(value, 10)
   dirty = true
@@ -671,11 +675,10 @@ function reset () {
   resetLane()
 }
 
-function onPin (event) {
+function onPin (target) {
   if (Ball.moving()) {
     return
   }
-  var target = $(event.srcElement || event.target)
   Pins.toggle(target.data())
 }
 
@@ -702,13 +705,12 @@ function onSkip () {
   drawSkip()
 }
 
-function onBall (event) {
+function onBall (target) {
   if (Ball.moving()) {
     return
   }
 
-  var target = $(event.srcElement || event.target)
-    , total = Pins.total()
+  var total = Pins.total()
 
   if (target.unwrap().id === 'ball0') {
     if (total === Chutes.peek(0)) {
@@ -735,8 +737,11 @@ function onBall (event) {
   drawSkip()
 }
 
-function onLevel (event) {
-  var target = $(event.srcElement || event.target)
+function onLevel (target) {
+  Difficulty.toggle(target)
+}
+
+function offLevel (target) {
   Difficulty.set(target.data())
 }
 
@@ -760,7 +765,7 @@ Spare.play = function () {
   }
   for (i = 0; i < 3; i += 1) {
     $('#ball'+i).touch(onBall, null)
-    $('#level'+i).touch(null, onLevel)
+    $('#level'+i).touch(onLevel, offLevel)
   }
   $('#skip').touch(null, onSkip)
 
