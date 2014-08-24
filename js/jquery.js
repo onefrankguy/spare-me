@@ -175,35 +175,37 @@ Fn.prototype.animate = function (klass, callback) {
 
 Fn.prototype.touch = function (start, end) {
   if (this.element) {
-    this.element.onmousedown = function (event) {
-      if (start) {
-        start(event)
-      }
-      document.onmousemove = function (event) {
-        event.preventDefault()
-      }
-      document.onmouseup = function (event) {
-        if (end) {
-          end(event)
+    if (!'ontouchstart' in document.documentElement) {
+      this.element.onmousedown = function (event) {
+        if (start) {
+          start(event)
         }
-        document.onmousemove = null
-        document.onmouseup = null
-      }
-    }
-    this.element.ontouchstart = function (event) {
-      this.element.onmousedown = null
-      if (start) {
-        start(event)
-      }
-      document.ontouchmove = function (event) {
-        event.preventDefault()
-      }
-      document.ontouchend = function (event) {
-        if (end) {
-          end(event)
+        document.onmousemove = function (event) {
+          event.preventDefault()
         }
-        document.ontouchmove = null
-        document.ontouchend = null
+        document.onmouseup = function (event) {
+          if (end) {
+            end(event)
+          }
+          document.onmousemove = null
+          document.onmouseup = null
+        }
+      }
+    } else {
+      this.element.ontouchstart = function (event) {
+        if (start) {
+          start(event)
+        }
+        document.ontouchmove = function (event) {
+          event.preventDefault()
+        }
+        document.ontouchend = function (event) {
+          if (end) {
+            end(event)
+          }
+          document.ontouchmove = null
+          document.ontouchend = null
+        }
       }
     }
   }
