@@ -1,3 +1,37 @@
+var Difficulty = (function () {
+'use strict';
+
+var $ = window.jQuery
+  , d = {}
+  , level = 1
+  , dirty = true
+
+d.render = function () {
+  var i = 0
+  if (dirty) {
+    for (i = 0; i < 3; i += 1) {
+      if (i !== level) {
+        $('#level'+i).remove('pressed')
+      } else {
+        $('#level'+i).add('pressed')
+      }
+    }
+    dirty = false
+  }
+}
+
+d.set = function (value) {
+  level = parseInt(value, 10)
+  dirty = true
+}
+
+d.get = function () {
+  return level
+}
+
+return d
+}())
+
 var Ball = (function () {
 'use strict';
 
@@ -693,9 +727,15 @@ function onBall (event) {
   drawSkip()
 }
 
+function onLevel (event) {
+  var target = $(event.srcElement || event.target)
+  Difficulty.set(target.data())
+}
+
 function render (time) {
   requestAnimationFrame(render)
   Timer.tick(time)
+  Difficulty.render()
   Ball.render(Timer.delta)
   Chutes.render()
   if (!Ball.moving()) {
@@ -712,6 +752,7 @@ Spare.play = function () {
   }
   for (i = 0; i < 3; i += 1) {
     $('#ball'+i).touch(onBall, null)
+    $('#level'+i).touch(null, onLevel)
   }
   $('#skip').touch(null, onSkip)
 
