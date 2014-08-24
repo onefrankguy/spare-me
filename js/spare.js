@@ -188,29 +188,37 @@ function isValid (values) {
     }
   }
 
-  if (countVisible() >= 10) {
+  if (Difficulty.get() > 0) {
+    if (countVisible() >= 10) {
+      switch (values.length) {
+        case 0: return true
+        case 1: return isAllowed(values, 0)
+        case 2: return isAllowed(values, 1)
+        case 3: return isAllowed(values, 2)
+        default: return false
+      }
+    }
+  }
+
+  if (Difficulty.get() > 1) {
+    if (last.length > 0 && values.length > 0) {
+      if (!anyAdjacent(values, last)) {
+        return false
+      }
+    }
+  }
+
+  if (Difficulty.get() > 0) {
     switch (values.length) {
       case 0: return true
-      case 1: return isAllowed(values, 0)
-      case 2: return isAllowed(values, 1)
-      case 3: return isAllowed(values, 2)
+      case 1: return isAllowed(values, 3)
+      case 2: return isAllowed(values, 4)
+      case 3: return isAllowed(values, 5)
       default: return false
     }
   }
 
-  if (last.length > 0 && values.length > 0) {
-    if (!anyAdjacent(values, last)) {
-      return false
-    }
-  }
-
-  switch (values.length) {
-    case 0: return true
-    case 1: return isAllowed(values, 3)
-    case 2: return isAllowed(values, 4)
-    case 3: return isAllowed(values, 5)
-    default: return false
-  }
+  return values.length <= 3
 }
 
 function getScore (values) {
