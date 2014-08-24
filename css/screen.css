@@ -314,6 +314,7 @@ font-family: sans-serif;
 line-height: 2.0rem;
 font-variant: small-caps;
 border-radius: .5rem;
+border-bottom: .1rem solid transparent;
 color: #ac9d90;
 background-image: -webkit-linear-gradient(bottom, #f3e1d3 0%, #f6e9de 100%);
 background-color: #f6eae0;
@@ -322,6 +323,7 @@ transition: all .1s ease-in;
 }
 .button > *:active, .pressed > * {
 margin-top: .1rem;
+margin-bottom: -.1rem;
 border-bottom: .1rem solid rgba(255,255,255,.5);
 box-shadow: inset 0 .1rem .2rem rgba(0,0,0,.5);
 }
