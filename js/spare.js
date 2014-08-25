@@ -6,6 +6,21 @@ var $ = window.jQuery
   , level = 1
   , dirty = true
 
+function drawRules () {
+  var html = ''
+  if (level >= 0) {
+    html += '<li>Have fun!</li>'
+  }
+  if (level >= 1) {
+    html += '<li>Picked pins must be adjacent.</li>'
+    html += '<li>Remove the front pins first.</li>'
+  }
+  if (level >= 2) {
+    html += '<li>Rule #2 includes pins removed by the last ball.</li>'
+  }
+  $('#rules').html(html)
+}
+
 d.render = function () {
   var i = 0
   if (dirty) {
@@ -16,6 +31,7 @@ d.render = function () {
         $('#level'+i).add('pressed')
       }
     }
+    drawRules()
     dirty = false
   }
 }
