@@ -45,44 +45,27 @@ var $ = window.jQuery
   , delta = { x: 0, y: 0 }
   , start = { x: 0, y: 0 }
   , end = { x: 0, y: 0 }
-  , dirty = false
-
-function keepGoing () {
-  if (delta.x < 0 && delta.y < 0) {
-    return start.x >= end.x || start.y >= end.y
-  }
-  if (delta.x < 0 && delta.y > 0) {
-    return start.x >= end.x || start.y <= end.y
-  }
-  if (delta.x > 0 && delta.y > 0) {
-    return start.x <= end.x || start.y <= end.y
-  }
-  if (delta.x > 0 && delta.y < 0) {
-    return start.x <= end.x || start.y >= end.y
-  }
-  return delta.x != 0 || delta.y != 0
-}
+  , dirty = 0
 
 b.render = function (tick) {
-  if (dirty) {
-    if (keepGoing()) {
-      start.y += delta.y * tick * 50
-      start.x += delta.x * tick * 50
-      element.top(start.y)
-      element.left(start.x)
-      element.remove('hidden')
-    } else {
-      delta = { x: 0, y: 0 }
-      start = end
+  if (dirty === 1) {
+    element.left(start.x)
+    element.top(start.y)
+    element.remove('hidden')
+    dirty = 2
+  } else if (dirty === 2) {
+    element.animate('rolling', function () {
       element.add('hidden')
-      dirty = false
-    }
+      dirty = 0
+    })
+    element.left(end.x)
+    element.top(end.y)
   }
   return this
 }
 
 b.moving = function () {
-  return dirty
+  return dirty > 0
 }
 
 b.move = function (s, e) {
@@ -92,7 +75,7 @@ b.move = function (s, e) {
   delta = { x: v.x / l, y: v.y / l }
   start = s
   end = e
-  dirty = true
+  dirty = 1
   return this
 }
 

@@ -417,5 +417,5 @@ visibility: hidden;
 pointer-events: none !important;
 }
 .rolling {
-transition: top 1s linear, left 1s linear;
+transition: top .6s linear, left .6s linear;
 }
