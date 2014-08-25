@@ -685,7 +685,7 @@ function drawExample() {
     }
     html += ' The last digit of '+score+' is '+digit+'.'
     html += ' Pick ball '+example[0]+'.'
-    html += ' You score '+(pins.length > 2 ? 'three' : (pins.length > 1 ? 'two' : 'one' ))+' points!'
+    html += ' You score '+(pins.length > 2 ? 'three points' : (pins.length > 1 ? 'two points' : 'one point' ))+'!'
     $('#example').html(html)
   }
 }
