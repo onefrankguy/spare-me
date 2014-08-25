@@ -6,6 +6,7 @@ padding: 0;
 font-weight: normal;
 touch-cullout: none;
 user-select: none;
+box-sizing: border-box;
 /* kill the highlight trick phones do */
 -webkit-tap-highlight-color: rgba(0,0,0,0);
 -webkit-tap-highlight-color: transparent;
