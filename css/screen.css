@@ -260,6 +260,9 @@ margin-bottom: 0.8rem;
 .note > ol {
 list-style-position: inside;
 }
+.note > ol + p {
+margin-top: 1.8rem;
+}
 .signature {
 font-family: serif;
 font-weight: normal;

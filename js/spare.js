@@ -110,6 +110,7 @@ var Pins = (function () {
 var $ = window.jQuery
   , my = {}
   , allowed = {}
+  , scoring = []
   , pins = []
   , last = []
   , hidden = []
@@ -262,26 +263,28 @@ function canScore (ball) {
     , j = 0
     , k = 0
   if (ball === undefined) {
+    scoring = []
     return false
   }
   for (i = 0; i < 10; i += 1) {
     if (isValid([i]) && getScore([i]) === ball) {
-      console.log('score with: '+[i]+' ball: '+ball)
+      scoring = [ball,numbers[i]]
       return true
     }
     for (j = 0; j < 10; j += 1) {
       if (isValid([i,j]) && getScore([i,j]) === ball) {
-        console.log('score with: '+[i,j]+' ball: '+ball)
+        scoring = [ball,numbers[i],numbers[j]]
         return true
       }
       for (k = 0; k < 10; k += 1) {
         if (isValid([i,j,k]) && getScore([i,j,k]) === ball) {
-          console.log('score with: '+[i,j,k]+' ball: '+ball)
+          scoring = [ball,numbers[i],numbers[j],numbers[k]]
           return true
         }
       }
     }
   }
+  scoring = []
   return false
 }
 
@@ -387,9 +390,14 @@ my.toggle = function (value) {
 
 my.playable = function (ball1, ball2, ball3) {
   if (countVisible() <= 0) {
+    scoring = []
     return false
   }
   return canScore(ball1) || canScore(ball2) || canScore(ball3)
+}
+
+my.example = function () {
+  return scoring
 }
 
 my.bowl = function (target) {
@@ -649,6 +657,39 @@ function drawSkip () {
   }
 }
 
+function drawExample() {
+  var example = Pins.example()
+    , pins = example.slice(1)
+    , score = 0
+    , digit = 0
+    , html = ''
+    , i = 0
+
+  if (example.length > 0) {
+    for (i = 0; i < pins.length; i += 1) {
+      score += parseInt(pins[i], 10)
+    }
+    digit = ('' + score).split('')
+    digit = parseInt(digit[digit.length - 1], 10)
+
+    html = pins.join(', ')
+    if (pins.length > 1) {
+      // Drop the Oxford comma from the list of pins.
+      i = html.lastIndexOf(',')
+      html = html.substr(0, i) + ' and' + html.substr(i+1)
+    }
+
+    html = ' Pick '+(pins.length > 1 ? 'pins' : 'pin')+' '+html+'.'
+    if (pins.length > 1) {
+      html += ' They sum to '+score+'.'
+    }
+    html += ' The last digit of '+score+' is '+digit+'.'
+    html += ' Pick ball '+example[0]+'.'
+    html += ' You score '+(pins.length > 2 ? 'three' : (pins.length > 1 ? 'two' : 'one' ))+' points!'
+    $('#example').html(html)
+  }
+}
+
 function resetLane() {
   var values = [0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]
 
@@ -672,6 +713,7 @@ function reset () {
   Scoreboard.reset()
   drawSkip()
   resetLane()
+  drawExample()
 }
 
 function onPin (target) {
