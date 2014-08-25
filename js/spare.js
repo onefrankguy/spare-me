@@ -3,7 +3,7 @@ var Difficulty = (function () {
 
 var $ = window.jQuery
   , d = {}
-  , level = 1
+  , level = 0
   , dirty = true
 
 function drawRules () {
