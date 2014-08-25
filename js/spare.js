@@ -271,12 +271,12 @@ function canScore (ball) {
       scoring = [ball,numbers[i]]
       return true
     }
-    for (j = 0; j < 10; j += 1) {
+    for (j = i + 1; j < 10; j += 1) {
       if (isValid([i,j]) && getScore([i,j]) === ball) {
         scoring = [ball,numbers[i],numbers[j]]
         return true
       }
-      for (k = 0; k < 10; k += 1) {
+      for (k = j + 1; k < 10; k += 1) {
         if (isValid([i,j,k]) && getScore([i,j,k]) === ball) {
           scoring = [ball,numbers[i],numbers[j],numbers[k]]
           return true
