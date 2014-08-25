@@ -250,6 +250,7 @@ font-weight: bold;
 font-size: 1.6rem;
 line-height: 1.8rem;
 margin: 0 1.5rem 3.6rem .5rem;
+letter-spacing: -0.1rem;
 }
 .note > h3 {
 font-size: 1.8rem;
@@ -331,6 +332,7 @@ font-size: 1.0rem;
 line-height: 1.0rem;
 color: #000;
 opacity: 0.3;
+text-align: right;
 }
 #credits > a {
 color: inherit;
