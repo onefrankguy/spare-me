@@ -1,3 +1,28 @@
+// A pseudo random number generator based on Alexander Klimov and Adi Shamer's
+// paper "A New Class of Invertible Mappings".
+var PRNG = (function () {
+'use strict';
+
+  var r = {}
+    , max = Math.pow(2, 32)
+    , state = undefined
+
+// Call seed with 'null' to start in a random state.
+r.seed = function (value) {
+  if (value !== undefined) {
+    state = value || Math.random(Math.random() * max)
+  }
+  return state
+}
+
+r.random = function () {
+  state += (state * state) | 5
+  return (state >>> 32) / max
+}
+
+return r
+}())
+
 var Difficulty = (function () {
 'use strict';
 
@@ -635,6 +660,7 @@ Timer.reset = function () {
 'use strict';
 
 var $ = window.jQuery
+  , prng = PRNG.seed(null)
 
 function shuffle (array) {
   var i = 0
@@ -642,7 +668,7 @@ function shuffle (array) {
     , temp = null
 
   for (i = array.length - 1; i > 0; i -= 1) {
-    j = Math.floor(Math.random() * (i + 1))
+    j = Math.floor(PRNG.random() * (i + 1))
     temp = array[i]
     array[i] = array[j]
     array[j] = temp
