@@ -803,25 +803,13 @@ function onBall (target) {
   }
 
   var total = Pins.total()
+    , id = target.data()
 
-  if (target.unwrap().id === 'ball0') {
-    if (total === Chutes.peek(0)) {
-      Chutes.pop(0)
-      Pins.bowl(target)
-    }
+  if (total === Chutes.peek(id)) {
+    Chutes.pop(id)
+    Pins.bowl(target)
   }
-  if (target.unwrap().id === 'ball1') {
-    if (total === Chutes.peek(1)) {
-      Chutes.pop(1)
-      Pins.bowl(target)
-    }
-  }
-  if (target.unwrap().id === 'ball2') {
-    if (total === Chutes.peek(2)) {
-      Chutes.pop(2)
-      Pins.bowl(target)
-    }
-  }
+
   if (Pins.empty()) {
     nextBall()
     resetLane()
