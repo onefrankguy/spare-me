@@ -646,6 +646,35 @@ c.pop = function (value) {
 return c
 }())
 
+var Controls = (function () {
+'use strict';
+
+var $ = window.jQuery
+  , c = {}
+  , dirty = true
+
+function drawButton () {
+  var html = 'Next Ball'
+  if (Scoreboard.over()) {
+    html = 'New Game'
+  }
+  $('#skip').html('<span>'+html+'</span>')
+}
+
+c.render = function () {
+  if (dirty) {
+    drawButton()
+    dirty = false
+  }
+}
+
+c.invalidate = function () {
+  dirty = true
+}
+
+return c
+}())
+
 var Timer = {}
 Timer.tick = function (now) {
   Timer.delta = (now - (Timer.then || now)) / 1000
@@ -654,7 +683,6 @@ Timer.tick = function (now) {
 Timer.reset = function () {
   Timer.then = null
 }
-
 
 ;(function (Spare) {
 'use strict';
@@ -672,14 +700,6 @@ function shuffle (array) {
     temp = array[i]
     array[i] = array[j]
     array[j] = temp
-  }
-}
-
-function drawSkip () {
-  if (Scoreboard.over()) {
-    $('#skip').html('<span>New Game</span>')
-  } else {
-    $('#skip').html('<span>Next Ball</span>')
   }
 }
 
@@ -737,7 +757,7 @@ function resetLane() {
 
 function reset () {
   Scoreboard.reset()
-  drawSkip()
+  Controls.invalidate()
   resetLane()
   drawExample()
 }
@@ -774,7 +794,7 @@ function offSkip (target) {
     nextBall()
     resetLane()
   }
-  drawSkip()
+  Controls.invalidate()
 }
 
 function onBall (target) {
@@ -806,7 +826,8 @@ function onBall (target) {
     nextBall()
     resetLane()
   }
-  drawSkip()
+
+  Controls.invalidate()
 }
 
 function onLevel (target) {
@@ -826,6 +847,7 @@ function render (time) {
   if (!Ball.moving()) {
     Pins.render(Timer.delta)
     Scoreboard.render()
+    Controls.render()
   }
 }
 
