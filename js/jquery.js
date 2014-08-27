@@ -81,8 +81,8 @@ Fn.prototype.center = function () {
   }
 
   while (e && !isNaN(e.offsetLeft) && !isNaN(e.offsetTop)) {
-    x += e.offsetLeft - e.scrollLeft
-    y += e.offsetTop - e.scrollTop
+    x += e.offsetLeft
+    y += e.offsetTop
     e = e.offsetParent
   }
 
