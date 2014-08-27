@@ -10,7 +10,10 @@ var PRNG = (function () {
 // Call seed with 'null' to start in a random state.
 r.seed = function (value) {
   if (value !== undefined) {
-    state = value || Math.random(Math.random() * max)
+    state = parseInt(value, 10)
+  }
+  if (isNaN(state)) {
+    state = Math.random(Math.random() * max)
   }
   return state
 }
@@ -694,6 +697,20 @@ function drawExample() {
   }
 }
 
+function loadHashGame () {
+  var hash = window.location.hash.substring(1)
+
+  if (/^[0-9A-F]{6}$/i.test(hash)) {
+    PRNG.seed(parseInt(hash, 16))
+  } else {
+    PRNG.seed(null)
+    hash = Math.floor(Math.random() * 1677216)
+    PRNG.seed(hash)
+    window.location.hash = ('000000' + hash.toString(16)).substr(-6)
+  }
+  console.log(PRNG.seed())
+}
+
 c.render = function () {
   if (dirty) {
     if (Scoreboard.over()) {
@@ -720,6 +737,10 @@ c.reset = function (all) {
   dirty = true
 }
 
+c.load = function () {
+  loadHashGame()
+}
+
 return c
 }())
 
@@ -727,7 +748,6 @@ return c
 'use strict';
 
 var $ = window.jQuery
-  , prng = PRNG.seed(null)
 
 function shuffle (array) {
   var i = 0
@@ -854,6 +874,7 @@ Spare.play = function () {
   $('#nextBall').touch(onNextBall, offNextBall)
   $('#newGame').touch(onNewGame, offNewGame)
 
+  Controls.load()
   offNewGame($('#newGame'))
   requestAnimationFrame(render)
 }
