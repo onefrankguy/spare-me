@@ -414,10 +414,6 @@ my.toggle = function (value) {
 }
 
 my.playable = function (ball1, ball2, ball3) {
-  if (countVisible() <= 0) {
-    scoring = []
-    return false
-  }
   return canScore(ball1) || canScore(ball2) || canScore(ball3)
 }
 
@@ -660,50 +656,8 @@ var Controls = (function () {
 
 var $ = window.jQuery
   , c = {}
+  , example = false
   , dirty = false
-
-c.render = function () {
-  if (dirty) {
-    if (Scoreboard.over()) {
-      $('#nextBall').add('invisible')
-      $('#newGame').remove('invisible')
-    } else {
-      $('#newGame').add('invisible')
-      $('#nextBall').remove('invisible')
-    }
-    dirty = false
-  }
-}
-
-c.invalidate = function () {
-  if (Scoreboard.over()) {
-    Pins.hide()
-    Chutes.hide()
-  }
-  dirty = true
-}
-
-return c
-}())
-
-;(function (Spare) {
-'use strict';
-
-var $ = window.jQuery
-  , prng = PRNG.seed(null)
-
-function shuffle (array) {
-  var i = 0
-    , j = 0
-    , temp = null
-
-  for (i = array.length - 1; i > 0; i -= 1) {
-    j = Math.floor(PRNG.random() * (i + 1))
-    temp = array[i]
-    array[i] = array[j]
-    array[j] = temp
-  }
-}
 
 function drawExample() {
   var example = Pins.example()
@@ -735,6 +689,54 @@ function drawExample() {
     html += ' Pick ball '+example[0]+'.'
     html += ' You score '+(pins.length > 2 ? 'three points' : (pins.length > 1 ? 'two points' : 'one point' ))+'!'
     $('#example').html(html)
+  }
+}
+
+c.render = function () {
+  if (dirty) {
+    if (Scoreboard.over()) {
+      $('#nextBall').add('invisible')
+      $('#newGame').remove('invisible')
+    } else {
+      $('#newGame').add('invisible')
+      $('#nextBall').remove('invisible')
+    }
+    if (example === true) {
+      drawExample()
+      example = false
+    }
+    dirty = false
+  }
+}
+
+c.reset = function (all) {
+  if (Scoreboard.over()) {
+    Pins.hide()
+    Chutes.hide()
+  }
+  example = all
+  dirty = true
+}
+
+return c
+}())
+
+;(function (Spare) {
+'use strict';
+
+var $ = window.jQuery
+  , prng = PRNG.seed(null)
+
+function shuffle (array) {
+  var i = 0
+    , j = 0
+    , temp = null
+
+  for (i = array.length - 1; i > 0; i -= 1) {
+    j = Math.floor(PRNG.random() * (i + 1))
+    temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
   }
 }
 
@@ -779,7 +781,7 @@ function offNextBall (target) {
     nextFrame()
   }
 
-  Controls.invalidate()
+  Controls.reset()
 }
 
 function onNewGame (target) {
@@ -794,7 +796,7 @@ function offNewGame (target) {
 
   nextFrame()
   Scoreboard.reset()
-  Controls.invalidate()
+  Controls.reset(true)
 }
 
 function onBall (target) {
@@ -814,7 +816,7 @@ function onBall (target) {
     nextFrame()
   }
 
-  Controls.invalidate()
+  Controls.reset()
 }
 
 function onLevel (target) {
