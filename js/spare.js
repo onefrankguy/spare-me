@@ -708,7 +708,6 @@ function loadHashGame () {
     PRNG.seed(hash)
     window.location.hash = ('000000' + hash.toString(16)).substr(-6)
   }
-  console.log(PRNG.seed())
 }
 
 c.render = function () {
@@ -861,6 +860,11 @@ function render () {
   }
 }
 
+function newGame () {
+  Controls.load()
+  offNewGame($('#newGame'))
+}
+
 Spare.play = function () {
   var i = 0
 
@@ -873,9 +877,9 @@ Spare.play = function () {
   }
   $('#nextBall').touch(onNextBall, offNextBall)
   $('#newGame').touch(onNewGame, offNewGame)
+  $(window).on('hashchange', newGame)
 
-  Controls.load()
-  offNewGame($('#newGame'))
+  newGame()
   requestAnimationFrame(render)
 }
 
