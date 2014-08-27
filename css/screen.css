@@ -416,6 +416,9 @@ line-height: 0;
 .hidden {
 visibility: hidden;
 }
+.invisible {
+display: none !important;
+}
 .overlay {
 pointer-events: none !important;
 }

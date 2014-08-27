@@ -601,6 +601,13 @@ function drawBall (index, values) {
   drawChute(index, values.length)
 }
 
+c.hide = function () {
+  chute0 = []
+  chute1 = []
+  chute2 = []
+  dirty = true
+}
+
 c.render = function () {
   if (dirty) {
     drawBall(0, chute0)
@@ -610,10 +617,12 @@ c.render = function () {
   }
 }
 
-c.reset = function () {
-  chute0 = []
-  chute1 = []
-  chute2 = []
+c.reset = function (all) {
+  if (all !== true) {
+    this.pop()
+  } else {
+    this.hide()
+  }
   dirty = true
 }
 
@@ -651,24 +660,26 @@ var Controls = (function () {
 
 var $ = window.jQuery
   , c = {}
-  , dirty = true
-
-function drawButton () {
-  var html = 'Next Ball'
-  if (Scoreboard.over()) {
-    html = 'New Game'
-  }
-  $('#skip').html('<span>'+html+'</span>')
-}
+  , dirty = false
 
 c.render = function () {
   if (dirty) {
-    drawButton()
+    if (Scoreboard.over()) {
+      $('#nextBall').add('invisible')
+      $('#newGame').remove('invisible')
+    } else {
+      $('#newGame').add('invisible')
+      $('#nextBall').remove('invisible')
+    }
     dirty = false
   }
 }
 
 c.invalidate = function () {
+  if (Scoreboard.over()) {
+    Pins.hide()
+    Chutes.hide()
+  }
   dirty = true
 }
 
@@ -736,30 +747,22 @@ function drawExample() {
   }
 }
 
-function resetLane() {
+function nextFrame () {
   var values = [0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]
-
+  Scoreboard.record(Pins.down())
   Pins.reset(true)
-
-  if (!Scoreboard.over()) {
-    do {
-      shuffle(values)
-      Pins.set(values.slice(0, 10))
-      Chutes.set(values.slice(10, 20))
-    } while (!Pins.playable(Chutes.peek(0), Chutes.peek(1), Chutes.peek(2)))
-  } else {
-    Pins.hide()
-    Chutes.reset()
-  }
-
-  console.log('lane reset')
+  Chutes.reset(true)
+  do {
+    shuffle(values)
+    Pins.set(values.slice(0, 10))
+    Chutes.set(values.slice(10, 20))
+  } while (!Pins.playable(Chutes.peek(0), Chutes.peek(1), Chutes.peek(2)))
 }
 
-function reset () {
-  Scoreboard.reset()
-  Controls.invalidate()
-  resetLane()
-  drawExample()
+function nextBall () {
+  Scoreboard.record(Pins.down())
+  Pins.reset()
+  Chutes.reset()
 }
 
 function onPin (target) {
@@ -769,31 +772,37 @@ function onPin (target) {
   Pins.toggle(target.data())
 }
 
-function nextBall () {
-  if (!Scoreboard.over()) {
-    Scoreboard.record(Pins.down())
-    Chutes.pop()
-  } else {
-    reset()
-  }
-}
-
-function onSkip (target) {
+function onNextBall (target) {
   target.add('pressed')
 }
 
-function offSkip (target) {
+function offNextBall (target) {
   target.remove('pressed')
   if (Ball.moving()) {
     return
   }
+
   if (Scoreboard.skippable()) {
     nextBall()
-    Pins.reset()
   } else {
-    nextBall()
-    resetLane()
+    nextFrame()
   }
+
+  Controls.invalidate()
+}
+
+function onNewGame (target) {
+  target.add('pressed')
+}
+
+function offNewGame (target) {
+  target.remove('pressed')
+  if (Ball.moving()) {
+    return
+  }
+
+  nextFrame()
+  Scoreboard.reset()
   Controls.invalidate()
 }
 
@@ -811,8 +820,7 @@ function onBall (target) {
   }
 
   if (Pins.empty()) {
-    nextBall()
-    resetLane()
+    nextFrame()
   }
 
   Controls.invalidate()
@@ -849,9 +857,10 @@ Spare.play = function () {
     $('#ball'+i).touch(onBall, null)
     $('#level'+i).touch(onLevel, offLevel)
   }
-  $('#skip').touch(onSkip, offSkip)
+  $('#nextBall').touch(onNextBall, offNextBall)
+  $('#newGame').touch(onNewGame, offNewGame)
 
-  reset()
+  offNewGame($('#newGame'))
   requestAnimationFrame(render)
 }
 
