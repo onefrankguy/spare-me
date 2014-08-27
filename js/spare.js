@@ -88,7 +88,7 @@ var $ = window.jQuery
   , end = { x: 0, y: 0 }
   , dirty = 0
 
-b.render = function (tick) {
+b.render = function () {
   if (dirty === 1) {
     element.left(start.x)
     element.top(start.y)
@@ -366,7 +366,7 @@ my.hide = function () {
   dirty = true
 }
 
-my.render = function (delta) {
+my.render = function () {
   var pin = null
     , i = 0
 
@@ -686,15 +686,6 @@ c.invalidate = function () {
 return c
 }())
 
-var Timer = {}
-Timer.tick = function (now) {
-  Timer.delta = (now - (Timer.then || now)) / 1000
-  Timer.then = now
-}
-Timer.reset = function () {
-  Timer.then = null
-}
-
 ;(function (Spare) {
 'use strict';
 
@@ -834,14 +825,13 @@ function offLevel (target) {
   Difficulty.set(target.data())
 }
 
-function render (time) {
+function render () {
   requestAnimationFrame(render)
-  Timer.tick(time)
   Difficulty.render()
-  Ball.render(Timer.delta)
+  Ball.render()
   Chutes.render()
   if (!Ball.moving()) {
-    Pins.render(Timer.delta)
+    Pins.render()
     Scoreboard.render()
     Controls.render()
   }
