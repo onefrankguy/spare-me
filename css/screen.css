@@ -382,9 +382,6 @@ border-bottom: 0.1rem solid #000;
 top: 50%;
 border-bottom: 0.2rem solid #000;
 }
-#scores .bonus {
-border: none;
-}
 #scores .score {
 position: absolute;
 top: 0;
@@ -414,7 +411,7 @@ line-height: 0;
 }
 /* TOGGLES */
 .hidden {
-visibility: hidden;
+visibility: hidden !important;
 }
 .invisible {
 display: none !important;

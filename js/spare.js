@@ -515,7 +515,9 @@ s.render = function () {
     }
 
     offset = $('#frame'+frame).center().y - 0.7
-    $('#marker').top(offset)
+    if (offset > 0) {
+      $('#marker').top(offset)
+    }
     dirty = false
   }
 }
