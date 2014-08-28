@@ -178,7 +178,7 @@ d.render = function () {
       }
     }
     drawRules()
-    dirty = false
+    this.save()
   }
 }
 
@@ -188,7 +188,7 @@ d.toggle = function (element) {
 
 d.set = function (value) {
   level = parseInt(value, 10)
-  this.save()
+  dirty = true
 }
 
 d.get = function () {
@@ -197,7 +197,7 @@ d.get = function () {
 
 d.save = function () {
   Storage.save('level', level)
-  dirty = true
+  dirty = false
 }
 
 d.load = function () {
@@ -474,7 +474,7 @@ my.save = function () {
   Storage.save('picked', picked)
   Storage.save('numbers', numbers)
   Storage.save('bowled', bowled)
-  dirty = true
+  dirty = false
 }
 
 my.load = function () {
@@ -515,12 +515,12 @@ my.reset = function (all) {
   pins = []
   last = []
   bowled = 0
-  this.save()
+  dirty = true
 }
 
 my.set = function (values) {
   numbers = values
-  this.save()
+  dirty = true
 }
 
 my.hide = function () {
@@ -528,7 +528,7 @@ my.hide = function () {
   for (i = 0; i < 10; i += 1) {
     hidden[i] = true
   }
-  this.save()
+  dirty = true
 }
 
 my.render = function () {
@@ -550,7 +550,7 @@ my.render = function () {
         pin.remove('picked')
       }
     }
-    dirty = false
+    this.save()
   }
 }
 
@@ -558,7 +558,7 @@ my.select = function (value) {
   if (canSelect(value)) {
     pins.push(value)
     picked[value] = true
-    this.save()
+    dirty = true
   }
 }
 
@@ -566,7 +566,7 @@ my.unselect = function (value) {
   if (canUnselect(value)) {
     pins.splice(pins.indexOf(value), 1)
     picked[value] = false
-    this.save()
+    dirty = true
   }
 }
 
@@ -598,7 +598,7 @@ my.bowl = function (target) {
   bowled += pins.length
   last = pins
   pins = []
-  this.save()
+  dirty = true
 }
 
 my.down = function () {
