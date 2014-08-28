@@ -118,7 +118,7 @@ g.load = function () {
   }
 }
 
-g.start = function (callback) {
+g.start = function () {
   var hash = window.location.hash.substring(1)
 
   if (/^[0-9A-F]{6}$/i.test(hash)) {
@@ -134,6 +134,7 @@ g.start = function (callback) {
   PRNG.seed(parseInt(color, 16))
   console.log('starting game: #'+color)
   if (window.location.hash.substring(1) !== color) {
+    Storage.clear()
     window.location.hash = color
   } else {
     Scoreboard.reset()
@@ -1054,7 +1055,7 @@ Spare.play = function () {
   Pins.load()
   Chutes.load()
   Game.load()
-  Game.start(onHashChange)
+  Game.start()
   requestAnimationFrame(render)
 }
 
