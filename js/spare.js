@@ -1,3 +1,24 @@
+var Storage = (function () {
+'use strict';
+
+var s = {}
+
+s.saveInt = function (key, item) {
+  localStorage.setItem(key, item)
+}
+
+s.loadInt = function (key) {
+  return parseInt(localStorage.getItem(key), 10)
+}
+
+s.has = function (key) {
+  var item = localStorage.getItem(key)
+  return item !== undefined && item !== null
+}
+
+return s
+}())
+
 // A pseudo random number generator based on Alexander Klimov and Adi Shamer's
 // paper "A New Class of Invertible Mappings".
 var PRNG = (function () {
@@ -71,7 +92,6 @@ d.toggle = function (element) {
 d.set = function (value) {
   level = parseInt(value, 10)
   this.save()
-  dirty = true
 }
 
 d.get = function () {
@@ -79,12 +99,15 @@ d.get = function () {
 }
 
 d.save = function () {
-  localStorage.setItem('level', level)
+  Storage.saveInt('level', level)
+  dirty = true
 }
 
 d.load = function () {
-  level = parseInt(localStorage.getItem('level'), 10)
-  dirty = true
+  if (Storage.has('level')) {
+    level = Storage.loadInt('level')
+    dirty = true
+  }
 }
 
 return d
@@ -749,28 +772,15 @@ c.reset = function (all) {
     Chutes.hide()
   }
   example = all
-  this.save()
   dirty = true
 }
 
-c.save = function () {
-  localStorage.setItem('seed', PRNG.seed())
-}
-
 c.load = function () {
-  var loaded = loadHashGame()
-    , seed = localStorage.getItem('seed')
-
-  if (seed !== undefined) {
-    PRNG.seed(parseInt(seed, 10))
-    Difficulty.load()
-    loaded = true
-  }
-
-  return loaded
+  return loadHashGame()
 }
 
 c.next = function () {
+  localStorage.clear()
   newHashGame()
 }
 
@@ -911,6 +921,9 @@ Spare.play = function () {
   $('#nextBall').touch(onNextBall, offNextBall)
   $('#newGame').touch(onNewGame, offNewGame)
   $(window).on('hashchange', onHashChange)
+
+  // Reload a previous saved game if we have one.
+  Difficulty.load()
 
   if (Controls.load()) {
     onHashChange()
