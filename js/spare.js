@@ -70,11 +70,21 @@ d.toggle = function (element) {
 
 d.set = function (value) {
   level = parseInt(value, 10)
+  this.save()
   dirty = true
 }
 
 d.get = function () {
   return level
+}
+
+d.save = function () {
+  localStorage.setItem('level', level)
+}
+
+d.load = function () {
+  level = parseInt(localStorage.getItem('level'), 10)
+  dirty = true
 }
 
 return d
@@ -739,11 +749,25 @@ c.reset = function (all) {
     Chutes.hide()
   }
   example = all
+  this.save()
   dirty = true
 }
 
+c.save = function () {
+  localStorage.setItem('seed', PRNG.seed())
+}
+
 c.load = function () {
-  return loadHashGame()
+  var loaded = loadHashGame()
+    , seed = localStorage.getItem('seed')
+
+  if (seed !== undefined) {
+    PRNG.seed(parseInt(seed, 10))
+    Difficulty.load()
+    loaded = true
+  }
+
+  return loaded
 }
 
 c.next = function () {
