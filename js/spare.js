@@ -22,6 +22,24 @@ s.loadString = function (key) {
   return this.load(key)
 }
 
+s.loadInts = function (key) {
+  var items = this.load(key).split(',')
+    , i = 0
+  for (i = 0; i < items.length; i += 1) {
+    items[i] = parseInt(items[i], 10)
+  }
+  return items
+}
+
+s.loadBools = function (key) {
+  var items = this.load(key).split(',')
+    , i = 0
+  for (i = 0; i < items.length; i += 1) {
+    items[i] = (items[i] === 'true')
+  }
+  return items
+}
+
 s.has = function (key) {
   var item = localStorage.getItem(key)
   return item !== undefined && item !== null
@@ -107,7 +125,8 @@ g.start = function (callback) {
   if (window.location.hash.substring(1) !== color) {
     window.location.hash = color
   } else {
-    callback()
+    Scoreboard.reset()
+    Controls.reset(true)
   }
 }
 
@@ -444,6 +463,38 @@ function pinCenter () {
   return undefined
 }
 
+my.save = function () {
+  Storage.save('pins', pins)
+  Storage.save('last', last)
+  Storage.save('hidden', hidden)
+  Storage.save('picked', picked)
+  Storage.save('numbers', numbers)
+  Storage.save('bowled', bowled)
+  dirty = true
+}
+
+my.load = function () {
+  if (Storage.has('pins')) {
+    pins = Storage.loadInts('pins')
+  }
+  if (Storage.has('last')) {
+    last = Storage.loadInts('last')
+  }
+  if (Storage.has('hidden')) {
+    hidden = Storage.loadBools('hidden')
+  }
+  if (Storage.has('picked')) {
+    picked = Storage.loadBools('picked')
+  }
+  if (Storage.has('numbers')) {
+    numbers = Storage.loadInts('numbers')
+  }
+  if (Storage.has('bowled')) {
+    bowled = Storage.loadInt('bowled')
+  }
+  dirty = true
+}
+
 my.reset = function (all) {
   var i = 0
   if (all !== true) {
@@ -460,12 +511,12 @@ my.reset = function (all) {
   pins = []
   last = []
   bowled = 0
-  dirty = true
+  this.save()
 }
 
 my.set = function (values) {
   numbers = values
-  dirty = true
+  this.save()
 }
 
 my.hide = function () {
@@ -473,7 +524,7 @@ my.hide = function () {
   for (i = 0; i < 10; i += 1) {
     hidden[i] = true
   }
-  dirty = true
+  this.save()
 }
 
 my.render = function () {
@@ -503,7 +554,7 @@ my.select = function (value) {
   if (canSelect(value)) {
     pins.push(value)
     picked[value] = true
-    dirty = true
+    this.save()
   }
 }
 
@@ -511,7 +562,7 @@ my.unselect = function (value) {
   if (canUnselect(value)) {
     pins.splice(pins.indexOf(value), 1)
     picked[value] = false
-    dirty = true
+    this.save()
   }
 }
 
@@ -543,7 +594,7 @@ my.bowl = function (target) {
   bowled += pins.length
   last = pins
   pins = []
-  dirty = true
+  this.save()
 }
 
 my.down = function () {
@@ -969,6 +1020,7 @@ Spare.play = function () {
   $(window).on('hashchange', onHashChange)
 
   Difficulty.load()
+  Pins.load()
   Game.load()
   Game.start(onHashChange)
   requestAnimationFrame(render)
