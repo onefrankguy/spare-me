@@ -3,6 +3,13 @@ var Storage = (function () {
 
 var s = {}
 
+function parseArray (items) {
+  if (items.indexOf(',') > -1) {
+    return items.split(',')
+  }
+  return []
+}
+
 s.load = function (key) {
   var item = localStorage.getItem(key)
   console.log('loaded '+key+': '+item)
@@ -27,7 +34,7 @@ s.loadString = function (key) {
 }
 
 s.loadInts = function (key) {
-  var items = this.load(key).split(',')
+  var items = parseArray(this.load(key))
     , i = 0
   for (i = 0; i < items.length; i += 1) {
     items[i] = parseInt(items[i], 10)
@@ -36,7 +43,7 @@ s.loadInts = function (key) {
 }
 
 s.loadBools = function (key) {
-  var items = this.load(key).split(',')
+  var items = parseArray(this.load(key))
     , i = 0
   for (i = 0; i < items.length; i += 1) {
     items[i] = (items[i] === 'true')
