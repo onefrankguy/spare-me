@@ -14,6 +14,10 @@ s.save = function (key, item) {
   localStorage.setItem(key, item)
 }
 
+s.clear = function () {
+  localStorage.clear()
+}
+
 s.loadInt = function (key) {
   return parseInt(this.load(key), 10)
 }
@@ -760,11 +764,31 @@ function drawBall (index, values) {
   drawChute(index, values.length)
 }
 
+c.save = function () {
+  Storage.save('chute0', chute0)
+  Storage.save('chute1', chute1)
+  Storage.save('chute2', chute2)
+  dirty = true
+}
+
+c.load = function () {
+  if (Storage.has('chute0')) {
+    chute0 = Storage.loadInts('chute0')
+  }
+  if (Storage.has('chute1')) {
+    chute1 = Storage.loadInts('chute1')
+  }
+  if (Storage.has('chute2')) {
+    chute2 = Storage.loadInts('chute2')
+  }
+  dirty = true
+}
+
 c.hide = function () {
   chute0 = []
   chute1 = []
   chute2 = []
-  dirty = true
+  this.save()
 }
 
 c.render = function () {
@@ -782,14 +806,14 @@ c.reset = function (all) {
   } else {
     this.hide()
   }
-  dirty = true
+  this.save()
 }
 
 c.set = function (values) {
   chute0 = values.slice(0, 5)
   chute1 = values.slice(5, 8)
   chute2 = values.slice(8, 10)
-  dirty = true
+  this.save()
 }
 
 c.peek = function (chute) {
@@ -808,7 +832,7 @@ c.pop = function (value) {
     case 2: chute2.pop(); break
     default: chute0.pop(); chute1.pop(); chute2.pop()
   }
-  dirty = true
+  this.save()
 }
 
 return c
@@ -1021,6 +1045,7 @@ Spare.play = function () {
 
   Difficulty.load()
   Pins.load()
+  Chutes.load()
   Game.load()
   Game.start(onHashChange)
   requestAnimationFrame(render)
