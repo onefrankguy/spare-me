@@ -1,4 +1,4 @@
-(function () {
+;(function () {
   var lastTime = 0
     , vendor = ["ms", "mos", "webkit", "o"]
     , i = 0
@@ -25,5 +25,35 @@
     window.cancelAnimationFrame = function (id) {
       clearTimeout(id)
     }
+  }
+}())
+
+;(function () {
+  function exists () {
+    try {
+      return 'localStorage' in window && window['localStorage'] !== null
+    } catch (e) {
+      return false
+    }
+  }
+
+  if (!exists()) {
+    function create () {
+      var store = {}
+      store.setItem = function (id, value) {
+        return store[id] = String(value)
+      }
+      store.getItem = function (id) {
+        return store.hasOwnProperty(id) ? String(store[id]) : undefined
+      }
+      store.removeItem = function (id) {
+        return delete store[id]
+      }
+      store.clear = function () {
+        create()
+      }
+      window.localStorage = store
+    }
+    create()
   }
 }())
