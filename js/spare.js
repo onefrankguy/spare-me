@@ -3,12 +3,23 @@ var Storage = (function () {
 
 var s = {}
 
-s.saveInt = function (key, item) {
+s.load = function (key) {
+  var item = localStorage.getItem(key)
+  console.log('loaded '+key+': '+item)
+  return item
+}
+
+s.save = function (key, item) {
+  console.log('saving '+key+': '+item)
   localStorage.setItem(key, item)
 }
 
 s.loadInt = function (key) {
-  return parseInt(localStorage.getItem(key), 10)
+  return parseInt(this.load(key), 10)
+}
+
+s.loadString = function (key) {
+  return this.load(key)
 }
 
 s.has = function (key) {
@@ -45,6 +56,69 @@ r.random = function () {
 }
 
 return r
+}())
+
+var Game = (function () {
+'use strict';
+
+var g = {}
+  , color = undefined
+
+function newColor () {
+  var hash = color
+  do {
+    hash = Math.floor(Math.random() * 1677216)
+    PRNG.seed(hash)
+    hash = ('000000' + hash.toString(16)).substr(-6)
+  } while (hash === color)
+  return hash
+}
+
+g.save = function () {
+  Storage.save('color', color)
+  Storage.save('seed', PRNG.seed())
+}
+
+g.load = function () {
+  color = undefined
+  if (Storage.has('color')) {
+    color = Storage.loadString('color')
+  }
+  if (Storage.has('seed')) {
+    PRNG.seed(Storage.loadInt('seed'))
+  }
+}
+
+g.start = function (callback) {
+  var hash = window.location.hash.substring(1)
+
+  if (/^[0-9A-F]{6}$/i.test(hash)) {
+    if (color !== hash) {
+      color = hash
+    }
+  } else {
+    if (color === undefined) {
+      color = newColor()
+    }
+  }
+
+  PRNG.seed(parseInt(color, 16))
+  console.log('starting game: #'+color)
+  if (window.location.hash.substring(1) !== color) {
+    window.location.hash = color
+  } else {
+    callback()
+  }
+}
+
+g.bowl = function () {
+  Storage.clear()
+  newColor()
+  this.save()
+  window.location.hash = color
+}
+
+return g
 }())
 
 var Difficulty = (function () {
@@ -99,7 +173,7 @@ d.get = function () {
 }
 
 d.save = function () {
-  Storage.saveInt('level', level)
+  Storage.save('level', level)
   dirty = true
 }
 
@@ -730,25 +804,6 @@ function drawExample() {
   }
 }
 
-function loadHashGame () {
-  var hash = window.location.hash.substring(1)
-  if (/^[0-9A-F]{6}$/i.test(hash)) {
-    PRNG.seed(parseInt(hash, 16))
-    return true
-  }
-  return false
-}
-
-function newHashGame () {
-  var hash = '000000'
-  do {
-    hash = Math.floor(Math.random() * 1677216)
-    PRNG.seed(hash)
-    hash = ('000000' + hash.toString(16)).substr(-6)
-  } while (hash === window.location.hash.substring(1))
-  window.location.hash = hash
-}
-
 c.render = function () {
   if (dirty) {
     if (Scoreboard.over()) {
@@ -773,15 +828,6 @@ c.reset = function (all) {
   }
   example = all
   dirty = true
-}
-
-c.load = function () {
-  return loadHashGame()
-}
-
-c.next = function () {
-  localStorage.clear()
-  newHashGame()
 }
 
 return c
@@ -856,7 +902,7 @@ function onNewGame (target) {
 function offNewGame (target) {
   target.remove('pressed')
   if (!Ball.moving()) {
-    Controls.next()
+    Game.bowl()
   }
 }
 
@@ -889,7 +935,7 @@ function offLevel (target) {
 }
 
 function onHashChange () {
-  if (Controls.load() && !Ball.moving()) {
+  if (!Ball.moving()) {
     nextFrame()
     Scoreboard.reset()
     Controls.reset(true)
@@ -922,14 +968,9 @@ Spare.play = function () {
   $('#newGame').touch(onNewGame, offNewGame)
   $(window).on('hashchange', onHashChange)
 
-  // Reload a previous saved game if we have one.
   Difficulty.load()
-
-  if (Controls.load()) {
-    onHashChange()
-  } else {
-    Controls.next()
-  }
+  Game.load()
+  Game.start(onHashChange)
   requestAnimationFrame(render)
 }
 
