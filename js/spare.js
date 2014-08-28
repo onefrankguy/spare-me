@@ -699,15 +699,21 @@ function drawExample() {
 
 function loadHashGame () {
   var hash = window.location.hash.substring(1)
-
   if (/^[0-9A-F]{6}$/i.test(hash)) {
     PRNG.seed(parseInt(hash, 16))
-  } else {
-    PRNG.seed(null)
+    return true
+  }
+  return false
+}
+
+function newHashGame () {
+  var hash = '000000'
+  do {
     hash = Math.floor(Math.random() * 1677216)
     PRNG.seed(hash)
-    window.location.hash = ('000000' + hash.toString(16)).substr(-6)
-  }
+    hash = ('000000' + hash.toString(16)).substr(-6)
+  } while (hash === window.location.hash.substring(1))
+  window.location.hash = hash
 }
 
 c.render = function () {
@@ -737,7 +743,11 @@ c.reset = function (all) {
 }
 
 c.load = function () {
-  loadHashGame()
+  return loadHashGame()
+}
+
+c.next = function () {
+  newHashGame()
 }
 
 return c
@@ -811,13 +821,9 @@ function onNewGame (target) {
 
 function offNewGame (target) {
   target.remove('pressed')
-  if (Ball.moving()) {
-    return
+  if (!Ball.moving()) {
+    Controls.next()
   }
-
-  nextFrame()
-  Scoreboard.reset()
-  Controls.reset(true)
 }
 
 function onBall (target) {
@@ -848,6 +854,14 @@ function offLevel (target) {
   Difficulty.set(target.data())
 }
 
+function onHashChange () {
+  if (Controls.load() && !Ball.moving()) {
+    nextFrame()
+    Scoreboard.reset()
+    Controls.reset(true)
+  }
+}
+
 function render () {
   requestAnimationFrame(render)
   Difficulty.render()
@@ -858,11 +872,6 @@ function render () {
     Scoreboard.render()
     Controls.render()
   }
-}
-
-function newGame () {
-  Controls.load()
-  offNewGame($('#newGame'))
 }
 
 Spare.play = function () {
@@ -877,9 +886,13 @@ Spare.play = function () {
   }
   $('#nextBall').touch(onNextBall, offNextBall)
   $('#newGame').touch(onNewGame, offNewGame)
-  $(window).on('hashchange', newGame)
+  $(window).on('hashchange', onHashChange)
 
-  newGame()
+  if (Controls.load()) {
+    onHashChange()
+  } else {
+    Controls.next()
+  }
   requestAnimationFrame(render)
 }
 
