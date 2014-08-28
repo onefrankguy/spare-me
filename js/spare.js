@@ -100,7 +100,7 @@ function newColor () {
     PRNG.seed(hash)
     hash = ('000000' + hash.toString(16)).substr(-6)
   } while (hash === color)
-  return hash
+  color = hash
 }
 
 g.save = function () {
@@ -127,7 +127,7 @@ g.start = function () {
     }
   } else {
     if (color === undefined) {
-      color = newColor()
+      newColor()
     }
   }
 
