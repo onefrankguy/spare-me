@@ -801,7 +801,7 @@ c.save = function () {
   Storage.save('chute0', chute0)
   Storage.save('chute1', chute1)
   Storage.save('chute2', chute2)
-  dirty = true
+  dirty = false
 }
 
 c.load = function () {
@@ -821,7 +821,7 @@ c.hide = function () {
   chute0 = []
   chute1 = []
   chute2 = []
-  this.save()
+  dirty = true
 }
 
 c.render = function () {
@@ -829,7 +829,7 @@ c.render = function () {
     drawBall(0, chute0)
     drawBall(1, chute1)
     drawBall(2, chute2)
-    dirty = false
+    this.save()
   }
 }
 
@@ -839,14 +839,14 @@ c.reset = function (all) {
   } else {
     this.hide()
   }
-  this.save()
+  dirty = true
 }
 
 c.set = function (values) {
   chute0 = values.slice(0, 5)
   chute1 = values.slice(5, 8)
   chute2 = values.slice(8, 10)
-  this.save()
+  dirty = true
 }
 
 c.peek = function (chute) {
@@ -865,7 +865,7 @@ c.pop = function (value) {
     case 2: chute2.pop(); break
     default: chute0.pop(); chute1.pop(); chute2.pop()
   }
-  this.save()
+  dirty = true
 }
 
 return c
