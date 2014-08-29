@@ -943,6 +943,7 @@ function loadGame () {
 
 function startGame (callback) {
   var hash = window.location.hash.substring(1)
+    , reloaded = false
 
   // Difficulty is independent of saved games.
   Difficulty.load()
@@ -955,6 +956,7 @@ function startGame (callback) {
       Pins.load()
       Chutes.load()
       Scoreboard.load()
+      reloaded = true
     } else {
       // Replaying a linked game...
       Storage.clear()
@@ -970,7 +972,7 @@ function startGame (callback) {
 
   if (window.location.hash.substring(1) !== color) {
     window.location.hash = color
-  } else {
+  } else if (!reloaded) {
     nextFrame()
     Scoreboard.reset()
     Controls.reset(true)
