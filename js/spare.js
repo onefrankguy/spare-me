@@ -883,6 +883,7 @@ var Game = (function () {
 
 var g = {}
   , color = undefined
+  , dirty = true
 
 function newColor () {
   var hash = color
@@ -894,9 +895,16 @@ function newColor () {
   color = hash
 }
 
+g.render = function () {
+  if (dirty) {
+    this.save()
+  }
+}
+
 g.save = function () {
   Storage.save('color', color)
   Storage.save('seed', PRNG.seed())
+  dirty = false
 }
 
 g.load = function () {
@@ -909,34 +917,46 @@ g.load = function () {
   }
 }
 
-g.start = function () {
+g.start = function (callback) {
   var hash = window.location.hash.substring(1)
 
+  // Difficulty is independent of saved games.
+  Difficulty.load()
+  this.load()
+
   if (/^[0-9A-F]{6}$/i.test(hash)) {
-    if (color !== hash) {
+    if (color === hash) {
+      // Continuing a saved game...
+      Pins.load()
+      Chutes.load()
+      Scoreboard.load()
+    } else {
+      // Replaying a linked game...
+      Storage.clear()
       color = hash
+      PRNG.seed(parseInt(color, 16))
     }
   } else {
-    if (color === undefined) {
-      newColor()
-    }
+    // Playing a new game...
+    Storage.clear()
+    newColor()
+    PRNG.seed(parseInt(color, 16))
   }
 
-  PRNG.seed(parseInt(color, 16))
-  console.log('starting game: #'+color)
+  Controls.reset(true)
   if (window.location.hash.substring(1) !== color) {
-    Storage.clear()
     window.location.hash = color
-  } else {
-    Controls.reset(true)
   }
+
+  requestAnimationFrame(callback)
+  console.log('starting game: #'+color)
 }
 
 g.bowl = function () {
   Storage.clear()
   newColor()
-  this.save()
   window.location.hash = color
+  dirty = true
 }
 
 return g
@@ -1054,6 +1074,7 @@ function onHashChange () {
 
 function render () {
   requestAnimationFrame(render)
+  Game.render()
   Difficulty.render()
   Ball.render()
   Chutes.render()
@@ -1078,13 +1099,7 @@ Spare.play = function () {
   $('#newGame').touch(onNewGame, offNewGame)
   $(window).on('hashchange', onHashChange)
 
-  Difficulty.load()
-  Pins.load()
-  Chutes.load()
-  Scoreboard.load()
-  Game.load()
-  Game.start()
-  requestAnimationFrame(render)
+  Game.start(render)
 }
 
 })(window.Spare = window.Spare || {})
