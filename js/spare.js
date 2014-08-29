@@ -90,70 +90,6 @@ r.random = function () {
 return r
 }())
 
-var Game = (function () {
-'use strict';
-
-var g = {}
-  , color = undefined
-
-function newColor () {
-  var hash = color
-  do {
-    hash = Math.floor(Math.random() * 1677216)
-    PRNG.seed(hash)
-    hash = ('000000' + hash.toString(16)).substr(-6)
-  } while (hash === color)
-  color = hash
-}
-
-g.save = function () {
-  Storage.save('color', color)
-  Storage.save('seed', PRNG.seed())
-}
-
-g.load = function () {
-  color = undefined
-  if (Storage.has('color')) {
-    color = Storage.loadString('color')
-  }
-  if (Storage.has('seed')) {
-    PRNG.seed(Storage.loadInt('seed'))
-  }
-}
-
-g.start = function () {
-  var hash = window.location.hash.substring(1)
-
-  if (/^[0-9A-F]{6}$/i.test(hash)) {
-    if (color !== hash) {
-      color = hash
-    }
-  } else {
-    if (color === undefined) {
-      newColor()
-    }
-  }
-
-  PRNG.seed(parseInt(color, 16))
-  console.log('starting game: #'+color)
-  if (window.location.hash.substring(1) !== color) {
-    Storage.clear()
-    window.location.hash = color
-  } else {
-    Controls.reset(true)
-  }
-}
-
-g.bowl = function () {
-  Storage.clear()
-  newColor()
-  this.save()
-  window.location.hash = color
-}
-
-return g
-}())
-
 var Difficulty = (function () {
 'use strict';
 
@@ -941,6 +877,71 @@ c.reset = function (all) {
 
 return c
 }())
+
+var Game = (function () {
+'use strict';
+
+var g = {}
+  , color = undefined
+
+function newColor () {
+  var hash = color
+  do {
+    hash = Math.floor(Math.random() * 1677216)
+    PRNG.seed(hash)
+    hash = ('000000' + hash.toString(16)).substr(-6)
+  } while (hash === color)
+  color = hash
+}
+
+g.save = function () {
+  Storage.save('color', color)
+  Storage.save('seed', PRNG.seed())
+}
+
+g.load = function () {
+  color = undefined
+  if (Storage.has('color')) {
+    color = Storage.loadString('color')
+  }
+  if (Storage.has('seed')) {
+    PRNG.seed(Storage.loadInt('seed'))
+  }
+}
+
+g.start = function () {
+  var hash = window.location.hash.substring(1)
+
+  if (/^[0-9A-F]{6}$/i.test(hash)) {
+    if (color !== hash) {
+      color = hash
+    }
+  } else {
+    if (color === undefined) {
+      newColor()
+    }
+  }
+
+  PRNG.seed(parseInt(color, 16))
+  console.log('starting game: #'+color)
+  if (window.location.hash.substring(1) !== color) {
+    Storage.clear()
+    window.location.hash = color
+  } else {
+    Controls.reset(true)
+  }
+}
+
+g.bowl = function () {
+  Storage.clear()
+  newColor()
+  this.save()
+  window.location.hash = color
+}
+
+return g
+}())
+
 
 ;(function (Spare) {
 'use strict';
