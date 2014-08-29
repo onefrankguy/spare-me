@@ -37,7 +37,9 @@ s.loadInts = function (key) {
   var items = parseArray(this.load(key))
     , i = 0
   for (i = 0; i < items.length; i += 1) {
-    items[i] = parseInt(items[i], 10)
+    if (/^\d+$/.test(items[i])) {
+      items[i] = parseInt(items[i], 10)
+    }
   }
   return items
 }
