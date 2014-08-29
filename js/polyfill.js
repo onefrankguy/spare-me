@@ -14,7 +14,7 @@
       var currTime = new Date().getTime()
         , timeToCall = Math.max(0, 16 - (currTime - lastTime))
         , timerId = setTimeout(function () {
-            (currTime + timeToCall)
+            callback(currTime + timeToCall)
         }, timeToCall)
       lastTime = currTime + timeToCall
       return timerId
