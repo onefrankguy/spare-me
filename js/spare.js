@@ -137,7 +137,6 @@ g.start = function () {
     Storage.clear()
     window.location.hash = color
   } else {
-    Scoreboard.reset()
     Controls.reset(true)
   }
 }
@@ -663,6 +662,30 @@ function score (turn) {
   }
 }
 
+s.save = function () {
+  Storage.save('balls', balls)
+  Storage.save('scores', scores)
+  Storage.save('frames', frames)
+  Storage.save('frame', frame)
+  dirty = false
+}
+
+s.load = function () {
+  if (Storage.has('balls')) {
+    balls = Storage.loadInts('balls')
+  }
+  if (Storage.has('scores')) {
+    scores = Storage.loadInts('scores')
+  }
+  if (Storage.has('frames')) {
+    frames = Storage.loadInts('frames')
+  }
+  if (Storage.has('frame')) {
+    frame = Storage.loadInt('frame')
+  }
+  dirty = true
+}
+
 s.reset = function () {
   balls = []
   scores = []
@@ -691,7 +714,7 @@ s.render = function () {
     if (offset > 0) {
       $('#marker').top(offset)
     }
-    dirty = false
+    this.save()
   }
 }
 
@@ -1054,6 +1077,7 @@ Spare.play = function () {
   Difficulty.load()
   Pins.load()
   Chutes.load()
+  Scoreboard.load()
   Game.load()
   Game.start()
   requestAnimationFrame(render)
