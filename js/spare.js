@@ -4,10 +4,11 @@ var Storage = (function () {
 var s = {}
 
 function parseArray (items) {
-  if (items.indexOf(',') > -1) {
-    return items.split(',')
+  items = items.split(',')
+  if (items.length === 1 && items[0] === '') {
+    items = []
   }
-  return []
+  return items
 }
 
 s.load = function (key) {
