@@ -67,22 +67,43 @@ return s
 var PRNG = (function () {
 'use strict';
 
-  var r = {}
-    , max = Math.pow(2, 32)
-    , state = undefined
+var r = {}
+  , max = Math.pow(2, 32)
+  , state = undefined
+  , dirty = true
+
+r.save = function () {
+  Storage.save('seed', state)
+  dirty = false
+}
+
+r.load = function () {
+  if (Storage.has('seed')) {
+    state = Storage.loadInt('seed')
+  }
+}
+
+r.render = function () {
+  if (dirty) {
+    this.save()
+  }
+}
 
 // Call seed with 'null' to start in a random state.
 r.seed = function (value) {
   if (value !== undefined) {
     state = parseInt(value, 10)
+    dirty = true
   }
   if (isNaN(state)) {
     state = Math.random(Math.random() * max)
+    dirty = true
   }
   return state
 }
 
 r.random = function () {
+  dirty = true
   state += (state * state) | 5
   return (state >>> 32) / max
 }
@@ -903,7 +924,6 @@ g.render = function () {
 
 g.save = function () {
   Storage.save('color', color)
-  Storage.save('seed', PRNG.seed())
   dirty = false
 }
 
@@ -911,9 +931,6 @@ g.load = function () {
   color = undefined
   if (Storage.has('color')) {
     color = Storage.loadString('color')
-  }
-  if (Storage.has('seed')) {
-    PRNG.seed(Storage.loadInt('seed'))
   }
 }
 
@@ -927,6 +944,7 @@ g.start = function (callback) {
   if (/^[0-9A-F]{6}$/i.test(hash)) {
     if (color === hash) {
       // Continuing a saved game...
+      PRNG.load()
       Pins.load()
       Chutes.load()
       Scoreboard.load()
@@ -1074,6 +1092,7 @@ function onHashChange () {
 
 function render () {
   requestAnimationFrame(render)
+  PRNG.render()
   Game.render()
   Difficulty.render()
   Ball.render()
