@@ -2,6 +2,7 @@ var Storage = (function () {
 'use strict';
 
 var s = {}
+  , ls = window.fakeLocalStorage || window.localStorage
 
 function parseArray (items) {
   items = items.split(',')
@@ -12,18 +13,18 @@ function parseArray (items) {
 }
 
 s.load = function (key) {
-  var item = localStorage.getItem(key)
+  var item = ls.getItem(key)
   console.log('loaded '+key+': '+item)
   return item
 }
 
 s.save = function (key, item) {
   console.log('saving '+key+': '+item)
-  localStorage.setItem(key, item)
+  ls.setItem(key, item)
 }
 
 s.clear = function () {
-  localStorage.clear()
+  ls.clear()
 }
 
 s.loadInt = function (key) {
@@ -55,7 +56,7 @@ s.loadBools = function (key) {
 }
 
 s.has = function (key) {
-  var item = localStorage.getItem(key)
+  var item = ls.getItem(key)
   return item !== undefined && item !== null
 }
 

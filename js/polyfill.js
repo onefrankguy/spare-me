@@ -37,7 +37,16 @@
     }
   }
 
-  if (!exists()) {
+  function canRoundTrip () {
+    try {
+      localStorage.setItem('version', 1)
+      return 1 === parseInt(localStorage.getItem('version'), 10)
+    } catch (e) {
+      return false
+    }
+  }
+
+  if (!exists() || !canRoundTrip()) {
     function create () {
       var store = {}
       store.setItem = function (id, value) {
@@ -52,7 +61,7 @@
       store.clear = function () {
         create()
       }
-      window.localStorage = store
+      window.fakeLocalStorage = store
     }
     create()
   }
