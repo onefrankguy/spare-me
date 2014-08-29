@@ -899,12 +899,25 @@ c.reset = function (all) {
 return c
 }())
 
-var Game = (function () {
+;(function (Spare) {
 'use strict';
 
-var g = {}
+var $ = window.jQuery
   , color = undefined
   , dirty = true
+
+function shuffle (array) {
+  var i = 0
+    , j = 0
+    , temp = null
+
+  for (i = array.length - 1; i > 0; i -= 1) {
+    j = Math.floor(PRNG.random() * (i + 1))
+    temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+  }
+}
 
 function newColor () {
   var hash = color
@@ -916,30 +929,24 @@ function newColor () {
   color = hash
 }
 
-g.render = function () {
-  if (dirty) {
-    this.save()
-  }
-}
-
-g.save = function () {
+function saveGame () {
   Storage.save('color', color)
   dirty = false
 }
 
-g.load = function () {
+function loadGame () {
   color = undefined
   if (Storage.has('color')) {
     color = Storage.loadString('color')
   }
 }
 
-g.start = function (callback) {
+function startGame (callback) {
   var hash = window.location.hash.substring(1)
 
   // Difficulty is independent of saved games.
   Difficulty.load()
-  this.load()
+  loadGame()
 
   if (/^[0-9A-F]{6}$/i.test(hash)) {
     if (color === hash) {
@@ -961,42 +968,16 @@ g.start = function (callback) {
     PRNG.seed(parseInt(color, 16))
   }
 
-  Controls.reset(true)
   if (window.location.hash.substring(1) !== color) {
     window.location.hash = color
+  } else {
+    nextFrame()
+    Scoreboard.reset()
+    Controls.reset(true)
   }
 
   requestAnimationFrame(callback)
   console.log('starting game: #'+color)
-}
-
-g.bowl = function () {
-  Storage.clear()
-  newColor()
-  window.location.hash = color
-  dirty = true
-}
-
-return g
-}())
-
-
-;(function (Spare) {
-'use strict';
-
-var $ = window.jQuery
-
-function shuffle (array) {
-  var i = 0
-    , j = 0
-    , temp = null
-
-  for (i = array.length - 1; i > 0; i -= 1) {
-    j = Math.floor(PRNG.random() * (i + 1))
-    temp = array[i]
-    array[i] = array[j]
-    array[j] = temp
-  }
 }
 
 function nextFrame () {
@@ -1050,7 +1031,10 @@ function onNewGame (target) {
 function offNewGame (target) {
   target.remove('pressed')
   if (!Ball.moving()) {
-    Game.bowl()
+    Storage.clear()
+    newColor()
+    window.location.hash = color
+    dirty = true
   }
 }
 
@@ -1093,7 +1077,6 @@ function onHashChange () {
 function render () {
   requestAnimationFrame(render)
   PRNG.render()
-  Game.render()
   Difficulty.render()
   Ball.render()
   Chutes.render()
@@ -1101,6 +1084,9 @@ function render () {
     Pins.render()
     Scoreboard.render()
     Controls.render()
+  }
+  if (dirty) {
+    saveGame()
   }
 }
 
@@ -1118,7 +1104,7 @@ Spare.play = function () {
   $('#newGame').touch(onNewGame, offNewGame)
   $(window).on('hashchange', onHashChange)
 
-  Game.start(render)
+  startGame(render)
 }
 
 })(window.Spare = window.Spare || {})
