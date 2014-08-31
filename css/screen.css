@@ -202,7 +202,7 @@ text-align: center;
 line-height: 5.2rem;
 background: radial-gradient(circle at 50% 120%, #323232, #0a0a0a 80%, #000000 100%);
 color: #fff;
-box-shadow: 0.2rem 0.2rem 0.5rem #888;
+box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
 }
 .ball:before {
 content: "";
@@ -274,7 +274,7 @@ background-image: linear-gradient(90deg, transparent 0.9rem, #abced4 0.9rem, #ab
 background-size: 100% 1.8rem;
 color: #333;
 padding: 1rem 1rem 1rem 1.8rem;
-box-shadow: 0 0.7rem 0.7rem 0.2rem rgba(0,0,0,0.3);
+box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
 font-family: monospace;
 font-weight: bold;
 font-size: 1.6rem;
