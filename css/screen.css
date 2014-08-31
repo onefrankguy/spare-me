@@ -131,8 +131,11 @@ filter: blur(0.18rem);
 }
 #pins > .picked {
 box-shadow:
-  0.2rem 0.2rem 0.5rem rgba(0,0,0,.3)
-, 0 0 0.8rem #9b5050
+  0 0  .3rem rgba(255,0,84,.6)
+, 0 0  .6rem rgba(255,0,84,.4)
+, 0 0  .9rem rgba(255,0,84,.2)
+, 0 0 1.0rem rgba(255,0,85,.1)
+, 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3)
 ;
 }
 #pin0 {
