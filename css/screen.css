@@ -44,20 +44,16 @@ background-size: 13px, 29px, 37px, 53px;
 }
 /* SIGN */
 h1 {
-position: relative;
-top: -.5rem;
-left: 0;
 display: inline-block;
 width: 21.7rem;
-height: 2.5rem;
-padding-left: .5rem;
 white-space: nowrap;
 font-size: 2.4rem;
-line-height: 2.5rem;
+line-height: 2.4rem;
 text-transform: uppercase;
 font-family: sans-serif;
 letter-spacing: 1.1rem;
 word-spacing: .6rem;
+margin-bottom: .6rem;
 /* Neon - http://demosthenes.info/blog/477/CSS3-Neon-Sign */
 color: #fee;
 text-shadow:
@@ -67,19 +63,9 @@ text-shadow:
 , 0 0 1.0rem rgba(255,0,85,.1)
 , 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3)
 ;
-/* Grid - http://lea.verou.me/css3patterns/#blueprint-grid */
-background-image:
-  linear-gradient(rgba(0,0,0,.6).1rem, transparent .1rem)
-, linear-gradient(90deg, rgba(0,0,0,.6).1rem, transparent .1rem)
-, linear-gradient(rgba(0,0,0,.3) .1rem, transparent .1rem)
-, linear-gradient(90deg, rgba(0,0,0,.3) .1rem, transparent .1rem)
-;
-background-size: 1.2rem 1.2rem, 1.2rem 1.2rem, .2rem .2rem, .2rem .2rem;
-background-position: 0 0, 0 0, -.1rem -.1rem, -.1rem -.1rem;
-box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
-z-index: 1;
 }
 h2 {
+color: #ac9d90;
 font-size: 1.2rem;
 line-height: 1.2rem;
 margin-bottom: 1.2rem;
@@ -184,7 +170,7 @@ left: 8.25rem;
 display: block;
 width: 21.7rem;
 text-align: center;
-margin: 3.6rem 0;
+margin: 3.3rem 0;
 }
 /* BALLS */
 #balls {
@@ -326,7 +312,7 @@ transform: rotate(20deg);
 }
 .short.tape:before {
 left: -2rem;
-top: -1.5rem;
+top: -2rem;
 width: 3rem;
 transform: rotate(-37deg);
 }
