@@ -75,6 +75,7 @@ background-image:
 background-size: 1.2rem 1.2rem, 1.2rem 1.2rem, .2rem .2rem, .2rem .2rem;
 background-position: 0 0, 0 0, -.1rem -.1rem, -.1rem -.1rem;
 box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
+z-index: 1;
 }
 h2 {
 font-size: 1.2rem;
@@ -318,6 +319,18 @@ top: -1.0rem;
 width: 7.0rem;
 transform: rotate(20deg);
 }
+.short.tape:before {
+left: -2rem;
+top: -1.5rem;
+width: 3rem;
+transform: rotate(-37deg);
+}
+.short.tape:after {
+right: -1.5rem;
+top: -1.5rem;
+width: 3rem;
+transform: rotate(29deg);
+}
 /* DIFFICULTY */
 #difficulty {
 position: relative;
@@ -383,15 +396,20 @@ vertical-align: baseline;
 /* SCORE CARD */
 #scores {
 position: absolute;
-top: 0;
+top: 2.7rem;
 right: 2.2rem;
 display: block;
+background-color: #fff;
+background-image: linear-gradient(90deg, transparent 2rem, #abced4 2rem, #abced4 2.2rem, transparent 2.2rem), linear-gradient(#eee 0.1rem, transparent 0.1rem);
+background-size: 100% 2rem;
+color: #333;
+box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
 }
 #scores > * {
 position: relative;
 display: block;
 width: 7.2rem;
-height: 4.4rem;
+height: 4rem;
 }
 #scores .frame {
 position: absolute;
@@ -402,13 +420,10 @@ width: 33%;
 height: 50%;
 font-size: 1.2rem;
 text-align: center;
-line-height: 2.4rem;
-border-left: 0.1rem solid #000;
-border-bottom: 0.1rem solid #000;
+line-height: 2rem;
 }
 #scores .frame ~ .frame {
 top: 50%;
-border-bottom: 0.2rem solid #000;
 }
 #scores .score {
 position: absolute;
@@ -419,10 +434,7 @@ width: 66%;
 height: 100%;
 font-size: 2.4rem;
 text-align: center;
-line-height: 4.4rem;
-border-left: 0.2rem solid #000;
-border-right: 0.1rem solid #000;
-border-bottom: 0.2rem solid #000;
+line-height: 4rem;
 }
 #marker {
 position: absolute;
