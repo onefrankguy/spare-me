@@ -46,16 +46,16 @@ background-size: 13px, 29px, 37px, 53px;
 h1 {
 position: relative;
 top: -.5rem;
-left: -.5rem;
-display: block;
-width: 32rem;
+left: 0;
+display: inline-block;
+width: 21.7rem;
 height: 2.5rem;
 padding-left: .5rem;
 white-space: nowrap;
 font-size: 2.4rem;
 line-height: 2.5rem;
 text-transform: uppercase;
-font-family: 'Arial Narrow',sans-serif;
+font-family: sans-serif;
 letter-spacing: 1.2rem;
 /* Neon - http://demosthenes.info/blog/477/CSS3-Neon-Sign */
 color: #fee;
@@ -396,12 +396,12 @@ vertical-align: baseline;
 /* SCORE CARD */
 #scores {
 position: absolute;
-top: 2.7rem;
-right: 2.2rem;
+top: 0;
+right: 2rem;
 display: block;
 background-color: #fff;
-background-image: linear-gradient(90deg, transparent 2rem, #abced4 2rem, #abced4 2.2rem, transparent 2.2rem), linear-gradient(#eee 0.1rem, transparent 0.1rem);
-background-size: 100% 2rem;
+background-image: linear-gradient(90deg, transparent 2.1rem, #abced4 2.1rem, #abced4 2.3rem, transparent 2.3rem), linear-gradient(#eee 0.1rem, transparent 0.1rem);
+background-size: 100% 2.1rem;
 color: #333;
 box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
 }
@@ -409,7 +409,7 @@ box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
 position: relative;
 display: block;
 width: 7.2rem;
-height: 4rem;
+height: 4.2rem;
 }
 #scores .frame {
 position: absolute;
@@ -420,7 +420,7 @@ width: 33%;
 height: 50%;
 font-size: 1.2rem;
 text-align: center;
-line-height: 2rem;
+line-height: 2.1rem;
 }
 #scores .frame ~ .frame {
 top: 50%;
@@ -434,7 +434,7 @@ width: 66%;
 height: 100%;
 font-size: 2.4rem;
 text-align: center;
-line-height: 4rem;
+line-height: 4.2rem;
 }
 #marker {
 position: absolute;
