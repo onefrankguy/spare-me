@@ -671,8 +671,8 @@ s.render = function () {
       $('#frame'+i).html(html)
     }
 
-    offset = $('#frame'+frame).center().y - 0.7
-    if (offset > 0) {
+    offset = $('#frame'+frame).center().y - 4.2
+    if (offset > -4) {
       $('#marker').top(offset)
     }
     this.save()
