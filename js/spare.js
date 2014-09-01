@@ -659,11 +659,16 @@ function shoutText () {
   if (count > 1) {
     switch (count) {
       case 2: text = 'Double '+text; break;
-      case 3: text = 'Multi '+text; break;
-      case 4: text = 'Mega '+text; break;
-      case 5: text = 'Ultra '+text; break;
-      case 6: text = 'Monster '+text; break;
-      case 7: text = 'Ludicrous '+text; break;
+      case 3: text = 'Triple '+text; break;
+      case 4: text = 'Multi '+text; break;
+      case 5: text = 'Mega '+text; break;
+      case 6: text = 'Ultra '+text; break;
+      case 7: text = 'Monster '+text; break;
+      case 8: text = 'Ludicrous '+text; break;
+      case 9: text = '&#220;ber '+text; break;
+      case 10: text = 'Epic '+text; break;
+      case 11: text = 'Perfect '+text; break;
+      case 12: text = 'Inconceivable!'; break;
       default: break;
     }
   }

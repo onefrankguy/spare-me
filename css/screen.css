@@ -202,12 +202,14 @@ text-shadow:
 , 0 0.5rem 1rem rgba(0,0,0,.25)
 , 0 1rem 1rem rgba(0,0,0,.2)
 , 0 2rem 2rem rgba(0,0,0,.15)
+, 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3)
 ;
 opacity: 1;
+z-index: 1;
 }
 #shout.fade {
 opacity: 0;
-transition: opacity 3s linear;
+transition: opacity 2s linear;
 }
 /* BALLS */
 #balls {
