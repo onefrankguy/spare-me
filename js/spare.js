@@ -840,7 +840,7 @@ var Controls = (function () {
 var $ = window.jQuery
   , c = {}
   , example = false
-  , dirty = false
+  , dirty = true
 
 function drawExample() {
   var example = Pins.example()
