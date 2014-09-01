@@ -244,6 +244,7 @@ var $ = window.jQuery
   , numbers = []
   , bowled = 0
   , dirty = true
+  , shout = ''
 
 function initAllowed (index, values) {
   allowed[index] = {}
@@ -518,6 +519,11 @@ my.render = function () {
         pin.remove('picked')
       }
     }
+    $('#shout').html(shout).remove('fade')
+    if (shout !== '') {
+      shout = ''
+      $('#shout').add('fade')
+    }
     this.save()
   }
 }
@@ -569,6 +575,11 @@ my.bowl = function (target) {
   dirty = true
 }
 
+my.text = function (value) {
+  shout = value
+  dirty = true
+}
+
 my.down = function () {
   return bowled
 }
@@ -594,7 +605,6 @@ var $ = window.jQuery
   , frames = []
   , frame = 1
   , dirty = true
-  , caption = ''
 
 function score (turn) {
   var sum = 0
@@ -690,7 +700,6 @@ s.reset = function () {
   frames = []
   frame = 1
   dirty = true
-  caption = ''
 }
 
 s.render = function () {
@@ -746,17 +755,13 @@ s.record = function (value) {
   balls.push(value)
   score(Math.ceil(frame / 2))
 
-  caption = shoutText()
+  Pins.text(shoutText())
 
   if (value === 10 && frame % 2 === 1 && frame < 19) {
     frame += 1
   }
   frame += 1
   dirty = true
-}
-
-s.shout = function () {
-  return caption
 }
 
 return s
