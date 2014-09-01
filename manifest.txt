@@ -1,5 +1,6 @@
 index.html
 css/mobile.css
+img/twitter.png
 js/jquery.js
 js/polyfill.js
 js/spare.js
