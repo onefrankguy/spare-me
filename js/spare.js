@@ -683,6 +683,10 @@ s.over = function () {
   return scores[10] !== undefined
 }
 
+s.last = function () {
+  return scores[10]
+}
+
 s.skippable = function () {
   return frame % 2 === 1 && frame < 21
 }
@@ -876,8 +880,10 @@ c.render = function () {
     if (Scoreboard.over()) {
       $('#nextBall').add('invisible')
       $('#newGame').remove('invisible')
+      $('#tweetGame').remove('invisible')
     } else {
       $('#newGame').add('invisible')
+      $('#tweetGame').add('invisible')
       $('#nextBall').remove('invisible')
     }
     if (example === true) {
@@ -1041,6 +1047,17 @@ function offNewGame (target) {
   }
 }
 
+function onTweetGame (target) {
+  target.add('pressed')
+  var twitter = 'https://twitter.com/home?status='
+    , message = 'I bowled ' + Scoreboard.last() + " in Spare Me for @js13kGames. How'd you do?\n" + window.location.href
+  target.unwrap().href = twitter + encodeURIComponent(message)
+}
+
+function offTweetGame (target) {
+  target.remove('pressed')
+}
+
 function onBall (target) {
   if (Ball.moving()) {
     return
@@ -1105,6 +1122,7 @@ Spare.play = function () {
   }
   $('#nextBall').touch(onNextBall, offNextBall)
   $('#newGame').touch(onNewGame, offNewGame)
+  $('#tweetGame').touch(onTweetGame, offTweetGame)
   $(window).on('hashchange', onHashChange)
 
   startGame(render)
