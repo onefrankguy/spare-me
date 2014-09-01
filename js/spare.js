@@ -594,6 +594,7 @@ var $ = window.jQuery
   , frames = []
   , frame = 1
   , dirty = true
+  , caption = ''
 
 function score (turn) {
   var sum = 0
@@ -621,6 +622,42 @@ function score (turn) {
       i += 2
     }
   }
+}
+
+function shoutText () {
+  var value = frames[frame]
+    , text = ''
+    , count = 0
+    , i = 0
+
+  if (value === 'X') {
+    for (i = frame; i > 0 ; i -= 1) {
+      if (frames[i] === 'X') {
+        count += 1
+      }
+    }
+    text = 'Strike!'
+  }
+  if (value === '/') {
+    for (i = frame; i > 0; i -= 1) {
+      if (frames[i] === '/') {
+        count += 1
+      }
+    }
+    text = 'Spare!'
+  }
+  if (count > 1) {
+    switch (count) {
+      case 2: text = 'Double '+text; break;
+      case 3: text = 'Multi '+text; break;
+      case 4: text = 'Mega '+text; break;
+      case 5: text = 'Ultra '+text; break;
+      case 6: text = 'Monster '+text; break;
+      case 7: text = 'Ludicrous '+text; break;
+      default: break;
+    }
+  }
+  return text.trim()
 }
 
 s.save = function () {
@@ -653,6 +690,7 @@ s.reset = function () {
   frames = []
   frame = 1
   dirty = true
+  caption = ''
 }
 
 s.render = function () {
@@ -708,11 +746,17 @@ s.record = function (value) {
   balls.push(value)
   score(Math.ceil(frame / 2))
 
+  caption = shoutText()
+
   if (value === 10 && frame % 2 === 1 && frame < 19) {
     frame += 1
   }
   frame += 1
   dirty = true
+}
+
+s.shout = function () {
+  return caption
 }
 
 return s
@@ -1118,6 +1162,7 @@ Spare.play = function () {
     $('#ball'+i).touch(onBall, null)
     $('#level'+i).touch(onLevel, offLevel)
   }
+
   $('#nextBall').touch(onNextBall, offNextBall)
   $('#newGame').touch(onNewGame, offNewGame)
   $('#tweetGame').touch(onTweetGame, offTweetGame)
