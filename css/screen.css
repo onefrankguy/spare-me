@@ -172,6 +172,9 @@ width: 21.7rem;
 text-align: center;
 margin: 3.3rem 0;
 }
+#tweetGame {
+margin-left: 0.6rem;
+}
 /* BALLS */
 #balls {
 position: relative;
@@ -329,6 +332,9 @@ display: block;
 width: 100%;
 text-align: center;
 margin-bottom: 2.4rem;
+}
+#difficulty > .button + .button {
+margin-left: 0.6rem;
 }
 /* http://cssdeck.com/labs/animated-push-button */
 .button {
