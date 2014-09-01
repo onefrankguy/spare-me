@@ -671,10 +671,8 @@ s.render = function () {
       $('#frame'+i).html(html)
     }
 
-    offset = $('#frame'+frame).center().y - 4.2
-    if (offset > -4) {
-      $('#marker').top(offset)
-    }
+    offset = $('#frame'+Math.min(frame, 20)).center().y - 4.2
+    $('#marker').top(offset)
     this.save()
   }
 }
