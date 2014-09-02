@@ -164,13 +164,16 @@ left: 8.25rem;
 /* CONTROLS */
 #controls {
 /* center of pins is 10.85rem */
+position: relative;
 display: block;
 width: 21.7rem;
 text-align: center;
 margin: 3.3rem 0;
 }
 #tweetGame {
-margin-left: 0.6rem;
+position: absolute;
+top: 0;
+right: .6rem;
 }
 /* SHOUTS */
 #shout {
@@ -366,7 +369,7 @@ text-align: center;
 margin-bottom: 2.4rem;
 }
 #difficulty > .button + .button {
-margin-left: 0.6rem;
+margin-left: 1rem;
 }
 .button {
 display: inline-block;
