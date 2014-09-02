@@ -37,7 +37,6 @@ display: block;
 width: 32rem;
 margin: 0 auto;
 padding: 0.5rem;
-/* Cicada stripes by Randy Merrill - http://lea.verou.me/css3patterns/#cicada-stripes */
 background-color: #f0dbc9;
 background-image: linear-gradient(90deg, rgba(255,255,255,.07) 50%, transparent 50%), linear-gradient(90deg, rgba(255,255,255,.13) 50%, transparent 50%), linear-gradient(90deg, transparent 50%, rgba(255,255,255,.17) 50%), linear-gradient(90deg, transparent 50%, rgba(255,255,255,.19) 50%);
 background-size: 13px, 29px, 37px, 53px;
@@ -54,7 +53,6 @@ font-family: sans-serif;
 letter-spacing: 1.1rem;
 word-spacing: .6rem;
 margin-bottom: .6rem;
-/* Neon - http://demosthenes.info/blog/477/CSS3-Neon-Sign */
 color: #fee;
 text-shadow:
   0 0  .3rem rgba(255,0,84,.6)
@@ -89,7 +87,6 @@ line-height: 4.8rem;
 background: radial-gradient(circle at 50% 40%, #fcfcfc, #efeff1 60%, #505050 100%);
 box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
 }
-/* CSS3 spheres - http://learnsome.co/blog/spheres/ */
 #pins > .pin:before {
 content: "";
 position: absolute;
@@ -187,7 +184,6 @@ text-align: center;
 font-size: 4.8rem;
 line-height: 4.8rem;
 font-family: sans-serif;
-/* 3D Text by Mark Dotto - http://markdotto.com/playground/3d-text/ */
 color: #fff;
 text-shadow:
   0 0.1rem 0 #ccc
@@ -372,7 +368,6 @@ margin-bottom: 2.4rem;
 #difficulty > .button + .button {
 margin-left: 0.6rem;
 }
-/* http://cssdeck.com/labs/animated-push-button */
 .button {
 display: inline-block;
 padding: .3rem;
@@ -474,24 +469,9 @@ position: absolute;
 top: -4.2rem;
 right: 1.5rem;
 }
-/* http://codepen.io/brycesnyder/pen/nhoIu */
 .pencil {
 transform: rotate(32deg);
 }
-/*
- * Pencil shadow. Not sure I like this, yet.
-.pencil:before {
-content: "";
-position: absolute;
-height: 5.1rem;
-width: 0.2rem;
-background: rgba(0,0,0,.3);
-border-radius: 50%;
-margin-left: 2.4rem;
-margin-top: 3.8rem;
-transform: rotate(122deg);
-}
-*/
 .pencil > * {
 display: block;
 }
