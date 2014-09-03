@@ -301,14 +301,6 @@ list-style-position: inside;
 .note > ol + p {
 margin-top: 1.8rem;
 }
-.signature {
-font-family: serif;
-font-weight: normal;
-font-style: italic;
-font-size: 1.2rem;
-text-align: right;
-margin: 0.3rem 1.0rem auto auto;
-}
 .tape:before, .tape:after {
 content: "";
 position: absolute;
