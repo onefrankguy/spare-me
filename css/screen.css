@@ -170,6 +170,11 @@ width: 21.7rem;
 text-align: center;
 margin: 3.3rem 0;
 }
+#linkGame {
+position: absolute;
+top: 0;
+left: .6rem;
+}
 #tweetGame {
 position: absolute;
 top: 0;

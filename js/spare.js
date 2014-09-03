@@ -933,9 +933,11 @@ c.render = function () {
       $('#nextBall').add('invisible')
       $('#newGame').remove('invisible')
       $('#tweetGame').remove('invisible')
+      $('#linkGame').remove('invisible')
     } else {
       $('#newGame').add('invisible')
       $('#tweetGame').add('invisible')
+      $('#linkGame').add('invisible')
       $('#nextBall').remove('invisible')
     }
     if (example === true) {
@@ -1127,6 +1129,14 @@ function offTweetGame (target) {
   target.remove('pressed')
 }
 
+function onLinkGame (target) {
+  target.add('pressed')
+}
+
+function offLinkGame (target) {
+  target.remove('pressed')
+}
+
 function onBall (target) {
   if (Ball.moving()) {
     return
@@ -1194,6 +1204,7 @@ Spare.play = function () {
   $('#nextBall').touch(onNextBall, offNextBall)
   $('#newGame').touch(onNewGame, offNewGame)
   $('#tweetGame').touch(onTweetGame, offTweetGame)
+  $('#linkGame').touch(onLinkGame, offLinkGame)
   $(window).on('hashchange', onHashChange)
 
   startGame(render)

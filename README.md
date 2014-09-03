@@ -22,17 +22,17 @@ and ditches playing cards for themetic graphics.
 
 ### Graphics ###
 
-All the graphics for Spare Me, with the exception of the Twitter Bird, where
-created with HTML5 and CSS3. The background wood texture is a color shifted
-version of [Randy Merrill's cicada stripes pattern][stripes]. The pins and balls
-where based on [Donovan Hutchinson's tutorial on CSS spheres][spheres]. Button
-styling comes from [Rishabh's demo for pushable buttons][buttons]. The paper for
-score keeping and rules is [Sarah Backhouse's lined papper pattern][paper] and
-the sticky tape that holds it up comes from [Sharon's tutorial][tape]. The
-pencil is a tiny tilted version of [Bryce Snyder's flat pencil][pencil]. The
-text that shows up on strikes and spares is [Mark Dotto's design][text].
-Finally, the title is done in the same neon that [Dudley Storey uses for his
-bar sign][neon].
+All the graphics for Spare Me, with the exception of the GitHub Octocat and
+Twitter Bird, where created with HTML5 and CSS3. The background wood texture
+is a color shifted version of [Randy Merrill's cicada stripes pattern][stripes].
+The pins and balls where based on [Donovan Hutchinson's tutorial on CSS
+spheres][spheres]. Button styling comes from [Rishabh's demo for pushable
+buttons][buttons]. The paper for score keeping and rules is [Sarah Backhouse's
+lined papper pattern][paper] and the sticky tape that holds it up comes from
+[Sharon's tutorial][tape]. The pencil is a tiny tilted version of [Bryce
+Snyder's flat pencil][pencil]. The text that shows up on strikes and spares is
+[Mark Dotto's design][text].  Finally, the title is done in the same neon that
+[Dudley Storey uses for his bar sign][neon].
 
 ## License ##
 
