@@ -46,10 +46,6 @@ Fn.prototype.html = function (value) {
   return this
 }
 
-Fn.prototype.int = function (value) {
-  return parseInt(this.html(), 10)
-}
-
 Fn.prototype.top = function (value) {
   if (this.element) {
     if (value === undefined) {
