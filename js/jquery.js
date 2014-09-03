@@ -85,10 +85,6 @@ Fn.prototype.center = function () {
   return { x: x / 10, y: y / 10 }
 }
 
-Fn.prototype.has = function (klass) {
-  return this.element && this.element.classList.contains(klass)
-}
-
 Fn.prototype.add = function (klass) {
   if (this.element) {
     this.element.classList.add(klass)
