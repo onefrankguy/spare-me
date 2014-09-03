@@ -960,23 +960,6 @@ c.reset = function (all) {
 return c
 }())
 
-var Timer = (function () {
-var t = {}
-  , delta = null
-  , then = null
-
-t.tick = function (now) {
-  delta = (now - (then || now)) / 1000
-  then = now
-}
-
-t.reset = function () {
-  then = null
-}
-
-return t
-}())
-
 ;(function (Spare) {
 'use strict';
 
@@ -1173,9 +1156,8 @@ function onHashChange () {
   }
 }
 
-function render (time) {
+function render () {
   requestAnimationFrame(render)
-  Timer.tick(time)
   PRNG.render()
   Difficulty.render()
   Ball.render()
