@@ -87,31 +87,6 @@ line-height: 4.8rem;
 background: radial-gradient(circle at 50% 40%, #fcfcfc, #efeff1 60%, #505050 100%);
 box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
 }
-#pins > .pin:before {
-content: "";
-position: absolute;
-background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
-border-radius: 50%;
-bottom: 2.5%;
-left: 5%;
-opacity: 0.6;
-height: 100%;
-width: 90%;
-filter: blur(0.09rem);
-z-index: 2;
-}
-#pins > .pin:after {
-width: 100%;
-height: 100%;
-content: "";
-position: absolute;
-top: 5%;
-left: 10%;
-border-radius: 50%;
-background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
-transform: translateX(-27%) translateY(-30%) skewX(-20deg);
-filter: blur(0.18rem);
-}
 #pins > .picked {
 box-shadow:
   0 0  .3rem rgba(255,0,84,.6)
@@ -238,7 +213,7 @@ background: radial-gradient(circle at 50% 120%, #323232, #0a0a0a 80%, #000000 10
 color: #fff;
 box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
 }
-.ball:before {
+.ball:before, .pin:before {
 content: "";
 position: absolute;
 background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
@@ -251,7 +226,7 @@ width: 90%;
 filter: blur(0.09rem);
 z-index: 2;
 }
-.ball:after {
+.ball:after, .pin:after {
 width: 100%;
 height: 100%;
 content: "";
