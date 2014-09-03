@@ -200,8 +200,8 @@ margin-bottom: 1.2rem;
 }
 #balls > *, .ball {
 position: absolute;
-top: 0rem;
-left: 0rem;
+top: 0;
+left: 0;
 display: block;
 width: 5.2rem;
 height: 5.2rem;
