@@ -234,7 +234,7 @@ var Pins = (function () {
 'use strict';
 
 var $ = window.jQuery
-  , my = {}
+  , p = {}
   , allowed = {}
   , scoring = []
   , pins = []
@@ -436,7 +436,7 @@ function pinCenter () {
   return undefined
 }
 
-my.save = function () {
+p.save = function () {
   Storage.save('pins', pins)
   Storage.save('last', last)
   Storage.save('hidden', hidden)
@@ -446,7 +446,7 @@ my.save = function () {
   dirty = false
 }
 
-my.load = function () {
+p.load = function () {
   if (Storage.has('pins')) {
     pins = Storage.loadInts('pins')
   }
@@ -468,7 +468,7 @@ my.load = function () {
   dirty = true
 }
 
-my.reset = function (all) {
+p.reset = function (all) {
   var i = 0
   if (all !== true) {
     for (i = 0; i < pins.length; i += 1) {
@@ -487,12 +487,12 @@ my.reset = function (all) {
   dirty = true
 }
 
-my.set = function (values) {
+p.set = function (values) {
   numbers = values
   dirty = true
 }
 
-my.hide = function () {
+p.hide = function () {
   var i = 0
   for (i = 0; i < 10; i += 1) {
     hidden[i] = true
@@ -500,7 +500,7 @@ my.hide = function () {
   dirty = true
 }
 
-my.render = function () {
+p.render = function () {
   var pin = null
     , i = 0
 
@@ -528,7 +528,7 @@ my.render = function () {
   }
 }
 
-my.select = function (value) {
+p.select = function (value) {
   if (canSelect(value)) {
     pins.push(value)
     picked[value] = true
@@ -536,7 +536,7 @@ my.select = function (value) {
   }
 }
 
-my.unselect = function (value) {
+p.unselect = function (value) {
   if (canUnselect(value)) {
     pins.splice(pins.indexOf(value), 1)
     picked[value] = false
@@ -544,7 +544,7 @@ my.unselect = function (value) {
   }
 }
 
-my.toggle = function (value) {
+p.toggle = function (value) {
   if (picked[value]) {
     this.unselect(value)
   } else {
@@ -552,15 +552,15 @@ my.toggle = function (value) {
   }
 }
 
-my.playable = function (ball1, ball2, ball3) {
+p.playable = function (ball1, ball2, ball3) {
   return canScore(ball1) || canScore(ball2) || canScore(ball3)
 }
 
-my.example = function () {
+p.example = function () {
   return scoring
 }
 
-my.bowl = function (target) {
+p.bowl = function (target) {
   var i = 0
 
   Ball.html(target.html()).move(ballCenter(target.center()), pinCenter())
@@ -575,24 +575,24 @@ my.bowl = function (target) {
   dirty = true
 }
 
-my.text = function (value) {
+p.text = function (value) {
   shout = value
   dirty = true
 }
 
-my.down = function () {
+p.down = function () {
   return bowled
 }
 
-my.total = function () {
+p.total = function () {
   return getScore(pins)
 }
 
-my.empty = function () {
+p.empty = function () {
   return countVisible() <= 0
 }
 
-return my
+return p
 }())
 
 var Scoreboard = (function () {
