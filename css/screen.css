@@ -58,7 +58,7 @@ text-shadow:
   0 0  .3rem rgba(255,0,84,.6)
 , 0 0  .6rem rgba(255,0,84,.4)
 , 0 0  .9rem rgba(255,0,84,.2)
-, 0 0 1.0rem rgba(255,0,85,.1)
+, 0 0   1rem rgba(255,0,85,.1)
 , 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3)
 ;
 }
@@ -92,7 +92,7 @@ box-shadow:
   0 0  .3rem rgba(255,0,84,.6)
 , 0 0  .6rem rgba(255,0,84,.4)
 , 0 0  .9rem rgba(255,0,84,.2)
-, 0 0 1.0rem rgba(255,0,85,.1)
+, 0 0   1rem rgba(255,0,85,.1)
 , 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3)
 ;
 }
@@ -239,7 +239,7 @@ transform: translateX(-27%) translateY(-30%) skewX(-20deg);
 filter: blur(0.18rem);
 }
 #ball0 {
-left: 1.0rem;
+left: 1rem;
 }
 #ball1 {
 left: 8.25rem;
@@ -260,9 +260,9 @@ position: absolute;
 top: 0;
 display: block;
 width: 6.2rem;
-height: 1.0rem;
-font-size: 1.0rem;
-line-height: 1.0rem;
+height: 1rem;
+font-size: 1rem;
+line-height: 1rem;
 text-align: center;
 }
 #chute0 {
@@ -316,8 +316,8 @@ transform: rotate(-12deg);
 }
 .tape:after {
 right: -1.5rem;
-top: -1.0rem;
-width: 7.0rem;
+top: -1rem;
+width: 7rem;
 transform: rotate(20deg);
 }
 .short.tape:before {
@@ -357,7 +357,7 @@ display: block;
 padding: .6rem .8rem;
 font-size: 1.8rem;
 font-family: sans-serif;
-line-height: 2.0rem;
+line-height: 2rem;
 font-variant: small-caps;
 border-radius: .5rem;
 border-bottom: .1rem solid transparent;
@@ -376,8 +376,8 @@ box-shadow: inset 0 .1rem .2rem rgba(0,0,0,.5);
 /* CREDITS */
 #credits {
 position: relative;
-font-size: 1.0rem;
-line-height: 1.0rem;
+font-size: 1rem;
+line-height: 1rem;
 color: #000;
 opacity: 0.3;
 text-align: right;
