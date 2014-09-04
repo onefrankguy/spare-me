@@ -450,18 +450,14 @@ font-size: 2.4rem;
 text-align: center;
 line-height: 4.2rem;
 }
-#marker {
+.pencil {
 position: absolute;
 top: -4.2rem;
 right: 1.5rem;
-}
-.pencil {
 transform: rotate(32deg);
 }
-.pencil > * {
-display: block;
-}
 .pencil > .eraser {
+display: block;
 height: 0.6rem;
 width: 0.8rem;
 background: #ec87c0;
@@ -479,6 +475,7 @@ border-top-left-radius: 0.2rem;
 border-top-right-radius: 0.2rem;
 }
 .pencil > .ferrule {
+display: block;
 height: 0.9rem;
 width: 0.8rem;
 background: #ccd1d9;
@@ -492,6 +489,7 @@ width: 0.4rem;
 background: #aab2bd;
 }
 .pencil > .shaft {
+display: block;
 height: 2.4rem;
 width: 0.8rem;
 background: #ffce54;
@@ -505,6 +503,7 @@ width: 0.4rem;
 background: #fcbb42;
 }
 .pencil > .lead {
+display: block;
 border-right: 0.4rem solid transparent;
 border-left: 0.4rem solid transparent;
 border-top: 1.2rem solid #ebd4a9;
