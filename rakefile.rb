@@ -3,6 +3,7 @@ require 'rake/clean'
 require 'rubygems'
 gem 'autoprefixer-rails'
 require 'autoprefixer-rails'
+require 'base64'
 
 CLEAN.include 'css/mobile.css'
 CLEAN.include 'spare-me.zip'
@@ -42,6 +43,18 @@ file 'css/mobile.css' => 'css/screen.css' do
   ::File.open('css/mobile.css', 'w') do |io|
     io << AutoprefixerRails.process(css)
   end
+end
+
+desc 'Base64 encode images for URL embedding'
+task :base64 do
+  html = ::File.read('index.html')
+  ::Dir['img/*.png'].each do |file|
+    data = ::File.read(file)
+    data = ::Base64.strict_encode64(data)
+    data = "src=\"data:image/png;base64,#{data}\""
+    html = html.gsub("src=\"#{file}\"", data)
+  end
+  ::File.open('index.html', 'w') { |io| io << html }
 end
 
 def percent size

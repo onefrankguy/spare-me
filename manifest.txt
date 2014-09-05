@@ -1,7 +1,5 @@
 index.html
 css/mobile.css
-img/twitter.png
-img/github.png
 js/jquery.js
 js/polyfill.js
 js/spare.js
