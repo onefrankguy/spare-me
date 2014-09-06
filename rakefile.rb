@@ -45,6 +45,16 @@ file 'css/mobile.css' => 'css/screen.css' do
   end
 end
 
+desc 'Run UglifyJS on all the JavaScript files'
+task :minify => FileList['js/*.js'].map { |f| f.ext 'min.js' }
+
+FileList['js/*.js'].each do |src|
+  dst = src.ext 'min.js'
+  file dst => src do
+    sh "../node_modules/uglify-js/bin/uglifyjs #{src} > #{dst}"
+  end
+end
+
 desc 'Base64 encode images for URL embedding'
 task :base64 do
   html = ::File.read('index.html')

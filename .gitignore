@@ -1,3 +1,4 @@
 *.zip
 *.swp
 css/mobile.css
+js/*.min.js
