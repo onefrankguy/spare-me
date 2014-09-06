@@ -1176,10 +1176,10 @@ Spare.play = function () {
   var i = 0
 
   for (i = 0; i < 10; i += 1) {
-    $('#pin'+i).touch(onPin, null)
+    $('#pin'+i).data(i).touch(onPin, null)
   }
   for (i = 0; i < 3; i += 1) {
-    $('#ball'+i).touch(onBall, null)
+    $('#ball'+i).data(i).touch(onBall, null)
     $('#level'+i).touch(onLevel, offLevel)
   }
 
