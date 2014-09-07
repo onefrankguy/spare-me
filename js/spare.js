@@ -223,7 +223,7 @@ b.move = function (s, e) {
 
 b.html = function (value) {
   element.html(value)
-  dirty = true
+  dirty = 1
   return this
 }
 
@@ -604,6 +604,7 @@ var $ = window.jQuery
   , scores = []
   , frames = []
   , frame = 1
+  , rolled = 0
   , dirty = true
 
 function score (turn) {
@@ -675,11 +676,39 @@ function shoutText () {
   return text.trim()
 }
 
+function drawStats () {
+  var i = 0
+    , value = 0
+    , strikes = 0
+    , spares = 0
+    , pins = 0
+
+  for (i = 1; i < 22; i += 1) {
+    if (frames[i] === 'X') {
+      strikes += 1
+      pins += 10
+    } else if (frames[i] === '/') {
+      spares += 1
+      pins += 10
+    } else {
+      value = parseInt(frames[i], 10)
+      if (!isNaN(value)) {
+        pins += value
+      }
+    }
+  }
+  $('#stats-strikes').html(strikes)
+  $('#stats-spares').html(spares)
+  $('#stats-balls').html(rolled)
+  $('#stats-pins').html(pins)
+}
+
 s.save = function () {
   Storage.save('balls', balls)
   Storage.save('scores', scores)
   Storage.save('frames', frames)
   Storage.save('frame', frame)
+  Storage.save('rolled', rolled)
   dirty = false
 }
 
@@ -696,6 +725,9 @@ s.load = function () {
   if (Storage.has('frame')) {
     frame = Storage.loadInt('frame')
   }
+  if (Storage.has('rolled')) {
+    rolled = Storage.loadInt('rolled')
+  }
   dirty = true
 }
 
@@ -704,6 +736,7 @@ s.reset = function () {
   scores = []
   frames = []
   frame = 1
+  rolled = 0
   dirty = true
 }
 
@@ -725,6 +758,9 @@ s.render = function () {
 
     offset = $('#frame'+Math.min(frame, 20)).center().y - 4.2
     $('#marker').top(offset)
+
+    drawStats()
+
     this.save()
   }
 }
@@ -766,6 +802,11 @@ s.record = function (value) {
     frame += 1
   }
   frame += 1
+  dirty = true
+}
+
+s.bowl = function () {
+  rolled += 1
   dirty = true
 }
 
@@ -931,10 +972,12 @@ c.render = function () {
   if (dirty) {
     if (Scoreboard.over()) {
       $('#nextBall').add('invisible')
+      $('#stats').remove('invisible')
       $('#newGame').remove('invisible')
       $('#tweetGame').remove('invisible')
       $('#linkGame').remove('invisible')
     } else {
+      $('#stats').add('invisible')
       $('#newGame').add('invisible')
       $('#tweetGame').add('invisible')
       $('#linkGame').add('invisible')
@@ -1131,6 +1174,7 @@ function onBall (target) {
   if (total === Chutes.peek(id)) {
     Chutes.pop(id)
     Pins.bowl(target)
+    Scoreboard.bowl()
   }
 
   if (Pins.empty()) {

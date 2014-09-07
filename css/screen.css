@@ -138,6 +138,26 @@ left: 11rem;
 top: 14.4rem;
 left: 8.25rem;
 }
+/* STATS */
+#stats {
+position: absolute;
+top: -400%;
+left: 50%;
+transform: translateX(-50%);
+color: #ac9d90;
+font-size: 1.8rem;
+line-height: 1.8rem;
+}
+#stats td {
+text-align: right;
+}
+#stats td + td {
+text-align: left;
+}
+#stats td + td:before {
+content: ":";
+padding-right: 0.6rem;
+}
 /* CONTROLS */
 #controls {
 /* center of pins is 10.85rem */
@@ -149,12 +169,12 @@ margin: 3.3rem 0;
 }
 #linkGame {
 position: absolute;
-top: 0;
+bottom: 0;
 left: .6rem;
 }
 #tweetGame {
 position: absolute;
-top: 0;
+bottom: 0;
 right: .6rem;
 }
 /* SHOUTS */
