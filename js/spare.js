@@ -14,12 +14,10 @@ function parseArray (items) {
 
 s.load = function (key) {
   var item = ls.getItem(key)
-  console.log('loaded '+key+': '+item)
   return item
 }
 
 s.save = function (key, item) {
-  console.log('saving '+key+': '+item)
   ls.setItem(key, item)
 }
 
@@ -1083,7 +1081,6 @@ function startGame (callback) {
   }
 
   requestAnimationFrame(callback)
-  console.log('starting game: #'+color)
 }
 
 function nextFrame () {
