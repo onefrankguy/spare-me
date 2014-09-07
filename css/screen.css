@@ -18,7 +18,8 @@ body {
 background: #333;
 font-size: 1.6rem;
 }
-a {
+a, a:visited {
+color: inherit;
 text-decoration: none;
 }
 ul {
@@ -386,8 +387,9 @@ line-height: 1rem;
 color: rgba(0,0,0,.3);
 text-align: right;
 }
-#credits > a {
-color: inherit;
+#credits > a:hover {
+cursor: auto;
+text-decoration: underline;
 }
 abbr[title="and"] {
 font-family: "Adobe Caslon Pro","Baskerville","Goudy Old Style","Palatino",
