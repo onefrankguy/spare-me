@@ -598,6 +598,7 @@ var Scoreboard = (function () {
 
 var $ = window.jQuery
   , s = {}
+  , tag = 'Battle boredom by bowling by yourself.'
   , balls = []
   , scores = []
   , frames = []
@@ -695,6 +696,7 @@ function drawStats () {
       }
     }
   }
+
   $('#stats-strikes').html(strikes)
   $('#stats-spares').html(spares)
   $('#stats-balls').html(rolled)
@@ -758,6 +760,7 @@ s.render = function () {
     $('#marker').top(offset)
 
     drawStats()
+    $('#tag').html(tag)
 
     this.save()
   }
@@ -776,6 +779,8 @@ s.skippable = function () {
 }
 
 s.record = function (value) {
+  var text = ''
+
   if (value === undefined) {
     return
   }
@@ -800,6 +805,20 @@ s.record = function (value) {
     frame += 1
   }
   frame += 1
+
+  if (this.over() && rolled <= 0) {
+    text = 'It&rsquo;s dark. You&rsquo;ve been bowling in an alley.'
+  }
+  if (text === '') {
+    text = 'Battle boredom by bowling by yourself.'
+  }
+  this.tag(text)
+
+  dirty = true
+}
+
+s.tag = function (value) {
+  tag = value
   dirty = true
 }
 

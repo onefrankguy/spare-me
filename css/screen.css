@@ -65,10 +65,13 @@ text-shadow:
 ;
 }
 h2 {
+width: 21.7rem;
+height: 2.4rem;
+overflow: hidden;
 color: #ac9d90;
 font-size: 1.2rem;
 line-height: 1.2rem;
-margin-bottom: 1.2rem;
+margin-bottom: 0.6rem;
 }
 /* PINS */
 #pins {
@@ -165,7 +168,7 @@ position: relative;
 display: block;
 width: 21.7rem;
 text-align: center;
-margin: 3.3rem 0;
+margin: 3rem 0;
 }
 #linkGame {
 position: absolute;
