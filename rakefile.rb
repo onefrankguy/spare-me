@@ -43,6 +43,7 @@ file 'css/mobile.css' => 'css/screen.css' do
   ::File.open('css/mobile.css', 'w') do |io|
     io << AutoprefixerRails.process(css)
   end
+  sh "java -jar ~/Development/yuicompressor-2.4.8.jar -o css/mobile.css css/mobile.css"
 end
 
 desc 'Run UglifyJS on all the JavaScript files'
