@@ -3,7 +3,6 @@
 cursor: default;
 margin: 0;
 padding: 0;
-font-weight: normal;
 -webkit-touch-callout: none;
 user-select: none;
 box-sizing: border-box;
@@ -12,6 +11,8 @@ box-sizing: border-box;
 -webkit-tap-highlight-color: transparent;
 }
 html {
+font-family: Times,'Times New Roman',serif;
+font-weight: normal;
 font-size: 62.5%;
 }
 body {
@@ -24,6 +25,10 @@ text-decoration: none;
 }
 ul {
 list-style: none;
+}
+/* FONTS */
+h1, h2, #shout, #button > * {
+font-family: Helvetica,Arial,sans-serif;
 }
 /* BOWLING ALLEY */
 #alley {
@@ -48,10 +53,10 @@ h1 {
 display: inline-block;
 width: 21.7rem;
 white-space: nowrap;
+font-weight: normal;
 font-size: 2.4rem;
 line-height: 2.4rem;
 text-transform: uppercase;
-font-family: sans-serif;
 letter-spacing: 1.1rem;
 word-spacing: .6rem;
 margin-bottom: .6rem;
@@ -66,12 +71,12 @@ text-shadow:
 }
 h2 {
 width: 21.7rem;
-height: 2.4rem;
-overflow: hidden;
 color: #ac9d90;
+white-space: nowrap;
+font-weight: normal;
 font-size: 1.2rem;
 line-height: 1.2rem;
-margin-bottom: 0.6rem;
+margin-bottom: 1.8rem;
 }
 /* PINS */
 #pins {
@@ -191,7 +196,6 @@ width: 21.7rem;
 text-align: center;
 font-size: 4.8rem;
 line-height: 4.8rem;
-font-family: sans-serif;
 color: #fff;
 text-shadow:
   0 0.1rem 0 #ccc
@@ -312,13 +316,14 @@ background-size: 100% 1.8rem;
 color: #333;
 padding: 1rem 1rem 1rem 1.8rem;
 box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,.3);
-font-family: 'Courier New',monospace;
+font-family: Courier,'Courier New', monospace;
 font-size: 1.4rem;
 line-height: 1.8rem;
 margin: 0 1.5rem 3.6rem .5rem;
 letter-spacing: -0.1rem;
 }
 .note > h3 {
+font-weight: normal;
 font-size: 1.8rem;
 margin-bottom: 0.8rem;
 }
@@ -384,7 +389,6 @@ text-align: center;
 display: block;
 padding: .6rem .8rem;
 font-size: 1.8rem;
-font-family: sans-serif;
 line-height: 2rem;
 font-variant: small-caps;
 border-radius: .5rem;
