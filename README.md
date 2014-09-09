@@ -34,6 +34,17 @@ Snyder's flat pencil][pencil]. The text that shows up on strikes and spares is
 [Mark Dotto's design][text].  Finally, the title is done in the same neon that
 [Dudley Storey uses for his bar sign][neon].
 
+## Compatibility ##
+
+Spare Me works in the following browsers:
+
+* Firefox 32
+* Chrome 37
+* Safari 5.1
+* Opera 12.16
+* iOS Safari 6.1
+* Chrome for Android 37
+
 ## License ##
 
 Spare Me is licensed under a MIT license. See the LICENSE file for more details.
