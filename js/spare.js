@@ -1162,9 +1162,10 @@ function offNewGame (target) {
 
 function onTweetGame (target) {
   target.add('pressed')
-  var twitter = 'https://twitter.com/home?status='
-    , message = 'I bowled ' + Scoreboard.last() + " in Spare Me for @js13kGames. How'd you do?\n" + window.location.href
-  target.unwrap().href = twitter + encodeURIComponent(message)
+  var twitter = 'https://twitter.com/intent/tweet'
+    , text = encodeURIComponent('I bowled ' + Scoreboard.last() + " in Spare Me for @js13kGames. How'd you do?")
+    , url = encodeURIComponent(window.location.href)
+  target.unwrap().href = twitter + '?text='+text + '&url='+url
 }
 
 function offTweetGame (target) {
