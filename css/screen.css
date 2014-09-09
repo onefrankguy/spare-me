@@ -27,7 +27,7 @@ ul {
 list-style: none;
 }
 /* FONTS */
-h1, h2, #shout, #button > * {
+h1, h2, #shout, .button > * {
 font-family: Helvetica,Arial,sans-serif;
 }
 /* BOWLING ALLEY */
