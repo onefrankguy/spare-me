@@ -63,7 +63,6 @@ Spare Me works in the following browsers:
 * Opera 12.16
 * iOS Safari 6.1
 * iOS Safari 7.1
-* Chrome for Android 37
 
 ## License ##
 
