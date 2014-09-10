@@ -1,0 +1,59 @@
+#alley {
+width: 400px;
+height: 250px;
+overflow: hidden;
+}
+
+h1 {
+position: absolute;
+top: 9px;
+left: 9px;
+}
+
+h2 {
+display: none;
+}
+
+#pins {
+margin-top: 9px;
+margin-bottom: -9px;
+transform: scale(.75);
+}
+
+#controls {
+display: none;
+}
+
+#balls {
+transform: scale(.75);
+}
+
+#how-to {
+position: absolute;
+top: 0;
+left: 220px;
+height: 241px;
+}
+
+#how-to > ol {
+list-style-position: outside;
+margin-left: 2.5rem;
+}
+
+#scores {
+display: none;
+}
+
+.pencil {
+top: 20px;
+right: 52px;
+transform: rotate(135deg) scaleY(2) scaleX(-1.25);
+}
+
+.pencil > .shaft {
+height: 5rem;
+}
+
+.pencil > .shaft:before {
+height: 5rem;
+}
