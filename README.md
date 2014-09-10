@@ -59,7 +59,7 @@ Spare Me works in the following browsers:
 Spare Me is licensed under a MIT license. See the LICENSE file for more details.
 
 
-[comp]: http://js13kgames.com/ "Andrezj Mazur (Enclave Games): HTML5 and JavaScript game development competition in just 13 KB"
+[comp]: http://js13kgames.com/ "Andrezj Mazur (Enclave Games): HTML5 and JavaScript game development competition in just 13 kB"
 [bgg]: http://boardgamegeek.com/thread/1163813/sid-sacksons-bowling-solitaire-detailed-review "Neil Thomson (Board Game Geek): Sid Sackson's Bowling Solitaire - A Detailed Review"
 [stripes]: http://lea.verou.me/css3patterns/#cicada-stripes "Lea Verou (CSS3 Patterns Gallery): Cicada stripes by Randy Merrill"
 [spheres]: http://learnsome.co/blog/spheres/ "Donovan Hutchinson: (Learnsome): CSS Spheres"
