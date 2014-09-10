@@ -1,6 +1,6 @@
 # Spare Me #
 
-Spare Me is a game about bowling for the [Js13kGames competition][comp].
+Spare Me is a game about bowling for the [js13kGames competition][comp].
 
 ## Features ##
 
@@ -17,7 +17,7 @@ Spare Me has the following bits of awesomeness:
 Spare Me was inspired by Sid Sackon's card game, _Bowling Solitaire_. I first
 heard about it from [Neil Thomson's review on Board Game Geek][bgg]. The rules
 are simple but the scoring is complex, and I felt that made it an ideal candidate
-for Js13kGames. My version pawns off the adjacency rules as difficulty levels
+for js13kGames. My version pawns off the adjacency rules as difficulty levels
 and ditches playing cards for thematic graphics.
 
 ### Tchnology ###
