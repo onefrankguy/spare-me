@@ -1,6 +1,12 @@
 # Spare Me #
 
-Spare Me is a game about bowling for the [js13kGames competition][comp].
+Spare Me is a game about bowling, a fun way to learn math, a love letter to the
+world's second best solitaire card game. Built for an iPhone, it should run in
+most browsers. Save games are supported and high scores are sharable. There are
+Easter eggs when you win, tributes when you lose, and the difficulty is as hard
+as you make it. Have fun.
+
+Made on a Mac for the [js13kGames competition][comp].
 
 ## Features ##
 
