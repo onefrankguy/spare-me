@@ -20,6 +20,12 @@ are simple but the scoring is complex, and I felt that made it an ideal candidat
 for Js13kGames. My version pawns off the adjacency rules as difficulty levels
 and ditches playing cards for thematic graphics.
 
+### Tchnology ###
+
+Spare Me uses a pseudo random number generator based on the one described in
+the paper, _A New Class of Invertible Mappings_, by Alexander Klimov and Adi
+Shamer.
+
 ### Graphics ###
 
 All the graphics for Spare Me, with the exception of the GitHub Octocat and
@@ -33,6 +39,9 @@ lined paper pattern][paper] and the sticky tape that holds it up comes from
 Snyder's flat pencil][pencil]. The text that shows up on strikes and spares is
 [Mark Dotto's design][text].  Finally, the title is done in the same neon that
 [Dudley Storey uses for his bar sign][neon].
+
+Plus a big thank you goes out to [Sarah Mitchell][sarah], for doing the pencil
+resize that shows up in the icon and screenshot.
 
 ## Compatibility ##
 
@@ -60,3 +69,4 @@ Spare Me is licensed under a MIT license. See the LICENSE file for more details.
 [pencil]: http://codepen.io/brycesnyder/pen/nhoIu "Bryce Snyder (Code Pen): Pure CSS3 Flat Pencil"
 [text]: http://markdotto.com/playground/3d-text/ "Mark Dotto: 3D Text"
 [neon]: http://demosthenes.info/blog/477/CSS3-Neon-Sign "Dudley Storey (demosthenes.info): CSS3 Neon Sign"
+[sarah]: https://github.com/thesmitchell "Sarah Mitchell (GitHub): TheSmitchell"
