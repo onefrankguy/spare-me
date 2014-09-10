@@ -40,8 +40,12 @@ Snyder's flat pencil][pencil]. The text that shows up on strikes and spares is
 [Mark Dotto's design][text].  Finally, the title is done in the same neon that
 [Dudley Storey uses for his bar sign][neon].
 
-Plus a big thank you goes out to [Sarah Mitchell][sarah], for doing the pencil
-resize that shows up in the icon and screenshot.
+### Help ###
+
+[Sarah Mitchell][sm] pushed me to make the graphics better, and then took
+took them to a whole new level by doing the pencil resize that shows up in
+the [icon][] and [screenshot][]. [Jon Gherardini][jg] pointed out how crazy
+hard the rules where, which became the driver behind difficulty levels.
 
 ## Compatibility ##
 
@@ -69,4 +73,7 @@ Spare Me is licensed under a MIT license. See the LICENSE file for more details.
 [pencil]: http://codepen.io/brycesnyder/pen/nhoIu "Bryce Snyder (Code Pen): Pure CSS3 Flat Pencil"
 [text]: http://markdotto.com/playground/3d-text/ "Mark Dotto: 3D Text"
 [neon]: http://demosthenes.info/blog/477/CSS3-Neon-Sign "Dudley Storey (demosthenes.info): CSS3 Neon Sign"
-[sarah]: https://github.com/thesmitchell "Sarah Mitchell (GitHub): TheSmitchell"
+[sm]: https://github.com/thesmitchell "Sarah Mitchell (GitHub): TheSmitchell"
+[icon]: https://github.com/onefrankguy/spare-me/blob/master/img/icon-small.png "Frank Mitchell (GitHub): Icon for Spare Me"
+[screenshot]: https://github.com/onefrankguy/spare-me/blob/master/img/icon-big.png "Frank Mitchell (GitHub): Screenshot for Spare Me"
+[jg]: https://github.com/jaeger401 "Jon Gherardini (GitHub): jaeger401"
