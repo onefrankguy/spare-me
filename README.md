@@ -16,7 +16,7 @@ Spare Me has the following bits of awesomeness:
 * get social bragging rights with tweetable high scores
 * never lose your place with automatic save games
 * crank up the competition with dynamic difficulty levels
-* start bowling fast with an inline tutorial
+* start bowling fast with an in-line tutorial
 
 ## Credits ##
 
@@ -26,7 +26,7 @@ are simple but the scoring is complex, and I felt that made it an ideal candidat
 for js13kGames. My version pawns off the adjacency rules as difficulty levels
 and ditches playing cards for thematic graphics.
 
-### Tchnology ###
+### Technology ###
 
 Spare Me uses a pseudo random number generator based on the one described in
 the paper, _A New Class of Invertible Mappings_, by Alexander Klimov and Adi
