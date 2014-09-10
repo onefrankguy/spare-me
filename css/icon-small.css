@@ -1,0 +1,49 @@
+#alley {
+margin-top: 1rem;
+width: 160px;
+height: 160px;
+padding: 0;
+overflow: hidden;
+}
+
+h2,
+#controls,
+#balls,
+#chutes,
+.note,
+.button,
+#credits,
+#scores {
+display: none;
+}
+
+h1 {
+position: absolute;
+bottom: 9px;
+z-index: 1;
+letter-spacing: 1px;
+width: 160px;
+text-align: center;
+}
+
+
+#pins {
+position: absolute;
+top: -20px;
+left: -28px;
+transform: scale(.7);
+}
+
+.pencil {
+top: 59px;
+right: 59px;
+transform: rotate(135deg) scaleY(2) scaleX(-1.25);
+}
+
+.pencil > .shaft {
+height: 5rem;
+}
+
+.pencil > .shaft:before {
+height: 5rem;
+}
