@@ -200,6 +200,7 @@ b.render = function () {
     })
     element.left(end.x)
     element.top(end.y)
+    dirty = 3
   }
   return this
 }
